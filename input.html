@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Input Value</title>
+</head>
+<body>
+    <input type="text" id="myInput" placeholder="Enter something...">
+    <button onclick="showAlert()">Show Alert</button>
+
+    <script>
+        function showAlert() {
+            var inputValue = document.getElementById("myInput").value;
+            if (inputValue === '') {
+                alert('please type something')
+            } else {
+                alert(inputValue)
+            }
+        }
+    </script>
+</body>
+</html>

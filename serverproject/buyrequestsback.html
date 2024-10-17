@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="小米商城-后台">
+    <title>小米商城-后台</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        .title {
+            margin-top: 30px;
+
+        }
+        table {
+            border: 1px solid #d9d9d9;
+            font-family: Arial, sans-serif;
+            width: 100%;
+          }
+
+          th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+          }
+
+          th {
+            background-color: #f2f2f2;
+          }
+
+          tr:hover {
+            background-color: #f9f9f9;
+          }
+    </style>
+</head>
+<body>
+    <button id="get-info" class="button" style="margin-top: 50px; cursor: pointer; border: 0.3px black solid; padding: 5px; border-radius: 5px; background-color: #f0f0f0;">请求订单信息</button>
+    <h1 class="title">所有订单详情</h1>
+    
+    <table id="order-table" border="1" style="width: 1200px; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>模型 ：</th>
+                <th>付款方式 ：</th>
+                <th>付款银行 ：</th>
+                <th>地址 ：</th>
+                <th>银行卡号 ：</th>
+                <th>密码 ：</th>
+                <th>准确地址 ：</th>
+                <th>手机号码 ：</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 数据行将在此处插入 -->
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('get-info').addEventListener('click', async () => {
+            try {
+                // 发起请求，获取所有订单数据
+                const response = await fetch('http://localhost:3001/all-data');
+                if (!response.ok) {
+                    throw new Error('网络响应失败');
+                }
+                const orders = await response.json();
+
+                // 获取表格的tbody元素
+                const tableBody = document.querySelector('#order-table tbody');
+                tableBody.innerHTML = ''; // 清空之前的数据
+
+                // 遍历订单数据并插入表格
+                orders.forEach(order => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${order.model}</td>
+                        <td>${order.paymentMethod}</td>
+                        <td>${order.paymentBank}</td>
+                        <td>${order.address}</td>
+                        <td>${order.cardNumber}</td>
+                        <td>${order.password}</td>
+                        <td>${order.fulladdress}</td>
+                        <td>${order.phonenumber}</td>
+                    `;
+                    
+                    tableBody.appendChild(row); // 添加数据行
+                });
+            } catch (error) {
+                console.error('获取数据失败:', error);
+            }
+        });
+    </script>
+</body>
+</html>

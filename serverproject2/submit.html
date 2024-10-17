@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Data</title>
+</head>
+<body>
+    <textarea id="textarea" rows="4" cols="50"></textarea>
+    <button id="submitButton">Submit</button>
+
+    <script>
+        console.log('server is running on localhost:3002')
+        document.getElementById('submitButton').addEventListener('click', () => {
+            const textData = document.getElementById('textarea').value;
+
+            fetch('http://localhost:3002/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ textData: textData }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                alert('Data submitted successfully!');
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <noscript>您需要开启   JAVASCRIPT   才可以使用此页面</noscript>
+    <noscript>You need to enable JAVASCRIPT to run this website</noscript>
+    <link rel="shortcut icon" href="./icon.ico" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .timer-container {
+            text-align: center;
+        }
+        .time-display {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            padding: 5px;
+            font-size: 16px;
+            width: 60px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: white;
+            border: 0.3px black solid;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background-color: rgb(238, 238, 238);
+        }
+        
+        /* 弹窗样式 */
+        .custom-alert {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-alert-content {
+            background-color: black;
+            border-radius: 10px;
+            text-align: center;
+            width: 100px;
+            color: white;
+            font-size: 10px;
+        }
+        #seconds {
+            margin-left: 20px;
+        }
+        .start {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="timer-container">
+        <div class="time-display" id="time-display">00:00</div>
+        <div>
+            <input type="number" id="minutes" placeholder="分钟" min="0" max="60">
+            <input type="number" id="seconds" placeholder="秒" min="0" max="59">
+        </div>
+        <button class="start" id="start" onclick="startTimer()">开始闹钟</button>
+        <button class="stop" id="stop" style="display:none;" onclick="stopTimer()">停止闹钟</button>
+    </div>
+
+    <!-- 音乐播放器 -->
+    <audio id="music" src="./fall-piano-music-193530.mp3" loop></audio>
+
+    <!-- 自定义警告弹窗 -->
+    <div class="custom-alert" id="custom-alert">
+        <div class="custom-alert-content">
+            <h2>请设置一个有效的时间！</h2>
+        </div>
+    </div>
+
+    <script>
+        let countdownInterval;
+        let timeLeft;
+
+        function startTimer() {
+            let minutes = parseInt(document.getElementById('minutes').value) || 0;
+            let seconds = parseInt(document.getElementById('seconds').value) || 0;
+            timeLeft = minutes * 60 + seconds;
+
+            if (timeLeft <= 0) {
+                showCustomAlert();
+                return;
+            }
+
+            document.getElementById('start').disabled = true;
+            document.getElementById('stop').style.display = 'inline-block';
+
+            localStorage.setItem('timeLeft', timeLeft);
+            localStorage.setItem('startTime', Date.now());
+
+            clearInterval(countdownInterval);
+            updateDisplay(timeLeft);
+
+            countdownInterval = setInterval(function() {
+                timeLeft--;
+                localStorage.setItem('timeLeft', timeLeft);
+                updateDisplay(timeLeft);
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('music').play();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(countdownInterval);
+            document.getElementById('music').pause();
+            document.getElementById('music').currentTime = 0;
+            document.getElementById('start').disabled = false;
+            document.getElementById('stop').style.display = 'none';
+            localStorage.removeItem('timeLeft');
+        }
+
+        function updateDisplay(timeLeft) {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            document.getElementById('time-display').textContent = `${minutes}:${seconds}`;
+        }
+
+        function showCustomAlert() {
+            const alertBox = document.getElementById('custom-alert');
+            alertBox.style.display = 'flex';
+
+            setTimeout(function() {
+                alertBox.style.display = 'none';
+            }, 3000);
+        }
+
+        window.onload = function() {
+            let savedTimeLeft = localStorage.getItem('timeLeft');
+            let startTime = localStorage.getItem('startTime');
+
+            if (savedTimeLeft && startTime) {
+                let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+                timeLeft = savedTimeLeft - elapsedTime;
+
+                if (timeLeft > 0) {
+                    updateDisplay(timeLeft);
+                    countdownInterval = setInterval(function() {
+                        timeLeft--;
+                        localStorage.setItem('timeLeft', timeLeft);
+                        updateDisplay(timeLeft);
+
+                        if (timeLeft <= 0) {
+                            clearInterval(countdownInterval);
+                            document.getElementById('music').play();
+                        }
+                    }, 1000);
+                } else {
+                    localStorage.removeItem('timeLeft');
+                }
+            }
+        };
+    </script>
+</body>
+</html>

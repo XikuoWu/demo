@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Input Value</title>
+    <style>
+        #alert1 {
+            display: none;
+            background-color: lightgray;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="value" />
+    <button id="get">Go</button>
+
+    <!-- 1 -->
+    <div id="alert1">
+        <div id="content">
+            <p id="display"></p>
+            <button id="close">关闭</button>
+        </div>
+    </div>
+    <!-- 1 end -->
+
+    <script>
+        let value = document.querySelector('#value');
+        let get = document.querySelector('#get');
+        let alert1 = document.getElementById('alert1');
+        let close = document.getElementById('close');
+        let display = document.getElementById('display');
+
+        get.addEventListener('click', function () {
+            let query = value.value.trim();
+
+            if (query === '') {
+                alert('数据不能为空');
+            } else {
+                display.innerHTML = query;
+                alert1.style.display = 'flex';
+            }
+        });
+
+        close.addEventListener('click', function () {
+            alert1.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

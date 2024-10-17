@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View History</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        #getHistoryButton{
+            border-radius: 10px;
+            border: 0.3px black solid;
+            margin-top: 100px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: rgb(222, 222, 222);
+        }
+        #getHistoryButton:hover {
+            background-color: rgb(163, 163, 163);
+        }
+    </style>
+</head>
+<body>
+    <button id="getHistoryButton">Get History</button>
+    <div id="history"></div>
+
+    <script>
+        document.getElementById('getHistoryButton').addEventListener('click', () => {
+            fetch('http://localhost:3002/history')
+            .then(response => response.json())
+            .then(data => {
+                const historyDiv = document.getElementById('history');
+                historyDiv.innerHTML = ''; // 清空之前的内容
+                data.forEach(item => {
+                    const p = document.createElement('p');
+                    p.textContent = item;
+                    historyDiv.appendChild(p);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小米商城-确认信息</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>订单详情</h1>
+    <p>选择的模型: <span id="display-model"></span></p>
+    <p>选择的付款方式: <span id="display-payment-method"></span></p>
+    <p>选择的银行： <span id="display-payment-bank"></span></p>
+    <p>选择的地址: <span id="display-address"></span></p>
+    <p>银行卡号: <span id="display-card-number"></span></p>
+    <p>框内配置: <span id="display-password"></span></p>
+    <p>准确地址: <span id="display-fulladdress"></span></p>
+    <p>手机号码: <span id="display-phone-number"></span></p>
+
+    <script>
+         const params = new URLSearchParams(window.location.search);
+         const id = params.get('id');
+        if (id) {
+          fetchData(id);
+           } else {
+             console.error('No ID found in URL');
+          // 可以在页面上显示一个错误提示，提示用户没有找到订单 ID
+         }
+         async function fetchData(id) {
+    const response = await fetch(`http://localhost:3001/data/${id}`);
+    const order = await response.json();
+
+    document.getElementById('display-model').textContent = order.model;
+    document.getElementById('display-payment-method').textContent = order.paymentMethod;
+    document.getElementById('display-payment-bank').textContent = order.paymentBank;
+    document.getElementById('display-address').textContent = order.address;
+    document.getElementById('display-card-number').textContent = order.cardNumber;
+    document.getElementById('display-password').textContent = order.password;
+    document.getElementById('display-fulladdress').textContent = order.fulladdress;
+    document.getElementById('display-phone-number').textContent = order.phonenumber;
+}
+    </script>
+</body>
+</html>

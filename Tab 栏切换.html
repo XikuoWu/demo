@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab 栏切换</title>
+    <noscript>您需要开启   JAVASCRIPT   才可以使用此页面</noscript>
+    <style>
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .tab-link {
+            background-color: #f1f1f1;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tab-link.active {
+            background-color: #ddd;
+            border-bottom: 2px solid #333;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="tabs">
+        <button class="tab-link active" onclick="openTab(event, 'Tab1')">Tab 1</button>
+        <button class="tab-link" onclick="openTab(event, 'Tab2')">Tab 2</button>
+        <button class="tab-link" onclick="openTab(event, 'Tab3')">Tab 3</button>
+        <button class="tab-link" onclick="openTab(event, 'Tab4')">Tab 4</button>
+        <button class="tab-link" onclick="openTab(event, 'Tab5')">Tab 5</button>
+        <button class="tab-link" onclick="openTab(event, 'Tab6')">Tab 6</button>
+    </div>
+      
+    <div id="Tab1" class="tab-content">
+        <h3>Tab 1</h3>
+        <p>Content for Tab 1.</p>
+    </div>
+    
+    <div id="Tab2" class="tab-content">
+        <h3>Tab 2</h3>
+        <p>Content for Tab 2.</p>
+    </div>
+
+    <div id="Tab3" class="tab-content">
+        <h3>Tab 3</h3>
+        <p>Content for Tab 3.</p>
+    </div>
+
+    <div id="Tab4" class="tab-content">
+        <h3>Tab 4</h3>
+        <p>Content for Tab 4.</p>
+    </div>
+
+    <div id="Tab5" class="tab-content">
+        <h3>Tab 5</h3>
+        <p>Content for Tab 5.</p>
+    </div>
+
+    <div id="Tab6" class="tab-content">
+        <h3>Tab 6</h3>
+        <p>Content for Tab 6.</p>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabContent, tabLinks;
+            
+            // Hide all tab contents
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+
+            // Remove the active class from all tab links
+            tabLinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab and add an active class to the tab link
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Display the first tab by default
+        document.getElementById("Tab1").style.display = "block";
+    </script>
+</body>
+</html>

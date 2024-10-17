@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小米商城-立即购买</title>
+    <style>
+        form {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form label,
+        form select,
+        form input,
+        form button {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        form label {
+            font-size: 30px;
+        }
+        form button {
+            width: 330px;
+            height: 50px;
+            cursor: pointer;
+            background-color: #ff8c31;
+            border: 0.5px solid black;
+            border-radius: 20px;
+        }
+        body{
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+
+        .page-container{
+          min-width: 1500px;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 30px; /* 调整菜单相对于链接的垂直位置 */
+            left: 930px; /* 调整菜单相对于链接的水平位置 */
+            background-color: white;
+            border: 1px solid #ccc;
+            z-index: 1000;
+        }
+
+        .submenu a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .submenu a:hover {
+            background-color: #f0f0f0;
+        }
+        #alertButton:hover {
+            background-color: #fc7100;
+        }
+    </style>
+</head>
+<body>
+
+       <!-- 内容 -->
+        <form method="get" style="border: 0.3px black solid; border-radius: 5px; width: 500px; padding: 20px; margin: 0 auto;" id="purchaseForm">
+            <label style="font-size: medium; margin-top: 0px;" for="model">选择模型：</label>
+            <select style="border-radius: 5px; border: 0.5px black solid;" id="model" name="model">
+                <option value="+$0">Normal</option>
+                <option value="+$10">Plus</option>
+                <option value="+$20">Max</option>
+                <option value="+$30">Pro</option>
+                <option value="+$40">Pro Plus</option>
+                <option value="+$50">Pro Max</option>
+            </select>
+            <div id="model-info"></div>
+
+            <label style="font-size: medium;" for="payment-method">选择付款方式：</label>
+            <select style="border-radius: 5px; border: 0.5px black solid;" id="payment-method" name="payment-method">
+                <option value="bank">银行卡</option>
+                <option value="credit-card">信用卡</option>
+            </select>
+            <div id="payment-info"></div>
+
+            <label style="font-size: medium;" for="payment-method">选择的银行：</label>
+            <select style="border-radius: 5px; border: 0.5px black solid;" id="payment-bank" name="payment-method">
+                <option value="农业银行">农业银行</option>
+                <option value="中国银行">中国银行</option>
+                <option value="交通银行">交通银行</option>
+                <option value="建设银行">建设银行</option>
+                <option value="天津银行">天津银行</option>
+                <option value="招商银行">招商银行</option>
+            </select>
+
+            <label style="font-size: medium;" for="addresses">选择地址：</label>
+            <select style="border-radius: 5px; border: 0.5px black solid;" id="address" name="addresses">
+                <option>北京</option>
+                <option>石家庄</option>
+                <option>上海</option>
+                <option>南京</option>
+                <option>新加坡</option>
+                <option>香港</option>
+                <option>台湾</option>
+                <option>济南</option>
+                <option>龙口</option>
+                <option>杭州</option>
+                <option>武汉</option>
+                <option>天津</option>
+                <option>大连</option>
+                <option>沈阳</option>
+                <option>长沙</option>
+                <option>青岛</option>
+                <option>秦皇岛</option>
+                <option>郑州</option>
+                <option>苏州</option>
+                <option>昆明</option>
+                <option>厦门</option>
+                <option>福州</option>
+                <option>保定</option>
+                <option>太原</option>
+            </select>
+
+            <label style="font-size: medium;" for="card-number">*请输入您的卡号:</label>
+<input style="border-radius: 10px; border: 0.5px black solid;" placeholder="请输入20位的银行卡号" type="text" id="card-number">
+
+<label style="font-size: medium;" for="password">*请输入框内配置（如Redmi K70）:</label>
+<input style="border-radius: 10px; border: 0.5px black solid;" placeholder="请输入框内配置" type="text" id="password">
+
+<label style="font-size: medium;" for="address">*请输入准确地址：</label>
+<input style="border-radius: 10px; border: 0.5px black solid;" placeholder="请输入准确地址" type="text" id="fulladdress">
+
+<label style="font-size: medium;" for="phone-number">*请输入您的手机号码</label>
+<input style="border-radius: 10px; border: 0.5px black solid;" placeholder="请输入11位的手机号码" type="text" id="phone-number">
+
+<div style="text-align: center; margin-top: 10px; display: flex; justify-content: center;">
+    <input style="margin-top: 2px; cursor: pointer; height: 20px; width: 20px;" type="checkbox" id="agree-checkbox">
+    <div>请先同意</div>
+    <a style="text-align: center; text-decoration: none; color: rgb(0, 36, 180);" href="./privacy.html">隐私政策</a>
+</div>
+
+<button value="submit" id="alertButton" type="submit">立即购买</button>
+        </form>
+
+    <script>
+        // 获取选择付款方式的下拉框元素
+        var paymentMethodSelect = document.getElementById('payment-method');
+        // 获取用于显示付款方式提示信息的元素
+        var paymentInfo = document.getElementById('payment-info');
+        
+        // 监听选择付款方式下拉框的变化事件
+        paymentMethodSelect.addEventListener('change', function() {
+            // 获取当前选中的选项的值
+            var selectedOption = paymentMethodSelect.value;
+            
+            // 根据选项值显示不同的提示信息
+            switch(selectedOption) {
+                case 'bank':
+                    paymentInfo.textContent = '您选择了银行卡付款。';
+                    break;
+                case 'credit-card':
+                    paymentInfo.textContent = '您选择了信用卡付款。';
+                    break;
+                default:
+                    paymentInfo.textContent = '';
+                    break;
+            }
+        });
+
+        // 获取选择模型的下拉框元素
+        var modelSelect = document.getElementById('model');
+        // 获取用于显示模型提示信息的元素
+        var modelInfo = document.getElementById('model-info');
+        
+        // 监听选择模型下拉框的变化事件
+        modelSelect.addEventListener('change', function() {
+            // 获取当前选中的选项的值
+            var selectedModel = modelSelect.value;
+            
+            // 根据选项值显示不同的提示信息
+            modelInfo.textContent = '您选择了 ' + selectedModel + ' 模型。';
+        });
+
+        // 获取输入框元素
+    var cardNumberInput = document.getElementById('card-number');
+    var passwordInput = document.getElementById('password');
+    var addressInput = document.getElementById('address');
+    var phoneNumberInput = document.getElementById('phone-number');
+    var agreeCheckbox = document.getElementById('agree-checkbox');
+    var alertButton = document.getElementById('alertButton');
+
+    // 添加按钮点击事件监听器
+    alertButton.addEventListener('click', function() {
+        alert('您已提交订单，请耐心等待收货！');
+    })
+
+    //表单提交功能start
+    document.getElementById('purchaseForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const model = document.getElementById('model').value;
+            const paymentMethod = document.getElementById('payment-method').value;
+            const paymentBank = document.getElementById('payment-bank').value;
+            const address = document.getElementById('address').value;
+            const cardNumber = document.getElementById('card-number').value;
+            const password = document.getElementById('password').value;
+            const fulladdress = document.getElementById('fulladdress').value;
+            const phonenumber = document.getElementById('phone-number').value;
+
+            const response = await fetch('http://localhost:3001/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({model, paymentMethod, paymentBank, address, cardNumber, password, fulladdress, phonenumber })
+                
+            });
+            console.log(JSON.stringify({model, paymentMethod, paymentBank, address, cardNumber, password, fulladdress, phonenumber}));
+
+                const result = await response.json();
+                console.log(result); // 检查是否返回了有效的 _id
+                if (result && result._id) {
+               window.location.href = `BuyRequests.html?id=${result._id}`;
+                } else {
+                console.error('Failed to get valid ID from server');
+                }
+
+
+        });
+        
+        //表单提交功能end
+    </script>
+</body>
+</html>

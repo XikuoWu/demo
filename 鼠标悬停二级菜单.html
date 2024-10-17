@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标悬停二级菜单</title>
+    <style>
+         /* 顶部二级菜单 */
+         .dropdown {
+            position: relative;
+            display: inline-block;
+            top: -130px;
+            font-size: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 150px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            height: 465px;
+            width: 150px;
+            margin-left: -50px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding-left: 0px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown a {
+            text-decoration: none;
+            color: black;
+        }
+        /* 头部 */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between; /* 将左右两部分分开对齐 */
+            align-items: center; /* 垂直居中对齐 */
+            position: absolute;
+            top: 190px;
+            height: 70px; 
+            width: 1600px;
+            left: 50px; 
+            z-index: 900;
+        }
+        .nav-bar div {
+            /* position: absolute; */
+            z-index: 900;
+            font-size: larger;
+            cursor: pointer;
+        }
+        .right-nav-bar {
+           display: flex;
+           gap: 18px;
+           margin-right: 350px; /* 添加右边距 */
+        }
+        .right-nav-bar  {
+          margin-top: 19px;
+        }
+        .right-nav-bar a {
+          padding-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div style="justify-content: center; align-items: center;" class="nav-bar">
+        <div class="right-nav-bar">
+          <div class="dropdown">
+            <a style="font-size: 20px;" href="#">手机</a>
+            <div class="dropdown-content">
+                hi
+            </div>
+        </div>
+        <div class="dropdown">
+            <a style="font-size: 20px;" href="#">电视</a>
+            <div class="dropdown-content">
+              hi
+            </div>
+        </div>
+        <div class="dropdown">
+            <a style="font-size: 20px;" href="#">家电</a>
+            <div class="dropdown-content">
+        hi
+
+            
+            </div>
+        </div>
+        <div class="dropdown">
+            <a style="font-size: 20px;" href="#">笔记本</a>
+            <div class="dropdown-content">
+              hi
+            
+              
+            </div>
+        </div>
+        <div class="dropdown">
+            <a style="font-size: 20px;" href="#">平板</a>
+            <div class="dropdown-content">
+            hi
+            
+              
+            </div>
+        </div>
+        <div class="dropdown">
+            <a style="font-size: 20px;" href="#">智能穿戴</a>
+            <div class="dropdown-content">
+        hi
+        
+        
+            </div>
+        </div>
+        <div class="dropdown">
+            <a style="font-size: 20px;" href="#">手表</a>
+            <div class="dropdown-content">
+        hi
+        
+        
+            </div>
+        </div>
+      </div>
+      <div style="position: absolute; width: 10px; height: 10px; right: 10px;"></div>
+  </div>
+<div>
+ <div>
+</div>
+</body>
+</html>

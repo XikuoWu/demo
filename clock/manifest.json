@@ -1,0 +1,20 @@
+{
+    "name": "Clock App",
+    "short_name": "Clock",
+    "description": "A simple clock and timer app",
+    "display": "standalone",
+    "background_color": "white",
+    "theme_color": "white",
+    "icons": [
+      {
+        "src": "./icon.ico",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "./icon.ico",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+}  

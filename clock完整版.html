@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="./icon.ico" type="image/x-icon">
+    <link rel="manifest" href="/manifest.json">
+    <title>Clock</title>
+    <noscript>您需要开启   JAVASCRIPT   才可以使用此页面</noscript>
+    <noscript>You need to enable JAVASCRIPT to run this website</noscript>
+    <style>
+        /* tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ccc;
+            position: absolute;
+            top: 50px;
+        }
+
+        .tab-link {
+            background-color: #f1f1f1;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tab-link.active {
+            background-color: #ddd;
+            border-bottom: 2px solid #333;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* alert */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .alert-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+        }
+        .alert-content button {
+            margin-top: 10px;
+            background-color: white;
+            border: 0.3px black solid;
+            border-radius: 10px;
+            font-size: larger;
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .alert-content button:hover {
+            background-color: rgb(244, 244, 244);
+        }
+
+        button {
+            background-color: white;
+            border: 0.3px black solid;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgb(243, 243, 243);
+        }
+
+        /* clock */
+        @media (max-width: 550px) {
+            #start-btn {
+                margin-top: 10px;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #time {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        #alarm-container {
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        #alarm-container label {
+            font-size: 30px;
+        }
+
+        #alarm-container select {
+            padding: 5px;
+            font-size: larger;
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        #alarm-time {
+            font-size: 24px;
+            padding: 5px;
+        }
+
+        #start-btn {
+            font-size: 24px;
+            padding: 10px 20px;
+        }
+
+        #stop-btn {
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+
+        /* Custom modal styles */
+        #custom-modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #modal-content {
+            background: black;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            width: 300px;
+            color: white;
+            font-size: larger;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        select {
+            background-color: white;
+        }
+        
+        button {
+            background-color: white;
+            border: 0.3px black solid;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background-color: rgb(243, 243, 243);
+        }
+
+        /*  */
+        /*  */
+        /* timer */
+        .timer-container {
+            text-align: center;
+        }
+        .time-display {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            padding: 5px;
+            font-size: 16px;
+            width: 60px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: white;
+            border: 0.3px black solid;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background-color: rgb(238, 238, 238);
+        }
+        
+        /* 弹窗样式 */
+        .custom-alert {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-alert-content {
+            background-color: black;
+            border-radius: 10px;
+            text-align: center;
+            width: 100px;
+            color: white;
+            font-size: 10px;
+        }
+        #seconds {
+            margin-left: 20px;
+        }
+        .start {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- tabs -->
+    <div class="tabs">
+        <button class="tab-link active" onclick="openTab(event, 'Tab1')">闹钟</button>
+        <button class="tab-link" onclick="openTab(event, 'Tab2')">定时器</button>
+    </div>
+
+    <div id="Tab1" class="tab-content">
+        <div id="time">00:00:00</div>
+
+        <div id="alarm-container">
+            <select id="alarm-hours">
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+            </select>
+            <label for="alarm-hours">点</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <select id="alarm-minutes">
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="48">48</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+            </select>
+            <label for="alarm-minutes">分</label>&nbsp;&nbsp;&nbsp;
+            <button id="start-btn">开始闹钟</button>&nbsp;
+            <button id="stop-btn" style="display: none;">结束闹钟</button>
+        </div>
+
+        <audio id="alarm-sound" src="./fall-piano-music-193530.mp3" loop></audio>
+
+        <!-- Custom modal -->
+        <div id="custom-modal">
+            <div id="modal-content">
+                <p id="modal-text">请设置一个有效的时间！</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="Tab2" class="tab-content">
+        <div class="timer-container">
+            <div class="time-display" id="time-display">00:00</div>
+            <div>
+                <input type="number" id="minutes" placeholder="分钟" min="0" max="60">
+                <input type="number" id="seconds" placeholder="秒" min="0" max="59">
+            </div>
+            <button class="start" id="start" onclick="startTimer()">开始闹钟</button>
+            <button class="stop" id="stop" style="display:none;" onclick="stopTimer()">停止闹钟</button>
+        </div>
+    
+        <!-- 音乐播放器 -->
+        <audio id="music" src="./fall-piano-music-193530.mp3" loop></audio>
+    
+        <!-- 自定义警告弹窗 -->
+        <div class="custom-alert" id="custom-alert">
+            <div class="custom-alert-content">
+                <h2>请设置一个有效的时间！</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Modal -->
+    <div id="alert" class="modal">
+        <div style="color: black; font-size: medium;" class="alert-content">
+            <h4>开启定时器以后请勿刷新或在此页面切换页面 !</h4>
+            <p>建议使用Google Chrome浏览器打开 !</p>
+            <button onclick="closeModal()">确定</button>
+        </div>
+    </div>
+
+    <script> 
+        // tabs
+        function openTab(evt, tabName) {
+            var i, tabContent, tabLinks;
+            
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+
+            tabLinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        document.getElementById("Tab1").style.display = "block";
+
+        // clock
+        const timeDisplay = document.getElementById('time');
+        const alarmTimeInput = document.getElementById('alarm-time');
+        const startButton = document.getElementById('start-btn');
+        const stopButton = document.getElementById('stop-btn');
+        const alarmSound = document.getElementById('alarm-sound');
+        const customModal = document.getElementById('custom-modal');
+        const modalText = document.getElementById('modal-text');
+
+        let alarmTimeout = null;
+        let wakeLock = null;
+
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+
+            const savedAlarmTime = localStorage.getItem('alarmTimestamp');
+            if (savedAlarmTime) {
+                const alarmDate = new Date(parseInt(savedAlarmTime, 10));
+                if (now >= alarmDate) {
+                    triggerAlarm();
+                }
+            }
+        }
+
+        function saveAlarmTimestamp(timestamp) {
+            localStorage.setItem('alarmTimestamp', timestamp);
+        }
+
+        function clearAlarmTimestamp() {
+            localStorage.removeItem('alarmTimestamp');
+        }
+
+        setInterval(updateTime, 1000);
+
+        const alarmHoursInput = document.getElementById('alarm-hours');
+        const alarmMinutesInput = document.getElementById('alarm-minutes');
+
+        startButton.addEventListener('click', async () => {
+            const hours = alarmHoursInput.value;
+            const minutes = alarmMinutesInput.value;
+
+            if (hours !== '' && minutes !== '') {
+                const now = new Date();
+                let alarmDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
+
+                if (alarmDate <= now) {
+                    alarmDate.setDate(alarmDate.getDate() + 1); 
+                }
+
+                const timeToAlarm = alarmDate.getTime() - now.getTime();
+                saveAlarmTimestamp(alarmDate.getTime());  
+
+                alarmTimeout = setTimeout(triggerAlarm, timeToAlarm);
+
+                modalText.textContent = `闹钟将在 ${alarmDate.toLocaleString()} 响铃`;
+                customModal.style.display = 'flex';
+                setTimeout(() => {
+                    customModal.style.display = 'none';
+                }, 3000);
+
+                startButton.disabled = true;
+                stopButton.style.display = 'inline';
+
+            } else {
+                modalText.textContent = '请设置一个时间！';
+                customModal.style.display = 'flex';
+                setTimeout(() => {
+                    customModal.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+
+        function triggerAlarm() {
+        alarmSound.play();
+        clearAlarmTimestamp();
+    
+        startButton.disabled = true;
+        stopButton.style.display = 'inline'; 
+        }
+
+
+        stopButton.addEventListener('click', () => {
+            alarmSound.pause();
+            alarmSound.currentTime = 0;
+            clearTimeout(alarmTimeout);
+            clearAlarmTimestamp();
+
+            startButton.disabled = false;
+            stopButton.style.display = 'none';
+
+            if (wakeLock !== null) {
+                wakeLock.release().then(() => {
+                    wakeLock = null;
+                });
+            }
+
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        });
+
+        window.onload = () => {
+            const savedAlarmTime = localStorage.getItem('alarmTimestamp');
+            if (savedAlarmTime) {
+                const now = new Date();
+                const alarmDate = new Date(parseInt(savedAlarmTime, 10));
+
+                if (alarmDate > now) {
+                    const timeToAlarm = alarmDate.getTime() - now.getTime();
+                    alarmTimeout = setTimeout(triggerAlarm, timeToAlarm);
+                    startButton.disabled = true;
+                    stopButton.style.display = 'inline';
+                } else {
+                    triggerAlarm();
+                }
+            }
+        };
+
+        // timer
+        let countdownInterval;
+        let timeLeft;
+
+        function startTimer() {
+            let minutes = parseInt(document.getElementById('minutes').value) || 0;
+            let seconds = parseInt(document.getElementById('seconds').value) || 0;
+            timeLeft = minutes * 60 + seconds;
+
+            if (timeLeft <= 0) {
+                showCustomAlert();
+                return;
+            }
+
+            document.getElementById('start').disabled = true;
+            document.getElementById('stop').style.display = 'inline-block';
+
+            localStorage.setItem('timeLeft', timeLeft);
+            localStorage.setItem('startTime', Date.now());
+
+            clearInterval(countdownInterval);
+            updateDisplay(timeLeft);
+
+            countdownInterval = setInterval(function() {
+                timeLeft--;
+                localStorage.setItem('timeLeft', timeLeft);
+                updateDisplay(timeLeft);
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('music').play();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(countdownInterval);
+            document.getElementById('music').pause();
+            document.getElementById('music').currentTime = 0;
+            document.getElementById('start').disabled = false;
+            document.getElementById('stop').style.display = 'none';
+            localStorage.removeItem('timeLeft');
+        }
+
+        function updateDisplay(timeLeft) {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            document.getElementById('time-display').textContent = `${minutes}:${seconds}`;
+        }
+
+        function showCustomAlert() {
+            const alertBox = document.getElementById('custom-alert');
+            alertBox.style.display = 'flex';
+
+            setTimeout(function() {
+                alertBox.style.display = 'none';
+            }, 3000);
+        }
+
+        window.onload = function() {
+            let savedTimeLeft = localStorage.getItem('timeLeft');
+            let startTime = localStorage.getItem('startTime');
+
+            if (savedTimeLeft && startTime) {
+                let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+                timeLeft = savedTimeLeft - elapsedTime;
+
+                if (timeLeft > 0) {
+                    updateDisplay(timeLeft);
+                    countdownInterval = setInterval(function() {
+                        timeLeft--;
+                        localStorage.setItem('timeLeft', timeLeft);
+                        updateDisplay(timeLeft);
+
+                        if (timeLeft <= 0) {
+                            clearInterval(countdownInterval);
+                            document.getElementById('music').play();
+                        }
+                    }, 1000);
+                } else {
+                    localStorage.removeItem('timeLeft');
+                }
+            }
+        };
+
+        // modal
+        window.onload = function() {
+            document.getElementById('alert').style.display = 'flex';
+        };
+
+        function closeModal() {
+            document.getElementById('alert').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

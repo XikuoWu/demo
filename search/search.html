@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>serch input demo</title>
+</head>
+<body>
+    <div class="search-container" style="color: white;">
+        <form id="search-form">
+          <input style=" height: 44px; font-size: 15px; background-color: white; border: 0.3px black solid; border-radius: 5px 5px 5px 5px;" type="text" id="search-input" placeholder="搜索..." required>
+          <button style=" cursor: pointer; height: 47px; width: 45px; position: absolute; font-size: 30px; background-color: white; border: 0.3px black solid; border-radius: 3px 5px 5px 3px;" type="submit">⌕</button>
+         </form>
+      </div>
+    </div> 
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const query = document.getElementById('search-input').value.trim().toLowerCase();
+    if (query === 'xxx') {
+        window.location.href = './target.html'; // 替换为你的手机页面的路径
+    } else {
+        function showResults() {
+            // 如果没有找到匹配的结果，显示提示信息
+        const searchContainer = document.querySelector('.search-container');
+        let message = document.getElementById('no-result-message');
+        
+        if (!message) {
+            message = document.createElement('div');
+            message.id = 'no-result-message';
+            message.style.color = 'red';
+            message.style.marginTop = '7px';
+            message.style.fontSize = '20px';
+            searchContainer.appendChild(message);
+        }
+        
+        message.textContent = '没有找到相关结果';
+        }
+        showResults()
+    }
+});
+    </script>
+</body>
+</html>
