@@ -6,6 +6,14 @@ let users = {};
 
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Login and sighup server!");
+});
+
+app.use("/favicon.ico", express.static("favicon.ico"));
+
+app.get("/favicon.ico", (req, res) => res.status(204).end());
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // Allow requests from all origins
   res.setHeader(
