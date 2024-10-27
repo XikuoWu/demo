@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-image: url(./bg01.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: white;
+    }
+
+    input {
+      outline: none;
+      width: 200px;
+      font-size: larger;
+      background-color: white;
+      border-radius: 5px;
+      border: 0.5px black solid;
+      padding: 5px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: white;
+      font-size: large;
+      border: 0.3px black solid;
+      cursor: pointer;
+      border-radius: 10px;
+      width: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <form id="registerForm">
+    <h1>注册</h1>
+    <input type="text" id="username" name="username" placeholder="username" required><br><br>
+    <input type="password" id="password" name="password" placeholder="password" required><br><br>
+    <button type="submit">注册</button>
+  </form>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      fetch('http://localhost:3007/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+
+</html>
