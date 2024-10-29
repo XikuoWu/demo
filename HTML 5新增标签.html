@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>h5tag</title>
+  <style>
+    progress {
+      width: 400px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 头部 -->
+  <header class="page-header">
+    <h1>尚品汇</h1>
+  </header>
+  <hr>
+  <!-- 主导航 -->
+  <nav>
+    <a href="#">首页</a>
+    <a href="#">订单</a>
+    <a href="#">购物车</a>
+    <a href="#">我的</a>
+  </nav>
+  <!-- 主要内容 -->
+  <div class="page-content">
+    <!-- 侧边栏导航 -->
+    <aside style="float: right">
+      <nav>
+        <ul>
+          <li><a href="#">秒杀专区</a></li>
+          <li><a href="#">会员专区</a></li>
+          <li><a href="#">领取优惠券</a></li>
+          <li><a href="#">品牌专区</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <!-- 文章 -->
+    <article>
+      <h2>《如何一夜暴富》</h2>
+      <section>
+        <h3>第一种方式：通过做梦</h3>
+        <p>你要这么做梦：XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+      </section>
+      <section>
+        <h3>第二种方式：通过买彩票</h3>
+        <p>你要这么买彩票：XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+      </section>
+      <section>
+        <h3>第三种方式：通过学习前端</h3>
+        <p>你要来的尚硅谷学前端：XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+      </section>
+    </article>
+  </div>
+  <hr>
+  <footer>
+    <nav>
+      <a href="#">友情链接1</a>
+      <a href="#">友情链接2</a>
+      <a href="#">友情链接3</a>
+      <a href="#">友情链接4</a>
+    </nav>
+  </footer>
+
+
+  <span>手机电量</span>
+  <meter max="100" min="0" value="90" low="20" high="80" optimum="90"></meter>
+  <br>
+  <span>当前进度:</span>
+  <progress max="100" value="20"></progress>
+
+  <form action="#">
+    <input type="text" list="mydata">
+    <button>搜索</button>
+  </form>
+  <datalist id="mydata">
+    <option value="周杰伦">周杰伦</option>
+    <option value="周冬雨">周冬雨</option>
+    <option value="马冬梅">马冬梅</option>
+    <option value="温兆伦">温兆伦</option>
+  </datalist>
+
+
+  <details>
+    <summary>如何一夜暴富</summary>
+    <p>来到尚硅谷学前端</p>
+  </details>
+
+  <ruby>
+    <span>魑魅魍魉</span>
+    <rt>chī mèi wǎng liǎng </rt>
+  </ruby>
+  <br>
+  <ruby>
+    <span>魑</span>
+    <rt>chī</rt>
+  </ruby>
+  <ruby>
+    <span>魅</span>
+    <rt>mèi</rt>
+  </ruby>
+
+  <br>
+  <p>Lorem ipsum <mark> dolor </mark> sit amet consectetur adipisicing elit. Atque, beatae.</p>
+
+
+  <form action="">
+    账号: <input type="text" name="account" placeholder="请输入账号" required autofocus autocomplete="on" pattern="\w{6}">
+    <br>
+    密码: <input type="password" name="pwd" placeholder="请输入密码" required>
+    <br>
+    性别:
+    <input type="radio" value="male" name="gender" required>男
+    <input type="radio" value="female" name="gender">女
+    爱好:
+    <input type="checkbox" value="smoke" name="hobby">抽烟
+    <input type="checkbox" value="drink" name="hobby" required>喝酒
+    <input type="checkbox" value="perm" name="hobby">烫头
+    <br>
+    其它: <textarea name="other" required></textarea>
+    <br>
+    <button>提交</button>
+  </form>
+
+</body>
+
+</html>
