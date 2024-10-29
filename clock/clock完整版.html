@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="./icon.ico" type="image/x-icon">
     <link rel="manifest" href="/manifest.json">
     <title>Clock</title>
-    <noscript>您需要开启   JAVASCRIPT   才可以使用此页面</noscript>
+    <noscript>您需要开启 JAVASCRIPT 才可以使用此页面</noscript>&nbsp;&nbsp;&nbsp;&nbsp;
     <noscript>You need to enable JAVASCRIPT to run this website</noscript>
     <style>
         /* tabs */
@@ -53,6 +54,7 @@
             justify-content: center;
             align-items: center;
         }
+
         .alert-content {
             background-color: #fff;
             padding: 20px;
@@ -60,6 +62,7 @@
             text-align: center;
             width: 300px;
         }
+
         .alert-content button {
             margin-top: 10px;
             background-color: white;
@@ -171,7 +174,7 @@
         select {
             background-color: white;
         }
-        
+
         button {
             background-color: white;
             border: 0.3px black solid;
@@ -188,16 +191,19 @@
         .timer-container {
             text-align: center;
         }
+
         .time-display {
             font-size: 48px;
             margin-bottom: 20px;
         }
+
         input[type="number"] {
             padding: 5px;
             font-size: 16px;
             width: 60px;
             margin-right: 10px;
         }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -210,7 +216,7 @@
         button:hover {
             background-color: rgb(238, 238, 238);
         }
-        
+
         /* 弹窗样式 */
         .custom-alert {
             display: none;
@@ -222,6 +228,7 @@
             justify-content: center;
             align-items: center;
         }
+
         .custom-alert-content {
             background-color: black;
             border-radius: 10px;
@@ -230,14 +237,17 @@
             color: white;
             font-size: 10px;
         }
+
         #seconds {
             margin-left: 20px;
         }
+
         .start {
             margin-top: 30px;
         }
     </style>
 </head>
+
 <body>
 
     <!-- tabs -->
@@ -353,7 +363,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="Tab2" class="tab-content">
         <div class="timer-container">
             <div class="time-display" id="time-display">00:00</div>
@@ -364,10 +374,10 @@
             <button class="start" id="start" onclick="startTimer()">开始闹钟</button>
             <button class="stop" id="stop" style="display:none;" onclick="stopTimer()">停止闹钟</button>
         </div>
-    
+
         <!-- 音乐播放器 -->
         <audio id="music" src="./fall-piano-music-193530.mp3" loop></audio>
-    
+
         <!-- 自定义警告弹窗 -->
         <div class="custom-alert" id="custom-alert">
             <div class="custom-alert-content">
@@ -385,11 +395,11 @@
         </div>
     </div>
 
-    <script> 
+    <script>
         // tabs
         function openTab(evt, tabName) {
             var i, tabContent, tabLinks;
-            
+
             tabContent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabContent.length; i++) {
                 tabContent[i].style.display = "none";
@@ -456,11 +466,11 @@
                 let alarmDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
 
                 if (alarmDate <= now) {
-                    alarmDate.setDate(alarmDate.getDate() + 1); 
+                    alarmDate.setDate(alarmDate.getDate() + 1);
                 }
 
                 const timeToAlarm = alarmDate.getTime() - now.getTime();
-                saveAlarmTimestamp(alarmDate.getTime());  
+                saveAlarmTimestamp(alarmDate.getTime());
 
                 alarmTimeout = setTimeout(triggerAlarm, timeToAlarm);
 
@@ -484,11 +494,11 @@
 
 
         function triggerAlarm() {
-        alarmSound.play();
-        clearAlarmTimestamp();
-    
-        startButton.disabled = true;
-        stopButton.style.display = 'inline'; 
+            alarmSound.play();
+            clearAlarmTimestamp();
+
+            startButton.disabled = true;
+            stopButton.style.display = 'inline';
         }
 
 
@@ -552,7 +562,7 @@
             clearInterval(countdownInterval);
             updateDisplay(timeLeft);
 
-            countdownInterval = setInterval(function() {
+            countdownInterval = setInterval(function () {
                 timeLeft--;
                 localStorage.setItem('timeLeft', timeLeft);
                 updateDisplay(timeLeft);
@@ -585,12 +595,12 @@
             const alertBox = document.getElementById('custom-alert');
             alertBox.style.display = 'flex';
 
-            setTimeout(function() {
+            setTimeout(function () {
                 alertBox.style.display = 'none';
             }, 3000);
         }
 
-        window.onload = function() {
+        window.onload = function () {
             let savedTimeLeft = localStorage.getItem('timeLeft');
             let startTime = localStorage.getItem('startTime');
 
@@ -600,7 +610,7 @@
 
                 if (timeLeft > 0) {
                     updateDisplay(timeLeft);
-                    countdownInterval = setInterval(function() {
+                    countdownInterval = setInterval(function () {
                         timeLeft--;
                         localStorage.setItem('timeLeft', timeLeft);
                         updateDisplay(timeLeft);
@@ -617,7 +627,7 @@
         };
 
         // modal
-        window.onload = function() {
+        window.onload = function () {
             document.getElementById('alert').style.display = 'flex';
         };
 
@@ -626,4 +636,5 @@
         }
     </script>
 </body>
+
 </html>
