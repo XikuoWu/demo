@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coder</title>
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: rgb(50, 50, 50);
+      color: white;
+    }
+
+    header {
+      background-color: black;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    header button {
+      margin: 5px;
+      background-color: white;
+      border: 0;
+      border-radius: 5px;
+      padding: 3px;
+      font-size: 13px;
+      cursor: pointer;
+      color: black;
+    }
+
+    textarea {
+      background-color: transparent;
+      color: white;
+      width: 100%;
+      height: 100vh;
+      padding: 10px;
+      font-size: 16px;
+      outline: none;
+      resize: none;
+      margin-top: 1.3px;
+      border: 0.6px white solid;
+      box-sizing: border-box;
+    }
+
+    .content div {
+      border-top: white 0.6px solid;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: none;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 300px;
+    }
+
+    .modal-content input {
+      width: 220px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .modal-content button {
+      padding: 10px 15px;
+      margin: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .btn-confirm {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .btn-cancel {
+      background-color: #f44336;
+      color: white;
+    }
+
+    #file {
+      display: flex;
+      margin-top: 10px;
+      border: 0;
+      margin-left: 10px;
+    }
+
+    .file-item {
+      background-color: rgb(33, 33, 33);
+      margin: 5px;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 100px;
+      border-top: 0;
+    }
+
+    .file-item:hover {
+      background-color: rgb(60, 60, 60);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <button id="save" style="background-color: rgb(212, 138, 86); display: none;">保存</button>
+    <button id="createfile">创建文件</button>
+    <button id="start" style="background-color: rgb(212, 138, 86); display: none;">运行</button>
+    <button id="openfolder">打开文件夹</button>
+  </header>
+
+  <div class="content">
+    <div style="height: 70px; width: 100%; background-color: rgb(33, 33, 33); display: flex; overflow: auto;">
+      <button
+        style="margin: 10px; font-size: 30px; background-color: white; border: 0.3px black solid; border-radius: 6px; cursor: pointer; "
+        id="pre">🔙</button>
+      <div
+        style="border: 0; display: inline; font-size: larger; margin-left: 10px; margin-top: 20px; border-right: 0.3px white solid; padding: 5px;"
+        id="foldername">
+      </div>
+      <div id="file"></div>
+    </div>
+    <textarea name="" id="coder"></textarea>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3 style="color: black;">输入文件名</h3>
+      <input type="text" id="filename" placeholder="输入文件名（含扩展名）">
+      <button class="btn-confirm" id="confirm">确定</button>
+      <button class="btn-cancel" id="cancel">取消</button>
+    </div>
+  </div>
+
+  <script>
+    let createfile = document.querySelector('#createfile');
+    let modal = document.querySelector('#modal');
+    let confirmBtn = document.querySelector('#confirm');
+    let cancelBtn = document.querySelector('#cancel');
+    let filenameInput = document.querySelector('#filename');
+    let save = document.querySelector('#save');
+    let start = document.querySelector('#start');
+    let openfolder = document.querySelector('#openfolder');
+    let content = document.querySelector('.content');
+    let coder = document.querySelector('#coder');
+    let foldernameDiv = document.querySelector('#foldername');
+    let fileDiv = document.querySelector('#file');
+    let preBtn = document.querySelector('#pre');
+
+    let currentFolder = null;
+    let folderHistory = []; // To track folder history for back navigation
+    let currentFileHandle = null; // To store the handle of the currently opened file
+
+    const supportedExtensions = ['.html', '.css', '.js', '.jsx', '.py', '.java'];
+
+    createfile.addEventListener('click', function () {
+      modal.style.display = 'flex';
+    });
+
+    cancelBtn.addEventListener('click', function () {
+      modal.style.display = 'none';
+      filenameInput.value = '';
+    });
+
+    confirmBtn.addEventListener('click', async function () {
+      let filename = filenameInput.value.trim();
+      if (!filename) {
+        alert('请输入有效的文件名！');
+        return;
+      }
+
+      try {
+        const handle = await window.showDirectoryPicker();
+        const newFileHandle = await handle.getFileHandle(filename, { create: true });
+        const writable = await newFileHandle.createWritable();
+        await writable.write('这是新文件的内容');
+        await writable.close();
+
+        alert(`文件 "${filename}" 已成功创建！`);
+        modal.style.display = 'none';
+        filenameInput.value = '';
+      } catch (err) {
+        console.error(err);
+        alert('用户取消了操作或不支持文件系统访问 API。');
+      }
+    });
+
+    save.addEventListener('click', async function () {
+      if (!currentFileHandle) {
+        alert('没有选择任何文件，无法保存！');
+        return;
+      }
+
+      try {
+        const writable = await currentFileHandle.createWritable();
+        await writable.write(coder.value);
+        await writable.close();
+        alert('文件已保存成功！');
+      } catch (err) {
+        console.error(err);
+        alert('文件保存失败！');
+      }
+    });
+
+    start.addEventListener('click', async function () {
+      if (!currentFileHandle) {
+        alert('没有选择任何文件，请先打开一个文件！');
+        return;
+      }
+
+      const fileName = currentFileHandle.name;
+      const fileExtension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+
+      if (fileExtension === '.html') {
+        try {
+          const fileContent = coder.value;
+          const blob = new Blob([fileContent], { type: 'text/html' });
+          const url = URL.createObjectURL(blob);
+
+          window.open(url, '_blank');
+        } catch (err) {
+          console.error(err);
+          alert('运行文件时出错，请重试！');
+        }
+      } else {
+        alert('请打开一个 HTML 文件运行！');
+      }
+    });
+
+    openfolder.addEventListener('click', async function () {
+      save.style.display = 'inline';
+      start.style.display = 'inline';
+      openfolder.style.display = 'none';
+
+      try {
+        const folderHandle = await window.showDirectoryPicker();
+        currentFolder = folderHandle;
+        folderHistory = [folderHandle];
+        foldernameDiv.textContent = folderHandle.name;
+
+        fileDiv.innerHTML = '';
+
+        for await (const entry of folderHandle.values()) {
+          const div = document.createElement('div');
+          div.className = 'file-item';
+          div.textContent = entry.name;
+
+          if (entry.kind === 'directory') {
+            div.addEventListener('dblclick', async function () {
+              folderHistory.push(currentFolder);
+              currentFolder = entry;
+              foldernameDiv.textContent = currentFolder.name;
+              loadFolderContent(currentFolder);
+            });
+          } else {
+            div.addEventListener('dblclick', async function () {
+              const fileName = entry.name;
+              const fileExtension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+
+              if (supportedExtensions.includes(fileExtension)) {
+                try {
+                  currentFileHandle = entry;
+                  const file = await entry.getFile();
+                  const fileContent = await file.text();
+                  coder.value = fileContent;
+                } catch (err) {
+                  console.error(err);
+                  alert('无法读取文件内容');
+                }
+              } else {
+                alert('此文件类型不支持编辑');
+              }
+            });
+          }
+
+          fileDiv.appendChild(div);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('无法打开文件夹。');
+      }
+    });
+
+    preBtn.addEventListener('click', function () {
+      if (folderHistory.length > 1) {
+        folderHistory.pop();
+        currentFolder = folderHistory[folderHistory.length - 1];
+        foldernameDiv.textContent = currentFolder.name;
+        loadFolderContent(currentFolder);
+      }
+    });
+
+    function loadFolderContent(folder) {
+      fileDiv.innerHTML = '';
+      (async () => {
+        for await (const entry of folder.values()) {
+          const div = document.createElement('div');
+          div.className = 'file-item';
+          div.textContent = entry.name;
+
+          if (entry.kind === 'directory') {
+            div.addEventListener('dblclick', async function () {
+              folderHistory.push(currentFolder);
+              currentFolder = entry;
+              foldernameDiv.textContent = currentFolder.name;
+              loadFolderContent(currentFolder);
+            });
+          } else {
+            div.addEventListener('dblclick', async function () {
+              const fileName = entry.name;
+              const fileExtension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+
+              if (supportedExtensions.includes(fileExtension)) {
+                try {
+                  currentFileHandle = entry;
+                  const file = await entry.getFile();
+                  const fileContent = await file.text();
+                  coder.value = fileContent;
+                } catch (err) {
+                  console.error(err);
+                  alert('无法读取文件内容');
+                }
+              } else {
+                alert('此文件类型不支持编辑');
+              }
+            });
+          }
+
+          fileDiv.appendChild(div);
+        }
+      })();
+    }
+
+    alert('请勿刷新页面，离开时请保存文件！');
+  </script>
+</body>
+
+</html>
