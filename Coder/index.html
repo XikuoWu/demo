@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coder</title>
   <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.js"></script>
   <style>
     body {
       padding: 0;
@@ -34,18 +35,25 @@
     }
 
     textarea {
-      background-color: transparent;
-      color: white;
-      width: 100%;
-      height: 100vh;
+      background-color: #1e1e1e;
+      color: #d4d4d4;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      caret-color: white;
       padding: 10px;
-      font-size: 16px;
+      border: none;
       outline: none;
       resize: none;
-      margin-top: 1.3px;
-      border: 0.6px white solid;
-      box-sizing: border-box;
+      box-shadow: none;
+      overflow: auto;
     }
+
+    textarea::selection {
+      background-color: #264f78;
+      color: white;
+    }
+
 
     .content div {
       border-top: white 0.6px solid;
@@ -113,10 +121,27 @@
       border-radius: 5px;
       width: 100px;
       border-top: 0;
+      overflow: hidden;
     }
 
     .file-item:hover {
       background-color: rgb(60, 60, 60);
+    }
+
+    /* 隐藏行号之间的分割线 */
+    .monaco-editor .lines-content .view-line {
+      border-bottom: none !important;
+      border-top: none;
+    }
+
+    /* 移除行号的背景色 */
+    .monaco-editor .margin {
+      background: none !important;
+    }
+
+    /* 移除当前行的边框高亮 */
+    .monaco-editor .current-line {
+      border: none !important;
     }
   </style>
 </head>
@@ -125,6 +150,7 @@
   <header>
     <button id="save" style="background-color: rgb(212, 138, 86); display: none;">保存</button>
     <button id="createfile">创建文件</button>
+    <button id="createfolder">创建文件夹</button>
     <button id="start" style="background-color: rgb(212, 138, 86); display: none;">运行</button>
     <button id="openfolder">打开文件夹</button>
   </header>
@@ -140,7 +166,7 @@
       </div>
       <div id="file"></div>
     </div>
-    <textarea name="" id="coder"></textarea>
+    <div id="editor-container" style="width: 100%; height: 100vh; border: 0;"></div>
   </div>
 
   <div class="modal" id="modal">
@@ -153,6 +179,62 @@
   </div>
 
   <script>
+    let editor;
+
+    // 初始化 Monaco Editor
+    require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
+    require(['vs/editor/editor.main'], function () {
+      // 定义自定义主题
+      monaco.editor.defineTheme('custom-dark', {
+        base: 'vs-dark', // 基于默认深色主题
+        inherit: true, // 继承默认设置
+        rules: [],
+        colors: {
+          'editor.background': '#1e1e1e', // 编辑器背景色
+          'editor.lineHighlightBackground': '#1e1e1e', // 当前行高亮背景
+          'editorLineNumber.foreground': '#858585', // 行号颜色
+          'editorGutter.background': '#1e1e1e', // 行号区域背景色
+          'editor.lineHighlightBorder': '#1e1e1e' // 移除高亮边框线
+        }
+      });
+
+      // 初始化编辑器
+      editor = monaco.editor.create(document.getElementById('editor-container'), {
+        value: '<!-- 开始编写 HTML -->\n',
+        language: 'html',
+        theme: 'custom-dark', // 使用自定义主题
+        automaticLayout: true,
+      });
+    });
+
+
+
+    // 动态切换语言函数
+    function setEditorLanguage(fileExtension) {
+      let language;
+      switch (fileExtension) {
+        case '.html':
+          language = 'html';
+          break;
+        case '.css':
+          language = 'css';
+          break;
+        case '.js':
+          language = 'javascript';
+          break;
+        case '.py':
+          language = 'python';
+          break;
+        case '.java':
+          language = 'java';
+          break;
+        default:
+          language = 'plaintext';
+      }
+
+      monaco.editor.setModelLanguage(editor.getModel(), language);
+    }
+
     let createfile = document.querySelector('#createfile');
     let modal = document.querySelector('#modal');
     let confirmBtn = document.querySelector('#confirm');
@@ -166,13 +248,34 @@
     let foldernameDiv = document.querySelector('#foldername');
     let fileDiv = document.querySelector('#file');
     let preBtn = document.querySelector('#pre');
+    let createfolder = document.querySelector('#createfolder');
 
     let currentFolder = null;
-    let folderHistory = []; // To track folder history for back navigation
-    let currentFileHandle = null; // To store the handle of the currently opened file
+    let folderHistory = [];
+    let currentFileHandle = null;
 
     const supportedExtensions = ['.html', '.css', '.js', '.jsx', '.py', '.java'];
 
+    // 打开文件夹
+    openfolder.addEventListener('click', async function () {
+      save.style.display = 'inline';
+      start.style.display = 'inline';
+      openfolder.style.display = 'none';
+
+      try {
+        const folderHandle = await window.showDirectoryPicker();
+        currentFolder = folderHandle;
+        folderHistory = [folderHandle];
+        foldernameDiv.textContent = folderHandle.name;
+
+        loadFolderContent(currentFolder);
+      } catch (err) {
+        console.error(err);
+        alert('无法打开文件夹。');
+      }
+    });
+
+    // 创建文件
     createfile.addEventListener('click', function () {
       modal.style.display = 'flex';
     });
@@ -189,9 +292,13 @@
         return;
       }
 
+      if (!currentFolder) {
+        alert('请先打开一个文件夹！');
+        return;
+      }
+
       try {
-        const handle = await window.showDirectoryPicker();
-        const newFileHandle = await handle.getFileHandle(filename, { create: true });
+        const newFileHandle = await currentFolder.getFileHandle(filename, { create: true });
         const writable = await newFileHandle.createWritable();
         await writable.write('这是新文件的内容');
         await writable.close();
@@ -199,12 +306,44 @@
         alert(`文件 "${filename}" 已成功创建！`);
         modal.style.display = 'none';
         filenameInput.value = '';
+
+        loadFolderContent(currentFolder); // 刷新文件夹内容
       } catch (err) {
         console.error(err);
         alert('用户取消了操作或不支持文件系统访问 API。');
       }
     });
 
+    // 创建文件夹
+    // 创建文件夹
+    createfolder.addEventListener('click', async function () {
+      try {
+        if (!currentFolder) {
+          alert('请先打开一个文件夹！');
+          return;
+        }
+
+        const folderName = prompt('请输入新文件夹的名称:');
+        if (!folderName) {
+          alert('请输入有效的文件夹名称！');
+          return;
+        }
+
+        // 在当前文件夹中创建新文件夹
+        await currentFolder.getDirectoryHandle(folderName, { create: true });
+        alert(`文件夹 "${folderName}" 已成功创建！`);
+
+        // 刷新当前文件夹内容
+        loadFolderContent(currentFolder);
+      } catch (err) {
+        console.error(err);
+        alert('用户取消了操作或创建文件夹失败。');
+      }
+    });
+
+
+
+    // 保存文件
     save.addEventListener('click', async function () {
       if (!currentFileHandle) {
         alert('没有选择任何文件，无法保存！');
@@ -212,16 +351,30 @@
       }
 
       try {
+        // 获取文件的可写流
         const writable = await currentFileHandle.createWritable();
-        await writable.write(coder.value);
+
+        // 写入编辑器的内容
+        await writable.write(editor.getValue());
+
+        // 关闭写入流
         await writable.close();
-        alert('文件已保存成功！');
+
+        alert('文件已成功保存！');
       } catch (err) {
-        console.error(err);
-        alert('文件保存失败！');
+        console.error('文件保存失败：', err);
+
+        // 针对不同类型的错误提供具体提示
+        if (err.name === 'NotAllowedError') {
+          alert('保存失败：用户未授予写入权限。');
+        } else {
+          alert(`保存失败：${err.message}`);
+        }
       }
     });
 
+
+    // 运行文件
     start.addEventListener('click', async function () {
       if (!currentFileHandle) {
         alert('没有选择任何文件，请先打开一个文件！');
@@ -233,74 +386,30 @@
 
       if (fileExtension === '.html') {
         try {
-          const fileContent = coder.value;
+          // 获取编辑器内容
+          const fileContent = editor.getValue();
+          if (!fileContent.trim()) {
+            alert('文件内容为空，无法运行！');
+            return;
+          }
+
+          // 创建 Blob 并生成 URL
           const blob = new Blob([fileContent], { type: 'text/html' });
           const url = URL.createObjectURL(blob);
 
+          // 打开新窗口运行文件
           window.open(url, '_blank');
         } catch (err) {
-          console.error(err);
-          alert('运行文件时出错，请重试！');
+          console.error('运行文件时出错：', err);
+          alert('运行失败，请检查文件内容或重试！');
         }
       } else {
-        alert('请打开一个 HTML 文件运行！');
+        alert('只能运行 HTML 文件！');
       }
     });
 
-    openfolder.addEventListener('click', async function () {
-      save.style.display = 'inline';
-      start.style.display = 'inline';
-      openfolder.style.display = 'none';
 
-      try {
-        const folderHandle = await window.showDirectoryPicker();
-        currentFolder = folderHandle;
-        folderHistory = [folderHandle];
-        foldernameDiv.textContent = folderHandle.name;
-
-        fileDiv.innerHTML = '';
-
-        for await (const entry of folderHandle.values()) {
-          const div = document.createElement('div');
-          div.className = 'file-item';
-          div.textContent = entry.name;
-
-          if (entry.kind === 'directory') {
-            div.addEventListener('dblclick', async function () {
-              folderHistory.push(currentFolder);
-              currentFolder = entry;
-              foldernameDiv.textContent = currentFolder.name;
-              loadFolderContent(currentFolder);
-            });
-          } else {
-            div.addEventListener('dblclick', async function () {
-              const fileName = entry.name;
-              const fileExtension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
-
-              if (supportedExtensions.includes(fileExtension)) {
-                try {
-                  currentFileHandle = entry;
-                  const file = await entry.getFile();
-                  const fileContent = await file.text();
-                  coder.value = fileContent;
-                } catch (err) {
-                  console.error(err);
-                  alert('无法读取文件内容');
-                }
-              } else {
-                alert('此文件类型不支持编辑');
-              }
-            });
-          }
-
-          fileDiv.appendChild(div);
-        }
-      } catch (err) {
-        console.error(err);
-        alert('无法打开文件夹。');
-      }
-    });
-
+    // 返回上一级文件夹
     preBtn.addEventListener('click', function () {
       if (folderHistory.length > 1) {
         folderHistory.pop();
@@ -310,45 +419,49 @@
       }
     });
 
-    function loadFolderContent(folder) {
+    // 加载文件夹内容
+    async function loadFolderContent(folder) {
       fileDiv.innerHTML = '';
-      (async () => {
-        for await (const entry of folder.values()) {
-          const div = document.createElement('div');
-          div.className = 'file-item';
-          div.textContent = entry.name;
+      for await (const entry of folder.values()) {
+        const div = document.createElement('div');
+        div.className = 'file-item';
+        div.textContent = entry.name;
 
-          if (entry.kind === 'directory') {
-            div.addEventListener('dblclick', async function () {
-              folderHistory.push(currentFolder);
-              currentFolder = entry;
-              foldernameDiv.textContent = currentFolder.name;
-              loadFolderContent(currentFolder);
-            });
-          } else {
-            div.addEventListener('dblclick', async function () {
-              const fileName = entry.name;
-              const fileExtension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+        if (entry.kind === 'directory') {
+          div.addEventListener('dblclick', async function () {
+            folderHistory.push(currentFolder);
+            currentFolder = entry;
+            foldernameDiv.textContent = currentFolder.name;
+            loadFolderContent(currentFolder);
+          });
+        } else {
+          div.addEventListener('dblclick', async function () {
+            const fileName = entry.name;
+            const fileExtension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
 
-              if (supportedExtensions.includes(fileExtension)) {
-                try {
-                  currentFileHandle = entry;
-                  const file = await entry.getFile();
-                  const fileContent = await file.text();
-                  coder.value = fileContent;
-                } catch (err) {
-                  console.error(err);
-                  alert('无法读取文件内容');
-                }
-              } else {
-                alert('此文件类型不支持编辑');
+            if (supportedExtensions.includes(fileExtension)) {
+              try {
+                currentFileHandle = entry; // 保存当前文件句柄
+                const file = await entry.getFile(); // 获取文件
+                const fileContent = await file.text(); // 读取文件内容
+
+                // 加载文件内容到编辑器
+                editor.setValue(fileContent);
+
+                // 根据文件扩展名设置语言
+                setEditorLanguage(fileExtension);
+              } catch (err) {
+                console.error('读取文件内容时出错：', err);
+                alert(`无法读取文件内容：${err.message}`);
               }
-            });
-          }
-
-          fileDiv.appendChild(div);
+            } else {
+              alert('此文件类型不支持编辑');
+            }
+          });
         }
-      })();
+
+        fileDiv.appendChild(div);
+      }
     }
 
     alert('请勿刷新页面，离开时请保存文件！');
