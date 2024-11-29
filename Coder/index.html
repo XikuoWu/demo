@@ -3,10 +3,135 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Coder</title>
   <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.js"></script>
+  <script>
+    if (!window.showDirectoryPicker) {
+      alert('当前浏览器不支持文件系统访问 API。请使用支持的浏览器，例如 Chrome 或 Edge。');
+      return;
+    }
+    const invalidChars = /[\\/:*?"<>|]/;
+    if (invalidChars.test(filename)) {
+      alert('文件名包含非法字符，请重新输入！');
+      return;
+    }
+    const fragment = document.createDocumentFragment();
+    for await (const entry of folder.values()) {
+      const div = document.createElement('div');
+      // 处理逻辑略
+      fragment.appendChild(div);
+    }
+    fileDiv.appendChild(fragment);
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    if (file.size > MAX_FILE_SIZE) {
+      alert('文件过大，无法加载！');
+      return;
+    }
+    const languageMap = {
+      '.html': 'html',
+      '.css': 'css',
+      '.js': 'javascript',
+      '.jsx': 'javascript',
+      '.py': 'python',
+      '.java': 'java',
+      '.less': 'less',
+      '.scss': 'scss',
+      '.ts': 'typescript',
+      '.tsx': 'typescriptreact',
+      '.json': 'json'
+    };
+
+    function setEditorLanguage(fileExtension) {
+      const language = languageMap[fileExtension] || 'plaintext';
+      monaco.editor.setModelLanguage(editor.getModel(), language);
+    }
+    async function safeExecute(action) {
+      try {
+        await action();
+      } catch (err) {
+        console.error(err);
+        alert('操作失败，请重试！');
+      }
+    }
+    editorContainer.addEventListener('drop', async (event) => {
+      event.preventDefault();
+      const file = event.dataTransfer.files[0];
+      if (file) {
+        const text = await file.text();
+        editor.setValue(text);
+        setEditorLanguage(file.name.slice(file.name.lastIndexOf('.')));
+      }
+    });
+
+    editorContainer.addEventListener('dragover', (event) => {
+      event.preventDefault();
+    });
+
+    // 文件管理模块
+    const FileManager = {
+      currentFolder: null,
+      folderHistory: [],
+      async loadFolderContent(folder) {
+        fileDiv.innerHTML = '';
+        for await (const entry of folder.values()) {
+          const div = document.createElement('div');
+          div.className = 'file-item';
+          div.textContent = entry.name;
+
+          if (entry.kind === 'directory') {
+            div.addEventListener('dblclick', async () => {
+              this.folderHistory.push(this.currentFolder);
+              this.currentFolder = entry;
+              foldernameDiv.textContent = this.currentFolder.name;
+              await this.loadFolderContent(this.currentFolder);
+            });
+          } else {
+            div.addEventListener('dblclick', () => FileManager.openFile(entry));
+          }
+
+          fileDiv.appendChild(div);
+        }
+      },
+      async openFile(fileHandle) {
+        try {
+          const file = await fileHandle.getFile();
+          const fileContent = await file.text();
+          editor.setValue(fileContent);
+          setEditorLanguage(fileHandle.name);
+        } catch (err) {
+          console.error('文件打开失败', err);
+          alert('无法打开文件');
+        }
+      },
+    };
+
+    async function loadFolderContent(folder) {
+      const fragment = document.createDocumentFragment();
+      for await (const entry of folder.values()) {
+        const div = document.createElement('div');
+        div.className = 'file-item';
+        div.textContent = entry.name;
+
+        if (entry.kind === 'directory') {
+          div.addEventListener('dblclick', async () => {
+            FileManager.folderHistory.push(FileManager.currentFolder);
+            FileManager.currentFolder = entry;
+            foldernameDiv.textContent = entry.name;
+            await loadFolderContent(entry);
+          });
+        } else {
+          div.addEventListener('dblclick', () => FileManager.openFile(entry));
+        }
+
+        fragment.appendChild(div);
+      }
+      fileDiv.innerHTML = '';
+      fileDiv.appendChild(fragment);
+    }
+
+  </script>
   <style>
     body {
       padding: 0;
