@@ -128,20 +128,41 @@
       background-color: rgb(60, 60, 60);
     }
 
-    /* 隐藏行号之间的分割线 */
     .monaco-editor .lines-content .view-line {
       border-bottom: none !important;
       border-top: none;
     }
 
-    /* 移除行号的背景色 */
     .monaco-editor .margin {
       background: none !important;
     }
 
-    /* 移除当前行的边框高亮 */
     .monaco-editor .current-line {
       border: none !important;
+    }
+
+    .monaco-editor .view-line {
+      line-height: normal !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 123px;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgb(61, 61, 61);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 900;
+    }
+
+    #overlay img {
+      height: 300px;
     }
   </style>
 </head>
@@ -178,23 +199,22 @@
     </div>
   </div>
 
+  <div id="overlay" style="display: flex;">
+    <img src="./favicon.ico" alt="Loading">
+  </div>
+
   <script>
     let editor;
 
     // 初始化 Monaco Editor
     require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
     require(['vs/editor/editor.main'], function () {
-      // 定义自定义主题
       monaco.editor.defineTheme('custom-dark', {
-        base: 'vs-dark', // 基于默认深色主题
-        inherit: true, // 继承默认设置
+        base: 'vs-dark',
+        inherit: true,
         rules: [],
         colors: {
-          'editor.background': '#1e1e1e', // 编辑器背景色
-          'editor.lineHighlightBackground': '#1e1e1e', // 当前行高亮背景
-          'editorLineNumber.foreground': '#858585', // 行号颜色
-          'editorGutter.background': '#1e1e1e', // 行号区域背景色
-          'editor.lineHighlightBorder': '#1e1e1e' // 移除高亮边框线
+          'editor.background': '#1e1e1e',
         }
       });
 
@@ -202,12 +222,23 @@
       editor = monaco.editor.create(document.getElementById('editor-container'), {
         value: '<!-- 开始编写 HTML -->\n',
         language: 'html',
-        theme: 'custom-dark', // 使用自定义主题
+        theme: 'custom-dark',
         automaticLayout: true,
       });
+
+      // 启用 Emmet
+      emmetMonaco.emmetHTML();
+
+      // 注册 Tab 键补全功能
+      editor.addCommand(monaco.KeyCode.Tab, function () {
+        const model = editor.getModel();
+        const position = editor.getPosition();
+        const word = model.getWordAtPosition(position);
+        if (word && word.word) {
+          editor.trigger('keyboard', 'acceptSelectedSuggestion', {});
+        }
+      });
     });
-
-
 
     // 动态切换语言函数
     function setEditorLanguage(fileExtension) {
@@ -227,6 +258,18 @@
           break;
         case '.java':
           language = 'java';
+          break;
+        case '.less':
+          language = 'less';
+          break;
+        case '.scss':
+          language = 'scss';
+          break;
+        case '.ts':
+          language = 'typescript';
+          break;
+        case '.tsx':
+          language = 'react';
           break;
         default:
           language = 'plaintext';
@@ -254,7 +297,7 @@
     let folderHistory = [];
     let currentFileHandle = null;
 
-    const supportedExtensions = ['.html', '.css', '.js', '.jsx', '.py', '.java'];
+    const supportedExtensions = ['.html', '.css', '.js', '.jsx', '.py', '.java', '.less', '.scss', '.ts', '.tsx'];
 
     // 打开文件夹
     openfolder.addEventListener('click', async function () {
@@ -298,9 +341,28 @@
       }
 
       try {
+        // 如果是 .html 文件，写入基础 HTML 模板
+        let fileContent = '';
+        if (filename.endsWith('.html')) {
+          fileContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class=""></div>
+</body>
+</html>`;
+        }
+
+        // 创建文件
         const newFileHandle = await currentFolder.getFileHandle(filename, { create: true });
+
+        // 写入文件内容
         const writable = await newFileHandle.createWritable();
-        await writable.write('这是新文件的内容');
+        await writable.write(fileContent);
         await writable.close();
 
         alert(`文件 "${filename}" 已成功创建！`);
@@ -313,6 +375,7 @@
         alert('用户取消了操作或不支持文件系统访问 API。');
       }
     });
+
 
     // 创建文件夹
     // 创建文件夹
@@ -438,6 +501,7 @@
           div.addEventListener('dblclick', async function () {
             const fileName = entry.name;
             const fileExtension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+            overlay.style.display = 'none'
 
             if (supportedExtensions.includes(fileExtension)) {
               try {
@@ -464,7 +528,7 @@
       }
     }
 
-    alert('请勿刷新页面，离开时请保存文件！');
+    alert('请勿刷新页面，离开时请保存文件！   在移动端上使用的时候请使用鼠标！');
   </script>
 </body>
 
