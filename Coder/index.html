@@ -47,6 +47,7 @@
       const language = languageMap[fileExtension] || 'plaintext';
       monaco.editor.setModelLanguage(editor.getModel(), language);
     }
+
     async function safeExecute(action) {
       try {
         await action();
@@ -130,6 +131,39 @@
       fileDiv.innerHTML = '';
       fileDiv.appendChild(fragment);
     }
+    // 检查错误信息
+    // 错误检查逻辑
+    async function validateCode() {
+      const model = editor.getModel();
+      const code = model.getValue();
+
+      // 示例: 使用 Monaco 自带的 JavaScript 检查工具
+      if (model.getModeId() === 'javascript') {
+        const worker = await monaco.languages.typescript.getJavaScriptWorker();
+        const client = await worker(model.uri);
+        const diagnostics = await client.getSemanticDiagnostics(model.uri.toString());
+
+        // 清空旧的标记
+        monaco.editor.setModelMarkers(model, 'owner', []);
+
+        // 添加新标记
+        const markers = diagnostics.map((diagnostic) => ({
+          startLineNumber: diagnostic.start.line + 1,
+          startColumn: diagnostic.start.character + 1,
+          endLineNumber: diagnostic.end.line + 1,
+          endColumn: diagnostic.end.character + 1,
+          message: diagnostic.messageText,
+          severity: monaco.MarkerSeverity.Error,
+        }));
+
+        monaco.editor.setModelMarkers(model, 'owner', markers);
+      }
+    }
+
+    // 监听编辑器内容变化
+    editor.onDidChangeModelContent(() => {
+      validateCode();
+    });
 
   </script>
   <style>
@@ -289,6 +323,15 @@
     #overlay img {
       height: 300px;
     }
+
+    #selectlaunguage {
+      font-size: 14px;
+      padding: 2px;
+      border-radius: 5px;
+      background-color: white;
+      color: black;
+      margin: 5px;
+    }
   </style>
 </head>
 
@@ -299,6 +342,14 @@
     <button id="createfolder">创建文件夹</button>
     <button id="start" style="background-color: rgb(212, 138, 86); display: none;">运行</button>
     <button id="openfolder">打开文件夹</button>
+    <select name="" id="selectlaunguage">
+      <option value="English" selected>English</option>
+      <option value="Chinese">Chinese</option>
+      <option value="France">France</option>
+      <option value="German">German</option>
+      <option value="Russian">Russian</option>
+    </select>
+
   </header>
 
   <div class="content">
@@ -402,6 +453,82 @@
 
       monaco.editor.setModelLanguage(editor.getModel(), language);
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 定义语言翻译数据
+      const translations = {
+        Chinese: {
+          title: "编码器",
+          save: "保存",
+          createFile: "创建文件",
+          createFolder: "创建文件夹",
+          run: "运行",
+          openFolder: "打开文件夹",
+        },
+        English: {
+          title: "Coder",
+          save: "Save",
+          createFile: "Create File",
+          createFolder: "Create Folder",
+          run: "Run",
+          openFolder: "Open Folder",
+        },
+        France: {
+          title: "Programmeur",
+          save: "Enregistrer",
+          createFile: "Créer un fichier",
+          createFolder: "Créer un dossier",
+          run: "Exécuter",
+          openFolder: "Ouvrir un dossier",
+        },
+        German: {
+          title: "Programmierer",
+          save: "Speichern",
+          createFile: "Datei erstellen",
+          createFolder: "Ordner erstellen",
+          run: "Ausführen",
+          openFolder: "Ordner öffnen",
+        },
+        Russian: {
+          title: "Программист",
+          save: "Сохранить",
+          createFile: "Создать файл",
+          createFolder: "Создать папку",
+          run: "Запустить",
+          openFolder: "Открыть папку",
+        },
+      };
+
+      // 初始化默认语言为 English
+      const languageSelect = document.querySelector("#selectlaunguage");
+      updateLanguage("English");
+
+      // 监听语言切换
+      languageSelect.addEventListener("change", (event) => {
+        const selectedLanguage = event.target.value;
+        updateLanguage(selectedLanguage);
+      });
+
+      // 更新页面内容的函数
+      function updateLanguage(language) {
+        const langData = translations[language];
+        if (!langData) {
+          console.warn(`语言 ${language} 不存在`);
+          return;
+        }
+
+        // 更新页面标题
+        document.title = langData.title;
+
+        // 更新按钮文本
+        document.querySelector("#save").textContent = langData.save;
+        document.querySelector("#createfile").textContent = langData.createFile;
+        document.querySelector("#createfolder").textContent = langData.createFolder;
+        document.querySelector("#start").textContent = langData.run;
+        document.querySelector("#openfolder").textContent = langData.openFolder;
+      }
+    });
+
 
     let createfile = document.querySelector('#createfile');
     let modal = document.querySelector('#modal');
