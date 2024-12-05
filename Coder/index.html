@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -323,8 +324,8 @@
     }
 
     #selectlaunguage {
-      font-size: 14px;
-      padding: 2px;
+      font-size: 15px;
+      padding: 1.8px;
       border-radius: 5px;
       background-color: white;
       color: black;
@@ -332,18 +333,19 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <button id="save" style="background-color: rgb(212, 138, 86); display: none;">保存</button>
     <button id="createfile">创建文件</button>
-<select name="" id="selectlaunguage">
+    <select name="" id="selectlaunguage">
       <option value="English" selected>English</option>
       <option value="Chinese">Chinese</option>
       <option value="France">France</option>
       <option value="German">German</option>
       <option value="Russian">Russian</option>
     </select>
-<button id="openfolder">打开文件夹</button>
+    <button id="openfolder" style="font-size: 15px; padding: 3px;">打开文件夹</button>
     <button id="createfolder">创建文件夹</button>
     <button id="start" style="background-color: rgb(212, 138, 86); display: none;">运行</button>
   </header>
@@ -392,7 +394,7 @@
 
       // 初始化编辑器
       editor = monaco.editor.create(document.getElementById('editor-container'), {
-        value: '<!-- 开始编写 HTML -->\n',
+        value: '<!-- Start coding HTML -->\n',
         language: 'html',
         theme: 'custom-dark',
         automaticLayout: true,
@@ -579,12 +581,12 @@
     confirmBtn.addEventListener('click', async function () {
       let filename = filenameInput.value.trim();
       if (!filename) {
-        alert('请输入有效的文件名！');
+        alert('please entre a effective value！');
         return;
       }
 
       if (!currentFolder) {
-        alert('请先打开一个文件夹！');
+        alert('Please open a open a folder first！');
         return;
       }
 
@@ -613,14 +615,13 @@
         await writable.write(fileContent);
         await writable.close();
 
-        alert(`文件 "${filename}" 已成功创建！`);
+        alert(`file "${filename}" is created sucsessfuly！`);
         modal.style.display = 'none';
         filenameInput.value = '';
 
         loadFolderContent(currentFolder); // 刷新文件夹内容
       } catch (err) {
         console.error(err);
-        alert('用户取消了操作或不支持文件系统访问 API。');
       }
     });
 
@@ -630,25 +631,24 @@
     createfolder.addEventListener('click', async function () {
       try {
         if (!currentFolder) {
-          alert('请先打开一个文件夹！');
+          alert('Please open a open a folder first！');
           return;
         }
 
-        const folderName = prompt('请输入新文件夹的名称:');
+        const folderName = prompt('please entre a effective value:');
         if (!folderName) {
-          alert('请输入有效的文件夹名称！');
+          alert('please entre a effective value！');
           return;
         }
 
         // 在当前文件夹中创建新文件夹
         await currentFolder.getDirectoryHandle(folderName, { create: true });
-        alert(`文件夹 "${folderName}" 已成功创建！`);
+        alert(`Folder "${folderName}" is created succsesfully`);
 
         // 刷新当前文件夹内容
         loadFolderContent(currentFolder);
       } catch (err) {
         console.error(err);
-        alert('用户取消了操作或创建文件夹失败。');
       }
     });
 
@@ -657,7 +657,7 @@
     // 保存文件
     save.addEventListener('click', async function () {
       if (!currentFileHandle) {
-        alert('没有选择任何文件，无法保存！');
+        alert('can not save');
         return;
       }
 
@@ -671,7 +671,7 @@
         // 关闭写入流
         await writable.close();
 
-        alert('文件已成功保存！');
+        alert('file saved sucsessfully');
       } catch (err) {
         console.error('文件保存失败：', err);
 
@@ -688,7 +688,7 @@
     // 运行文件
     start.addEventListener('click', async function () {
       if (!currentFileHandle) {
-        alert('没有选择任何文件，请先打开一个文件！');
+        alert('please open a file first');
         return;
       }
 
@@ -700,7 +700,7 @@
           // 获取编辑器内容
           const fileContent = editor.getValue();
           if (!fileContent.trim()) {
-            alert('文件内容为空，无法运行！');
+            alert('the file is empty');
             return;
           }
 
@@ -712,10 +712,10 @@
           window.open(url, '_blank');
         } catch (err) {
           console.error('运行文件时出错：', err);
-          alert('运行失败，请检查文件内容或重试！');
+          alert('can not run');
         }
       } else {
-        alert('只能运行 HTML 文件！');
+        alert('can on ly run html files');
       }
     });
 
@@ -764,10 +764,10 @@
                 setEditorLanguage(fileExtension);
               } catch (err) {
                 console.error('读取文件内容时出错：', err);
-                alert(`无法读取文件内容：${err.message}`);
+                alert(`can not read file：${err.message}`);
               }
             } else {
-              alert('此文件类型不支持编辑');
+
             }
           });
         }
@@ -779,4 +779,5 @@
     alert('Please do not refresh the page and save the file before leaving!');
   </script>
 </body>
+
 </html>
