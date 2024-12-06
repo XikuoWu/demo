@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -333,7 +332,6 @@
     }
   </style>
 </head>
-
 <body>
   <header>
     <button id="save" style="background-color: rgb(212, 138, 86); display: none;">保存</button>
@@ -564,7 +562,7 @@
         loadFolderContent(currentFolder);
       } catch (err) {
         console.error(err);
-        alert('无法打开文件夹。');
+        alert('Can not open folder');
       }
     });
 
@@ -581,7 +579,7 @@
     confirmBtn.addEventListener('click', async function () {
       let filename = filenameInput.value.trim();
       if (!filename) {
-        alert('please entre a effective value！');
+        alert('Please entre a effective value！');
         return;
       }
 
@@ -615,7 +613,7 @@
         await writable.write(fileContent);
         await writable.close();
 
-        alert(`file "${filename}" is created sucsessfuly！`);
+        alert(`File "${filename}" is created sucsessfuly！`);
         modal.style.display = 'none';
         filenameInput.value = '';
 
@@ -637,7 +635,7 @@
 
         const folderName = prompt('please entre a effective value:');
         if (!folderName) {
-          alert('please entre a effective value！');
+          alert('Please entre a effective value！');
           return;
         }
 
@@ -657,7 +655,7 @@
     // 保存文件
     save.addEventListener('click', async function () {
       if (!currentFileHandle) {
-        alert('can not save');
+        alert('Can not save');
         return;
       }
 
@@ -671,15 +669,15 @@
         // 关闭写入流
         await writable.close();
 
-        alert('file saved sucsessfully');
+        alert('File saved sucsessfully');
       } catch (err) {
-        console.error('文件保存失败：', err);
+        console.error('File can not save：', err);
 
         // 针对不同类型的错误提供具体提示
         if (err.name === 'NotAllowedError') {
-          alert('保存失败：用户未授予写入权限。');
+          alert('Save failed: the user has not been granted write permission.');
         } else {
-          alert(`保存失败：${err.message}`);
+          alert(`Save failed：${err.message}`);
         }
       }
     });
@@ -688,7 +686,7 @@
     // 运行文件
     start.addEventListener('click', async function () {
       if (!currentFileHandle) {
-        alert('please open a file first');
+        alert('Please open a file first');
         return;
       }
 
@@ -700,7 +698,7 @@
           // 获取编辑器内容
           const fileContent = editor.getValue();
           if (!fileContent.trim()) {
-            alert('the file is empty');
+            alert('The file is empty');
             return;
           }
 
@@ -711,11 +709,11 @@
           // 打开新窗口运行文件
           window.open(url, '_blank');
         } catch (err) {
-          console.error('运行文件时出错：', err);
-          alert('can not run');
+          console.error('Run failed：', err);
+          alert('Can not run');
         }
       } else {
-        alert('can on ly run html files');
+        alert('Can only run HTML files');
       }
     });
 
@@ -763,11 +761,11 @@
                 // 根据文件扩展名设置语言
                 setEditorLanguage(fileExtension);
               } catch (err) {
-                console.error('读取文件内容时出错：', err);
-                alert(`can not read file：${err.message}`);
+                console.error('Save failed: the user has not been granted write permission.：', err);
+                alert(`Can not read file：${err.message}`);
               }
             } else {
-
+                alert('Cannot read file')
             }
           });
         }
@@ -779,5 +777,4 @@
     alert('Please do not refresh the page and save the file before leaving!');
   </script>
 </body>
-
 </html>
