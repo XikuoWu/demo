@@ -51,7 +51,7 @@
       try {
         await action();
       } catch (err) {
-        console.error(err);
+        //console.error(err);
         alert('操作失败，请重试！');
       }
     }
@@ -101,7 +101,7 @@
           editor.setValue(fileContent);
           setEditorLanguage(fileHandle.name);
         } catch (err) {
-          console.error('文件打开失败', err);
+          //console.error('文件打开失败', err);
           alert('无法打开文件');
         }
       },
@@ -170,6 +170,7 @@
       margin: 0;
       background-color: rgb(50, 50, 50);
       color: white;
+      overflow: hidden;
     }
 
     header {
@@ -438,6 +439,9 @@
         case '.tsx':
           language = 'react';
           break;
+        case '.json':
+          language = 'json';
+          break;
         default:
           language = 'plaintext';
       }
@@ -540,7 +544,11 @@
     let folderHistory = [];
     let currentFileHandle = null;
 
-    const supportedExtensions = ['.html', '.css', '.js', '.jsx', '.py', '.java', '.less', '.scss', '.ts', '.tsx'];
+    const supportedExtensions = ['.html', '.css', '.js', '.jsx', '.py', '.java', '.less', '.scss', '.ts', '.tsx', '.json'];
+    function setEditorLanguage(fileExtension) {
+        const language = languageMap[fileExtension] || 'plaintext';
+        monaco.editor.setModelLanguage(editor.getModel(), language);
+    }
 
     // 打开文件夹
     openfolder.addEventListener('click', async function () {
@@ -556,7 +564,7 @@
 
         loadFolderContent(currentFolder);
       } catch (err) {
-        console.error(err);
+        //console.error(err);
         alert('Can not open folder');
       }
     });
@@ -614,7 +622,7 @@
 
         loadFolderContent(currentFolder); // 刷新文件夹内容
       } catch (err) {
-        console.error(err);
+        //console.error(err);
       }
     });
 
@@ -641,7 +649,7 @@
         // 刷新当前文件夹内容
         loadFolderContent(currentFolder);
       } catch (err) {
-        console.error(err);
+        //console.error(err);
       }
     });
 
@@ -666,7 +674,7 @@
 
         alert('File saved sucsessfully');
       } catch (err) {
-        console.error('File can not save：', err);
+        //console.error('File can not save：', err);
 
         // 针对不同类型的错误提供具体提示
         if (err.name === 'NotAllowedError') {
@@ -756,8 +764,8 @@
                 // 根据文件扩展名设置语言
                 setEditorLanguage(fileExtension);
               } catch (err) {
-                console.error('Save failed: the user has not been granted write permission.：', err);
-                alert(`Can not read file：${err.message}`);
+                //console.error('Save failed: the user has not been granted write permission.：', err);
+                //alert(`Can not read file：${err.message}`);
               }
             } else {
                 alert('Cannot read file')
