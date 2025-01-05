@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <style>
+        form {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        input {
+            width: 500px;
+            font-size: larger;
+            padding: 13px;
+            border-radius: 20px;
+            outline: none;
+            border: 0.5px black solid;
+        }
+        button {
+            font-size: larger;
+            background-color: white;
+            border: 0.5px black solid;
+            border-radius: 20px;
+            margin-left: 5px;
+        }
+        select {
+            position: absolute;
+            top: 10px;
+            font-size: large;
+            padding: 5px;
+            border-radius: 7px;
+            outline: none;
+            visibility: hidden;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .logo {
+            width: 200px;
+        }
+        iframe {
+            display: none;
+            width: 100%;
+            height: 80vh;
+            border: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <select name="" id="s-e">
+        <option value="https://www.bing.com/search">Bing</option>
+    </select>
+    <div class="logo-container">
+        <img class="logo" src="./favicon.ico" alt="">
+    </div>
+    <form id="information" action="https://www.bing.com/search" target="_self">
+        <input type="text" name="q" id="query">
+        <button type="button" id="search">Search</button>
+    </form>
+    <iframe id="searchResults"></iframe>
+
+    <script>
+        const searchEngineSelector = document.querySelector('#s-e');
+        const searchButton = document.querySelector('#search');
+        const queryInput = document.querySelector('#query');
+        const iframe = document.querySelector('#searchResults');
+        const logo = document.querySelector('.logo')
+
+        // 更新 iframe 显示的搜索页面
+        searchButton.addEventListener('click', function () {
+            const query = queryInput.value.trim();
+            if (query) {
+                const searchEngine = searchEngineSelector.value;
+                const searchUrl = `${searchEngine}?q=${encodeURIComponent(query)}`;
+                iframe.src = searchUrl;
+                iframe.style.display = 'block'; // 显示 iframe
+                logo.style.display = 'none'
+            }
+        });
+    </script>
+</body>
+</html>
