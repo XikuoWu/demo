@@ -70,19 +70,30 @@
         const searchButton = document.querySelector('#search');
         const queryInput = document.querySelector('#query');
         const iframe = document.querySelector('#searchResults');
-        const logo = document.querySelector('.logo')
-
-        // 更新 iframe 显示的搜索页面
-        searchButton.addEventListener('click', function () {
+        const logo = document.querySelector('.logo');
+    
+        // 定义搜索逻辑
+        const performSearch = () => {
             const query = queryInput.value.trim();
             if (query) {
                 const searchEngine = searchEngineSelector.value;
                 const searchUrl = `${searchEngine}?q=${encodeURIComponent(query)}`;
                 iframe.src = searchUrl;
                 iframe.style.display = 'block'; // 显示 iframe
-                logo.style.display = 'none'
+                logo.style.display = 'none';   // 隐藏 logo
+            }
+        };
+    
+        // 点击按钮触发搜索
+        searchButton.addEventListener('click', performSearch);
+    
+        // 按下回车键触发搜索
+        queryInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // 防止表单默认提交行为
+                performSearch();
             }
         });
-    </script>
+    </script>    
 </body>
 </html>
