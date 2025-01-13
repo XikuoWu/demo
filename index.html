@@ -1,783 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Coder</title>
-  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.js"></script>
-  <script>
-    if (!window.showDirectoryPicker) {
-      alert('当前浏览器不支持文件系统访问 API。请使用支持的浏览器，例如 Chrome 或 Edge。');
-      return;
-    }
-    const invalidChars = /[\\/:*?"<>|]/;
-    if (invalidChars.test(filename)) {
-      alert('文件名包含非法字符，请重新输入！');
-      return;
-    }
-    const fragment = document.createDocumentFragment();
-    for await (const entry of folder.values()) {
-      const div = document.createElement('div');
-      // 处理逻辑略
-      fragment.appendChild(div);
-    }
-    fileDiv.appendChild(fragment);
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-    if (file.size > MAX_FILE_SIZE) {
-      alert('文件过大，无法加载！');
-      return;
-    }
-    const languageMap = {
-      '.html': 'html',
-      '.css': 'css',
-      '.js': 'javascript',
-      '.jsx': 'javascript',
-      '.py': 'python',
-      '.java': 'java',
-      '.less': 'less',
-      '.scss': 'scss',
-      '.ts': 'typescript',
-      '.tsx': 'typescriptreact',
-      '.json': 'json'
-    };
-
-    function setEditorLanguage(fileExtension) {
-      const language = languageMap[fileExtension] || 'plaintext';
-      monaco.editor.setModelLanguage(editor.getModel(), language);
-    }
-
-    async function safeExecute(action) {
-      try {
-        await action();
-      } catch (err) {
-        console.error(err);
-        alert('操作失败，请重试！');
-      }
-    }
-    editorContainer.addEventListener('drop', async (event) => {
-      event.preventDefault();
-      const file = event.dataTransfer.files[0];
-      if (file) {
-        const text = await file.text();
-        editor.setValue(text);
-        setEditorLanguage(file.name.slice(file.name.lastIndexOf('.')));
-      }
-    });
-
-    editorContainer.addEventListener('dragover', (event) => {
-      event.preventDefault();
-    });
-
-    // 文件管理模块
-    const FileManager = {
-      currentFolder: null,
-      folderHistory: [],
-      async loadFolderContent(folder) {
-        fileDiv.innerHTML = '';
-        for await (const entry of folder.values()) {
-          const div = document.createElement('div');
-          div.className = 'file-item';
-          div.textContent = entry.name;
-
-          if (entry.kind === 'directory') {
-            div.addEventListener('dblclick', async () => {
-              this.folderHistory.push(this.currentFolder);
-              this.currentFolder = entry;
-              foldernameDiv.textContent = this.currentFolder.name;
-              await this.loadFolderContent(this.currentFolder);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码编辑器</title>
+    <noscript>您需要启用JavaScript才能使用此网站</noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vscode/codicons@latest/dist/codicon.css">
+    <link rel="shortcut icon" href="https://xikuowu.github.io/demo/favicon.ico" type="image/x-icon">
+    <style>
+        html {
+            min-width: 1000px;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 100;
+            height: calc(100vh - 33px);
+            overflow: hidden;
+        }
+        header {
+            background-color: black;
+            color: white;
+            display: flex;
+            align-items: center;
+            border-bottom: 0.3px white solid;
+        }
+        header div {
+            display: inline-block;
+            margin-left: 20px;
+            font-size: larger;
+            cursor: pointer;
+            padding: 3px;
+        }
+        header div:hover {
+            background-color: rgb(52, 52, 52);
+        }
+        header div:first-child {
+            margin-left: 30px;
+        }
+        header span {
+            color: rgb(191, 191, 191);
+            font-size: small;
+        }
+        .container {
+            display: flex;
+        }
+        #left-bar {
+            background-color: rgb(27, 27, 27);
+            height: 100%;
+            width: 60px;
+            overflow: hidden;
+            border-right: 0.5px white solid;
+            position: absolute;
+        }
+        #left-bar img {
+            width: 45px;
+            height: 45px;
+            display: block;
+            cursor: pointer;
+            margin-left: 7px;
+            margin-top: 5px;
+        }
+        #left-bar img:first-child {
+            background-color: rgb(57, 57, 57);
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        #left-bar img:last-child {
+            margin-top: 20px;
+        }
+        #left-bar img:last-child:hover {
+            background-color: rgb(57, 57, 57);
+            border-radius: 5px;
+        }
+        .content {
+            width: calc(100% - 310px);
+            height: 100%;
+            position: absolute;
+            left: 310px;
+            top: 33px;
+        }
+        #editor-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        #editor {
+            flex: 1;
+            height: 100vh;
+            margin-top: 0.3px;
+        }
+        #files {
+            background-color: black;
+            width: 250px;
+            height: 100%;
+            overflow-y: auto;
+            margin-left: 60px;
+            color: white;
+        }
+        #folder-name {
+            color: white;
+            text-align: center;
+            padding: 5px;
+            border-bottom: 0.1px white solid;
+        }
+        .alert {
+            position: fixed;
+            top: 33.3px;
+            background-color: rgb(55, 55, 55);
+            height: 100%;
+            width: 100%;
+            left: 310px;
+            z-index: 100000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        p {
+            margin: 0;
+            padding: 5px;
+        }
+        .file,
+        .folder {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        .folder:hover,
+        .file:hover {
+            color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="open-folder">打开文件夹</div>
+        <div id="close-folder">关闭文件夹</div>
+        <div id="create-file">创建文件</div>
+        <div id="create-folder">创建文件夹</div>
+        <div id="save">保存</div><span>(Ctrl+S)</span>
+    </header>
+    <div id="left-bar">
+        <img src="https://xikuowu.github.io/demo/folder.png" alt="">
+        <img class="terminal" src="https://xikuowu.github.io/demo/terminal.png" alt="">
+    </div>
+    <div id="files">
+        <p id="folder-name">文件管理器</p>
+    </div>
+    <div class="content">
+        <div class="editor-container">
+            <div id="editor"></div>
+        </div>
+    </div>
+    <div class="alert">
+        <img src="https://xikuowu.github.io/demo/favicon.ico" alt="">
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
+    <script>
+        const al = document.querySelector('.alert')
+        // editor start
+        require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor/min/vs' } });
+        require(['vs/editor/editor.main'], function () {
+            monaco.editor.create(document.getElementById('editor'), {
+                value: "// Start coding here...\n",
+                language: "javascript",
+                theme: "vs-dark"
             });
-          } else {
-            div.addEventListener('dblclick', () => FileManager.openFile(entry));
-          }
+        });
+        // editor end
+        // terminal start
+        const ter = document.querySelector('.terminal');
+        ter.addEventListener('click', function () {
+            alert('无法打开终端');
+        });
+        // terminal end
+        // 添加支持的文件类型列表
+        const SUPPORTED_FILE_TYPES = [
+            '.js', '.jsx', '.ts', '.tsx', '.html', '.htm', '.css',
+            '.json', '.py', '.java', '.cpp', '.c', '.cs', '.php',
+            '.rb', '.swift', '.go', '.rs', '.sql', '.sh', '.xml',
+            '.yaml', '.yml', '.md'
+        ];
 
-          fileDiv.appendChild(div);
-        }
-      },
-      async openFile(fileHandle) {
-        try {
-          const file = await fileHandle.getFile();
-          const fileContent = await file.text();
-          editor.setValue(fileContent);
-          setEditorLanguage(fileHandle.name);
-        } catch (err) {
-          console.error('文件打开失败', err);
-          alert('无法打开文件');
-        }
-      },
-    };
-
-    async function loadFolderContent(folder) {
-      const fragment = document.createDocumentFragment();
-      for await (const entry of folder.values()) {
-        const div = document.createElement('div');
-        div.className = 'file-item';
-        div.textContent = entry.name;
-
-        if (entry.kind === 'directory') {
-          div.addEventListener('dblclick', async () => {
-            FileManager.folderHistory.push(FileManager.currentFolder);
-            FileManager.currentFolder = entry;
-            foldernameDiv.textContent = entry.name;
-            await loadFolderContent(entry);
-          });
-        } else {
-          div.addEventListener('dblclick', () => FileManager.openFile(entry));
+        // 修复获取文件扩展名的函数
+        function getFileExtension(filename) {
+            const lastDotIndex = filename.lastIndexOf('.');
+            if (lastDotIndex === -1) return ''; // 如果没有扩展名
+            return filename.slice(lastDotIndex).toLowerCase(); // 包含点号的扩展名
         }
 
-        fragment.appendChild(div);
-      }
-      fileDiv.innerHTML = '';
-      fileDiv.appendChild(fragment);
-    }
-    // 检查错误信息
-    // 错误检查逻辑
-    async function validateCode() {
-      const model = editor.getModel();
-      const code = model.getValue();
-
-      // 示例: 使用 Monaco 自带的 JavaScript 检查工具
-      if (model.getModeId() === 'javascript') {
-        const worker = await monaco.languages.typescript.getJavaScriptWorker();
-        const client = await worker(model.uri);
-        const diagnostics = await client.getSemanticDiagnostics(model.uri.toString());
-
-        // 清空旧的标记
-        monaco.editor.setModelMarkers(model, 'owner', []);
-
-        // 添加新标记
-        const markers = diagnostics.map((diagnostic) => ({
-          startLineNumber: diagnostic.start.line + 1,
-          startColumn: diagnostic.start.character + 1,
-          endLineNumber: diagnostic.end.line + 1,
-          endColumn: diagnostic.end.character + 1,
-          message: diagnostic.messageText,
-          severity: monaco.MarkerSeverity.Error,
-        }));
-
-        monaco.editor.setModelMarkers(model, 'owner', markers);
-      }
-    }
-
-    // 监听编辑器内容变化
-    editor.onDidChangeModelContent(() => {
-      validateCode();
-    });
-  </script>
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-      background-color: rgb(50, 50, 50);
-      color: white;
-    }
-
-    header {
-      background-color: black;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    header button {
-      margin: 5px;
-      background-color: white;
-      border: 0;
-      border-radius: 5px;
-      padding: 3px;
-      font-size: 13px;
-      cursor: pointer;
-      color: black;
-    }
-
-    textarea {
-      background-color: #1e1e1e;
-      color: #d4d4d4;
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 14px;
-      line-height: 1.5;
-      caret-color: white;
-      padding: 10px;
-      border: none;
-      outline: none;
-      resize: none;
-      box-shadow: none;
-      overflow: auto;
-    }
-
-    textarea::selection {
-      background-color: #264f78;
-      color: white;
-    }
-
-
-    .content div {
-      border-top: white 0.6px solid;
-    }
-
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      display: none;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      width: 300px;
-    }
-
-    .modal-content input {
-      width: 220px;
-      padding: 10px;
-      font-size: 16px;
-    }
-
-    .modal-content button {
-      padding: 10px 15px;
-      margin: 5px;
-      font-size: 14px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-    }
-
-    .btn-confirm {
-      background-color: #4caf50;
-      color: white;
-    }
-
-    .btn-cancel {
-      background-color: #f44336;
-      color: white;
-    }
-
-    #file {
-      display: flex;
-      margin-top: 10px;
-      border: 0;
-      margin-left: 10px;
-    }
-
-    .file-item {
-      background-color: rgb(33, 33, 33);
-      margin: 5px;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      width: 100px;
-      border-top: 0;
-      overflow: hidden;
-    }
-
-    .file-item:hover {
-      background-color: rgb(60, 60, 60);
-    }
-
-    .monaco-editor .lines-content .view-line {
-      border-bottom: none !important;
-      border-top: none;
-    }
-
-    .monaco-editor .margin {
-      background: none !important;
-    }
-
-    .monaco-editor .current-line {
-      border: none !important;
-    }
-
-    .monaco-editor .view-line {
-      line-height: normal !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      border: none !important;
-    }
-
-    #overlay {
-      position: absolute;
-      top: 123px;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: rgb(61, 61, 61);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 900;
-    }
-
-    #overlay img {
-      height: 300px;
-    }
-
-    #selectlaunguage {
-      font-size: 14px;
-      padding: 2px;
-      border-radius: 5px;
-      background-color: white;
-      color: black;
-      margin: 5px;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <button id="save" style="background-color: rgb(212, 138, 86); display: none;">保存</button>
-    <button id="createfile">创建文件</button>
-    <button id="createfolder">创建文件夹</button>
-    <button id="start" style="background-color: rgb(212, 138, 86); display: none;">运行</button>
-    <button id="openfolder">打开文件夹</button>
-    <select name="" id="selectlaunguage">
-      <option value="English" selected>English</option>
-      <option value="Chinese">Chinese</option>
-      <option value="France">France</option>
-      <option value="German">German</option>
-      <option value="Russian">Russian</option>
-    </select>
-
-  </header>
-
-  <div class="content">
-    <div style="height: 70px; width: 100%; background-color: rgb(33, 33, 33); display: flex; overflow: auto;">
-      <button
-        style="margin: 10px; font-size: 30px; background-color: white; border: 0.3px black solid; border-radius: 6px; cursor: pointer; "
-        id="pre">🔙</button>
-      <div
-        style="border: 0; display: inline; font-size: larger; margin-left: 10px; margin-top: 20px; border-right: 0.3px white solid; padding: 5px;"
-        id="foldername">
-      </div>
-      <div id="file"></div>
-    </div>
-    <div id="editor-container" style="width: 100%; height: 100vh; border: 0;"></div>
-  </div>
-
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <h3 style="color: black;">输入文件名</h3>
-      <input type="text" id="filename" placeholder="输入文件名（含扩展名）">
-      <button class="btn-confirm" id="confirm">确定</button>
-      <button class="btn-cancel" id="cancel">取消</button>
-    </div>
-  </div>
-
-  <div id="overlay" style="display: flex;">
-    <img src="./favicon.ico" alt="Loading">
-  </div>
-
-  <script>
-    let editor;
-
-    // 初始化 Monaco Editor
-    require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
-    require(['vs/editor/editor.main'], function () {
-      monaco.editor.defineTheme('custom-dark', {
-        base: 'vs-dark',
-        inherit: true,
-        rules: [],
-        colors: {
-          'editor.background': '#1e1e1e',
-        }
-      });
-
-      // 初始化编辑器
-      editor = monaco.editor.create(document.getElementById('editor-container'), {
-        value: '<!-- 开始编写 HTML -->\n',
-        language: 'html',
-        theme: 'custom-dark',
-        automaticLayout: true,
-      });
-
-      // 启用 Emmet
-      emmetMonaco.emmetHTML();
-
-      // 注册 Tab 键补全功能
-      editor.addCommand(monaco.KeyCode.Tab, function () {
-        const model = editor.getModel();
-        const position = editor.getPosition();
-        const word = model.getWordAtPosition(position);
-        if (word && word.word) {
-          editor.trigger('keyboard', 'acceptSelectedSuggestion', {});
-        }
-      });
-    });
-
-    // 动态切换语言函数
-    function setEditorLanguage(fileExtension) {
-      let language;
-      switch (fileExtension) {
-        case '.html':
-          language = 'html';
-          break;
-        case '.css':
-          language = 'css';
-          break;
-        case '.js':
-          language = 'javascript';
-          break;
-        case '.py':
-          language = 'python';
-          break;
-        case '.java':
-          language = 'java';
-          break;
-        case '.less':
-          language = 'less';
-          break;
-        case '.scss':
-          language = 'scss';
-          break;
-        case '.ts':
-          language = 'typescript';
-          break;
-        case '.tsx':
-          language = 'react';
-          break;
-        default:
-          language = 'plaintext';
-      }
-
-      monaco.editor.setModelLanguage(editor.getModel(), language);
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      // 定义语言翻译数据
-      const translations = {
-        Chinese: {
-          title: "编码器",
-          save: "保存",
-          createFile: "创建文件",
-          createFolder: "创建文件夹",
-          run: "运行",
-          openFolder: "打开文件夹",
-        },
-        English: {
-          title: "Coder",
-          save: "Save",
-          createFile: "Create File",
-          createFolder: "Create Folder",
-          run: "Run",
-          openFolder: "Open Folder",
-        },
-        France: {
-          title: "Programmeur",
-          save: "Enregistrer",
-          createFile: "Créer un fichier",
-          createFolder: "Créer un dossier",
-          run: "Exécuter",
-          openFolder: "Ouvrir un dossier",
-        },
-        German: {
-          title: "Programmierer",
-          save: "Speichern",
-          createFile: "Datei erstellen",
-          createFolder: "Ordner erstellen",
-          run: "Ausführen",
-          openFolder: "Ordner öffnen",
-        },
-        Russian: {
-          title: "Программист",
-          save: "Сохранить",
-          createFile: "Создать файл",
-          createFolder: "Создать папку",
-          run: "Запустить",
-          openFolder: "Открыть папку",
-        },
-      };
-
-      // 初始化默认语言为 English
-      const languageSelect = document.querySelector("#selectlaunguage");
-      updateLanguage("English");
-
-      // 监听语言切换
-      languageSelect.addEventListener("change", (event) => {
-        const selectedLanguage = event.target.value;
-        updateLanguage(selectedLanguage);
-      });
-
-      // 更新页面内容的函数
-      function updateLanguage(language) {
-        const langData = translations[language];
-        if (!langData) {
-          console.warn(`语言 ${language} 不存在`);
-          return;
+        // 设置编辑器语言的函数
+        function setEditorLanguage(filename) {
+            const ext = getFileExtension(filename).slice(1); // 移除点号
+            const languageMap = {
+                'js': 'javascript',
+                'jsx': 'javascript',
+                'ts': 'typescript',
+                'tsx': 'typescript',
+                'html': 'html',
+                'htm': 'html',
+                'css': 'css',
+                'json': 'json',
+                'py': 'python',
+                'java': 'java',
+                'cpp': 'cpp',
+                'c': 'cpp',
+                'cs': 'csharp',
+                'php': 'php',
+                'rb': 'ruby',
+                'swift': 'swift',
+                'go': 'go',
+                'rs': 'rust',
+                'sql': 'sql',
+                'sh': 'shell',
+                'xml': 'xml',
+                'yaml': 'yaml',
+                'yml': 'yaml',
+                'md': 'markdown'
+            };
+            return languageMap[ext] || 'plaintext';
         }
 
-        // 更新页面标题
-        document.title = langData.title;
+        async function listFilesAndFolders(dirHandle, parentElement, indent = 0) {
+            try {
+                for await (const entry of dirHandle.values()) {
+                    const itemContainer = document.createElement('div');
+                    const itemElement = document.createElement('p');
 
-        // 更新按钮文本
-        document.querySelector("#save").textContent = langData.save;
-        document.querySelector("#createfile").textContent = langData.createFile;
-        document.querySelector("#createfolder").textContent = langData.createFolder;
-        document.querySelector("#start").textContent = langData.run;
-        document.querySelector("#openfolder").textContent = langData.openFolder;
-      }
-    });
+                    itemElement.style.marginLeft = `${indent}px`;
 
+                    if (entry.kind === 'directory') {
+                        itemElement.className = 'folder';
+                        itemElement.innerHTML = `📁 ${entry.name}`;
+                        itemContainer.appendChild(itemElement);
 
-    let createfile = document.querySelector('#createfile');
-    let modal = document.querySelector('#modal');
-    let confirmBtn = document.querySelector('#confirm');
-    let cancelBtn = document.querySelector('#cancel');
-    let filenameInput = document.querySelector('#filename');
-    let save = document.querySelector('#save');
-    let start = document.querySelector('#start');
-    let openfolder = document.querySelector('#openfolder');
-    let content = document.querySelector('.content');
-    let coder = document.querySelector('#coder');
-    let foldernameDiv = document.querySelector('#foldername');
-    let fileDiv = document.querySelector('#file');
-    let preBtn = document.querySelector('#pre');
-    let createfolder = document.querySelector('#createfolder');
+                        itemElement.addEventListener('click', async (event) => {
+                            event.stopPropagation();
+                            const contentDiv = itemContainer.querySelector('.folder-content');
 
-    let currentFolder = null;
-    let folderHistory = [];
-    let currentFileHandle = null;
+                            if (!itemElement.dataset.expanded) {
+                                const folderContent = document.createElement('div');
+                                folderContent.className = 'folder-content';
+                                itemContainer.appendChild(folderContent);
 
-    const supportedExtensions = ['.html', '.css', '.js', '.jsx', '.py', '.java', '.less', '.scss', '.ts', '.tsx'];
+                                const subDirHandle = await dirHandle.getDirectoryHandle(entry.name);
+                                await listFilesAndFolders(subDirHandle, folderContent, indent + 20);
+                                itemElement.dataset.expanded = 'true';
+                            } else {
+                                const contentDiv = itemContainer.querySelector('.folder-content');
+                                if (contentDiv) {
+                                    contentDiv.remove();
+                                }
+                                delete itemElement.dataset.expanded;
+                            }
+                        });
 
-    // 打开文件夹
-    openfolder.addEventListener('click', async function () {
-      save.style.display = 'inline';
-      start.style.display = 'inline';
-      openfolder.style.display = 'none';
+                    } else {
+                        itemElement.className = 'file';
+                        itemElement.innerHTML = `📄 ${entry.name}`;
+                        itemContainer.appendChild(itemElement);
 
-      try {
-        const folderHandle = await window.showDirectoryPicker();
-        currentFolder = folderHandle;
-        folderHistory = [folderHandle];
-        foldernameDiv.textContent = folderHandle.name;
+                        // 修改文件点击事件处理
+                        itemElement.addEventListener('click', async () => {
+                            try {
+                                const fileExtension = getFileExtension(entry.name);
+                                console.log('File extension:', fileExtension); // 调试日志
 
-        loadFolderContent(currentFolder);
-      } catch (err) {
-        console.error(err);
-        alert('无法打开文件夹。');
-      }
-    });
+                                if (SUPPORTED_FILE_TYPES.includes(fileExtension)) {
+                                    const fileHandle = await dirHandle.getFileHandle(entry.name);
+                                    const file = await fileHandle.getFile();
+                                    const content = await file.text();
 
-    // 创建文件
-    createfile.addEventListener('click', function () {
-      modal.style.display = 'flex';
-    });
+                                    // 获取编辑器实例
+                                    const editor = monaco.editor.getModels()[0];
 
-    cancelBtn.addEventListener('click', function () {
-      modal.style.display = 'none';
-      filenameInput.value = '';
-    });
+                                    // 设置编辑器内容和语言
+                                    editor.setValue(content);
+                                    monaco.editor.setModelLanguage(editor, setEditorLanguage(entry.name));
+                                    al.style.display = 'none'
+                                } else {
+                                    alert('不支持的文件类型！');
+                                }
+                            } catch (error) {
+                                console.error('Error reading file:', error);
+                                alert('读取文件时发生错误！');
+                            }
+                        });
+                    }
 
-    confirmBtn.addEventListener('click', async function () {
-      let filename = filenameInput.value.trim();
-      if (!filename) {
-        alert('请输入有效的文件名！');
-        return;
-      }
-
-      if (!currentFolder) {
-        alert('请先打开一个文件夹！');
-        return;
-      }
-
-      try {
-        // 如果是 .html 文件，写入基础 HTML 模板
-        let fileContent = '';
-        if (filename.endsWith('.html')) {
-          fileContent = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <div class=""></div>
-</body>
-</html>`;
-        }
-
-        // 创建文件
-        const newFileHandle = await currentFolder.getFileHandle(filename, { create: true });
-
-        // 写入文件内容
-        const writable = await newFileHandle.createWritable();
-        await writable.write(fileContent);
-        await writable.close();
-
-        alert(`文件 "${filename}" 已成功创建！`);
-        modal.style.display = 'none';
-        filenameInput.value = '';
-
-        loadFolderContent(currentFolder); // 刷新文件夹内容
-      } catch (err) {
-        console.error(err);
-        alert('用户取消了操作或不支持文件系统访问 API。');
-      }
-    });
-
-
-    // 创建文件夹
-    // 创建文件夹
-    createfolder.addEventListener('click', async function () {
-      try {
-        if (!currentFolder) {
-          alert('请先打开一个文件夹！');
-          return;
-        }
-
-        const folderName = prompt('请输入新文件夹的名称:');
-        if (!folderName) {
-          alert('请输入有效的文件夹名称！');
-          return;
-        }
-
-        // 在当前文件夹中创建新文件夹
-        await currentFolder.getDirectoryHandle(folderName, { create: true });
-        alert(`文件夹 "${folderName}" 已成功创建！`);
-
-        // 刷新当前文件夹内容
-        loadFolderContent(currentFolder);
-      } catch (err) {
-        console.error(err);
-        alert('用户取消了操作或创建文件夹失败。');
-      }
-    });
-
-
-
-    // 保存文件
-    save.addEventListener('click', async function () {
-      if (!currentFileHandle) {
-        alert('没有选择任何文件，无法保存！');
-        return;
-      }
-
-      try {
-        // 获取文件的可写流
-        const writable = await currentFileHandle.createWritable();
-
-        // 写入编辑器的内容
-        await writable.write(editor.getValue());
-
-        // 关闭写入流
-        await writable.close();
-
-        alert('文件已成功保存！');
-      } catch (err) {
-        console.error('文件保存失败：', err);
-
-        // 针对不同类型的错误提供具体提示
-        if (err.name === 'NotAllowedError') {
-          alert('保存失败：用户未授予写入权限。');
-        } else {
-          alert(`保存失败：${err.message}`);
-        }
-      }
-    });
-
-
-    // 运行文件
-    start.addEventListener('click', async function () {
-      if (!currentFileHandle) {
-        alert('没有选择任何文件，请先打开一个文件！');
-        return;
-      }
-
-      const fileName = currentFileHandle.name;
-      const fileExtension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
-
-      if (fileExtension === '.html') {
-        try {
-          // 获取编辑器内容
-          const fileContent = editor.getValue();
-          if (!fileContent.trim()) {
-            alert('文件内容为空，无法运行！');
-            return;
-          }
-
-          // 创建 Blob 并生成 URL
-          const blob = new Blob([fileContent], { type: 'text/html' });
-          const url = URL.createObjectURL(blob);
-
-          // 打开新窗口运行文件
-          window.open(url, '_blank');
-        } catch (err) {
-          console.error('运行文件时出错：', err);
-          alert('运行失败，请检查文件内容或重试！');
-        }
-      } else {
-        alert('只能运行 HTML 文件！');
-      }
-    });
-
-
-    // 返回上一级文件夹
-    preBtn.addEventListener('click', function () {
-      if (folderHistory.length > 1) {
-        folderHistory.pop();
-        currentFolder = folderHistory[folderHistory.length - 1];
-        foldernameDiv.textContent = currentFolder.name;
-        loadFolderContent(currentFolder);
-      }
-    });
-
-    // 加载文件夹内容
-    async function loadFolderContent(folder) {
-      fileDiv.innerHTML = '';
-      for await (const entry of folder.values()) {
-        const div = document.createElement('div');
-        div.className = 'file-item';
-        div.textContent = entry.name;
-
-        if (entry.kind === 'directory') {
-          div.addEventListener('dblclick', async function () {
-            folderHistory.push(currentFolder);
-            currentFolder = entry;
-            foldernameDiv.textContent = currentFolder.name;
-            loadFolderContent(currentFolder);
-          });
-        } else {
-          div.addEventListener('dblclick', async function () {
-            const fileName = entry.name;
-            const fileExtension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
-            overlay.style.display = 'none'
-
-            if (supportedExtensions.includes(fileExtension)) {
-              try {
-                currentFileHandle = entry; // 保存当前文件句柄
-                const file = await entry.getFile(); // 获取文件
-                const fileContent = await file.text(); // 读取文件内容
-
-                // 加载文件内容到编辑器
-                editor.setValue(fileContent);
-
-                // 根据文件扩展名设置语言
-                setEditorLanguage(fileExtension);
-              } catch (err) {
-                console.error('读取文件内容时出错：', err);
-                alert(`无法读取文件内容：${err.message}`);
-              }
-            } else {
-              alert('此文件类型不支持编辑');
+                    parentElement.appendChild(itemContainer);
+                }
+            } catch (error) {
+                console.error('Error listing directory contents:', error);
             }
-          });
         }
 
-        fileDiv.appendChild(div);
-      }
-    }
+        // 其余代码保持不变
+        const openFolderButton = document.getElementById('open-folder');
+        const closeFolderButton = document.getElementById('close-folder');
+        const createFileButton = document.getElementById('create-file');
+        const filesContainer = document.getElementById('files');
+        const folderNameElement = document.getElementById('folder-name');
 
-    alert('Please do not refresh the page and save the file before leaving!');
-  </script>
+        function clearFileList() {
+            folderNameElement.textContent = "文件管理器";
+            const existingFiles = filesContainer.querySelectorAll('div');
+            existingFiles.forEach(element => element.remove());
+
+            // 重置编辑器内容和语言
+            const editor = monaco.editor.getModels()[0];
+            editor.setValue("// Start coding here...\n");
+            monaco.editor.setModelLanguage(editor, 'javascript');
+            al.style.display = 'flex'
+        }
+
+        openFolderButton.addEventListener('click', async () => {
+            try {
+                const directoryHandle = await window.showDirectoryPicker();
+                folderNameElement.textContent = directoryHandle.name;
+                const existingFiles = filesContainer.querySelectorAll('div');
+                existingFiles.forEach(element => element.remove());
+                await listFilesAndFolders(directoryHandle, filesContainer);
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Error accessing folder:', error);
+                }
+            }
+        });
+
+        closeFolderButton.addEventListener('click', clearFileList);
+        createFileButton.addEventListener('click', async () => {
+            try {
+                const directoryHandle = await window.showDirectoryPicker();
+                const fileName = prompt("请输入文件名：");
+
+                if (fileName) {
+                    const fileHandle = await directoryHandle.getFileHandle(fileName, { create: true });
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(""); // Write an empty content for now
+                    await writable.close();
+                    alert("文件创建成功！");
+                }
+            } catch (error) {
+                console.error('Error creating file:', error);
+                alert("文件创建失败！");
+            }
+        });
+
+        const createFolderButton = document.getElementById('create-folder');
+        // 创建文件夹功能
+        createFolderButton.addEventListener('click', async () => {
+            const directoryHandle = await window.showDirectoryPicker(); // 打开文件夹选择对话框
+
+            // 让用户输入文件夹名称
+            const folderName = prompt('请输入文件夹名称:');
+            if (folderName) {
+                try {
+                    // 使用 File System Access API 创建新文件夹
+                    await directoryHandle.getDirectoryHandle(folderName, { create: true });
+                    alert('文件夹创建成功！');
+                    // 可以选择重新加载文件夹列表，更新界面
+                    clearFileList();
+                    await listFilesAndFolders(directoryHandle, filesContainer);
+                } catch (error) {
+                    console.error('创建文件夹时出错:', error);
+                    alert('文件夹创建失败！');
+                }
+            } else {
+                alert('请输入有效的文件夹名称');
+            }
+        });
+    </script>
 </body>
 </html>
