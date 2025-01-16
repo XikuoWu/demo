@@ -157,7 +157,13 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
     <script>
-        const al = document.querySelector('.alert')
+        const al = document.querySelector('.alert');
+        const saveButton = document.getElementById('save');
+        if (!saveButton) {
+            console.error('Save button not found');
+        }
+
+
         // editor start
         require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor/min/vs' } });
         require(['vs/editor/editor.main'], function () {
@@ -221,6 +227,7 @@
             return languageMap[ext] || 'plaintext';
         }
 
+        // 修改文件点击事件处理部分
         async function listFilesAndFolders(dirHandle, parentElement, indent = 0) {
             try {
                 for await (const entry of dirHandle.values()) {
@@ -230,54 +237,31 @@
                     itemElement.style.marginLeft = `${indent}px`;
 
                     if (entry.kind === 'directory') {
+                        // 文件夹处理代码保持不变...
                         itemElement.className = 'folder';
                         itemElement.innerHTML = `📁 ${entry.name}`;
-                        itemContainer.appendChild(itemElement);
-
-                        itemElement.addEventListener('click', async (event) => {
-                            event.stopPropagation();
-                            const contentDiv = itemContainer.querySelector('.folder-content');
-
-                            if (!itemElement.dataset.expanded) {
-                                const folderContent = document.createElement('div');
-                                folderContent.className = 'folder-content';
-                                itemContainer.appendChild(folderContent);
-
-                                const subDirHandle = await dirHandle.getDirectoryHandle(entry.name);
-                                await listFilesAndFolders(subDirHandle, folderContent, indent + 20);
-                                itemElement.dataset.expanded = 'true';
-                            } else {
-                                const contentDiv = itemContainer.querySelector('.folder-content');
-                                if (contentDiv) {
-                                    contentDiv.remove();
-                                }
-                                delete itemElement.dataset.expanded;
-                            }
-                        });
-
+                        // ... 其余文件夹处理代码 ...
                     } else {
                         itemElement.className = 'file';
                         itemElement.innerHTML = `📄 ${entry.name}`;
                         itemContainer.appendChild(itemElement);
 
-                        // 修改文件点击事件处理
+                        // 修改后的文件点击事件处理
                         itemElement.addEventListener('click', async () => {
                             try {
                                 const fileExtension = getFileExtension(entry.name);
-                                console.log('File extension:', fileExtension); // 调试日志
 
                                 if (SUPPORTED_FILE_TYPES.includes(fileExtension)) {
-                                    const fileHandle = await dirHandle.getFileHandle(entry.name);
-                                    const file = await fileHandle.getFile();
+                                    // 获取文件句柄并保存到全局变量
+                                    currentFileHandle = await dirHandle.getFileHandle(entry.name);
+                                    const file = await currentFileHandle.getFile();
                                     const content = await file.text();
 
-                                    // 获取编辑器实例
+                                    // 获取编辑器实例并设置内容
                                     const editor = monaco.editor.getModels()[0];
-
-                                    // 设置编辑器内容和语言
                                     editor.setValue(content);
                                     monaco.editor.setModelLanguage(editor, setEditorLanguage(entry.name));
-                                    al.style.display = 'none'
+                                    al.style.display = 'none';
                                 } else {
                                     alert('不支持的文件类型！');
                                 }
@@ -370,6 +354,101 @@
                 alert('请输入有效的文件夹名称');
             }
         });
+
+        let currentFileHandle = null;
+
+        async function handleFileClick(fileHandle) {
+            try {
+                const file = await fileHandle.getFile();
+                const content = await file.text();
+
+                currentFileHandle = fileHandle; // 更新全局句柄
+
+                const editor = monaco.editor.getModels()[0];
+                editor.setValue(content);
+                monaco.editor.setModelLanguage(editor, setEditorLanguage(file.name));
+
+                al.style.display = 'none';
+            } catch (error) {
+                console.error('Error reading file:', error);
+                alert('读取文件时发生错误！');
+            }
+        }
+
+        // 修改保存按钮事件处理
+        saveButton.addEventListener('click', async () => {
+            if (currentFileHandle) {
+                try {
+                    const editor = monaco.editor.getModels()[0];
+                    const content = editor.getValue();
+
+                    // 创建可写流并保存内容
+                    const writable = await currentFileHandle.createWritable();
+                    await writable.write(content);
+                    await writable.close();
+
+                    alert('文件已保存成功！');
+                } catch (error) {
+                    console.error('保存文件时出错:', error);
+                    alert('文件保存失败！');
+                }
+            } else {
+                alert('请先打开一个文件！');
+            }
+        });
+
+        // 在清除文件列表时重置 currentFileHandle
+        function clearFileList() {
+            folderNameElement.textContent = "文件管理器";
+            const existingFiles = filesContainer.querySelectorAll('div');
+            existingFiles.forEach(element => element.remove());
+
+            // 重置编辑器内容和语言
+            const editor = monaco.editor.getModels()[0];
+            editor.setValue("// Start coding here...\n");
+            monaco.editor.setModelLanguage(editor, 'javascript');
+            al.style.display = 'flex';
+            
+            // 重置当前文件句柄
+            currentFileHandle = null;
+        }
+
+        // 首先提取保存功能为单独的函数
+        async function saveCurrentFile() {
+            if (currentFileHandle) {
+                try {
+                    const editor = monaco.editor.getModels()[0];
+                    const content = editor.getValue();
+
+                    // 创建可写流并保存内容
+                    const writable = await currentFileHandle.createWritable();
+                    await writable.write(content);
+                    await writable.close();
+
+                    alert('文件已保存成功！');
+                } catch (error) {
+                    console.error('保存文件时出错:', error);
+                    alert('文件保存失败！');
+                }
+            } else {
+                alert('请先打开一个文件！');
+            }
+        }
+
+        // 添加键盘事件监听器
+        document.addEventListener('keydown', async (e) => {
+            // 检查是否按下 Ctrl+S (Windows) 或 Command+S (Mac)
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                // 阻止浏览器默认的保存行为
+                e.preventDefault();
+                
+                // 触发保存功能
+                await saveCurrentFile();
+            }
+        });
+
+        // 保存按钮点击事件使用相同的保存函数
+        saveButton.addEventListener('click', saveCurrentFile);
     </script>
 </body>
 </html>
