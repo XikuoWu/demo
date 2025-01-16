@@ -237,27 +237,40 @@
                     itemElement.style.marginLeft = `${indent}px`;
 
                     if (entry.kind === 'directory') {
-                        // 文件夹处理代码保持不变...
                         itemElement.className = 'folder';
                         itemElement.innerHTML = `📁 ${entry.name}`;
-                        // ... 其余文件夹处理代码 ...
+                        itemContainer.appendChild(itemElement);
+
+                        // 为文件夹添加点击事件
+                        itemElement.addEventListener('click', async () => {
+                            // 检查是否已经展开
+                            const isExpanded = itemContainer.querySelector('div');
+                            if (isExpanded) {
+                                // 如果已展开，则移除所有子元素（折叠）
+                                while (itemContainer.children.length > 1) {
+                                    itemContainer.removeChild(itemContainer.lastChild);
+                                }
+                            } else {
+                                // 如果未展开，则递归列出子文件夹的内容
+                                const subDirHandle = await dirHandle.getDirectoryHandle(entry.name);
+                                await listFilesAndFolders(subDirHandle, itemContainer, indent + 20);
+                            }
+                        });
+
                     } else {
                         itemElement.className = 'file';
                         itemElement.innerHTML = `📄 ${entry.name}`;
                         itemContainer.appendChild(itemElement);
 
-                        // 修改后的文件点击事件处理
                         itemElement.addEventListener('click', async () => {
                             try {
                                 const fileExtension = getFileExtension(entry.name);
 
                                 if (SUPPORTED_FILE_TYPES.includes(fileExtension)) {
-                                    // 获取文件句柄并保存到全局变量
                                     currentFileHandle = await dirHandle.getFileHandle(entry.name);
                                     const file = await currentFileHandle.getFile();
                                     const content = await file.text();
 
-                                    // 获取编辑器实例并设置内容
                                     const editor = monaco.editor.getModels()[0];
                                     editor.setValue(content);
                                     monaco.editor.setModelLanguage(editor, setEditorLanguage(entry.name));
