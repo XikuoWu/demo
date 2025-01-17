@@ -166,11 +166,47 @@
 
         // editor start
         require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor/min/vs' } });
+        // 配置 Monaco Editor 的语言支持
         require(['vs/editor/editor.main'], function () {
-            monaco.editor.create(document.getElementById('editor'), {
+            // 配置编辑器主题和基本选项
+            const editorOptions = {
                 value: "// Start coding here...\n",
                 language: "javascript",
-                theme: "vs-dark"
+                theme: "vs-dark",
+                fontSize: 13,
+                minimap: {
+                    enabled: true
+                },
+                renderWhitespace: 'selection',
+                lineNumbers: 'on',
+                folding: true,
+                matchBrackets: 'always',
+                autoClosingBrackets: 'always',
+                autoClosingQuotes: 'always',
+                formatOnPaste: true,
+                formatOnType: true,
+            };
+
+            // 创建编辑器实例
+            window.editor = monaco.editor.create(document.getElementById('editor'), editorOptions);
+
+            // 注册额外的语言功能
+            monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+                noSemanticValidation: false,
+                noSyntaxValidation: false
+            });
+
+            monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+                target: monaco.languages.typescript.ScriptTarget.Latest,
+                allowNonTsExtensions: true,
+                moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+                module: monaco.languages.typescript.ModuleKind.CommonJS,
+                noEmit: true,
+                esModuleInterop: true,
+                jsx: monaco.languages.typescript.JsxEmit.React,
+                reactNamespace: 'React',
+                allowJs: true,
+                typeRoots: ["node_modules/@types"]
             });
         });
         // editor end
@@ -180,12 +216,34 @@
             alert('无法打开终端');
         });
         // terminal end
-        // 添加支持的文件类型列表
+        // 扩展支持的文件类型列表
         const SUPPORTED_FILE_TYPES = [
-            '.js', '.jsx', '.ts', '.tsx', '.html', '.htm', '.css',
-            '.json', '.py', '.java', '.cpp', '.c', '.cs', '.php',
-            '.rb', '.swift', '.go', '.rs', '.sql', '.sh', '.xml',
-            '.yaml', '.yml', '.md'
+            // Web 开发
+            '.html', '.htm', '.css', '.scss', '.sass', '.less', '.js', '.jsx', '.ts', '.tsx', 
+            '.vue', '.svelte', '.json', '.xml', '.svg', '.wasm',
+            
+            // 后端语言
+            '.py', '.pys', '.pyw', '.java', '.class', '.jar', '.php', '.php3', '.php4', '.php5',
+            '.phtml', '.rb', '.rbw', '.go', '.rs', '.rlib', '.cs', '.csx', '.fs', '.fsx',
+            '.dll', '.kt', '.ktm', '.kts',
+            
+            // 系统和脚本语言
+            '.sh', '.bash', '.zsh', '.fish', '.ps1', '.psm1', '.bat', '.cmd', '.pl', '.pm',
+            
+            // 数据和配置文件
+            '.sql', '.yaml', '.yml', '.toml', '.ini', '.conf', '.env',
+            
+            // 文档和标记语言
+            '.md', '.markdown', '.txt', '.rtf', '.tex', '.rst', '.adoc',
+            
+            // 其他编程语言
+            '.lua', '.r', '.dart', '.scala', '.groovy', '.erl', '.ex', '.exs',
+            
+            // 编译语言
+            '.c', '.cpp', '.cc', '.cxx', '.h', '.hpp', '.hxx',
+            
+            // 数据交换格式
+            '.graphql', '.gql', '.proto'
         ];
 
         // 修复获取文件扩展名的函数
@@ -195,36 +253,109 @@
             return filename.slice(lastDotIndex).toLowerCase(); // 包含点号的扩展名
         }
 
-        // 设置编辑器语言的函数
+        // 更新文件扩展名到编辑器语言的映射
         function setEditorLanguage(filename) {
             const ext = getFileExtension(filename).slice(1); // 移除点号
             const languageMap = {
+                // Web 开发
+                'html': 'html',
+                'htm': 'html',
+                'css': 'css',
+                'scss': 'scss',
+                'sass': 'scss',
+                'less': 'less',
                 'js': 'javascript',
                 'jsx': 'javascript',
                 'ts': 'typescript',
                 'tsx': 'typescript',
-                'html': 'html',
-                'htm': 'html',
-                'css': 'css',
+                'vue': 'html',
+                'svelte': 'html',
                 'json': 'json',
+                'xml': 'xml',
+                'svg': 'xml',
+                'wasm': 'wasm',
+                
+                // 后端语言
                 'py': 'python',
+                'pys': 'python',
+                'pyw': 'python',
                 'java': 'java',
-                'cpp': 'cpp',
-                'c': 'cpp',
-                'cs': 'csharp',
+                'class': 'java',
+                'jar': 'java',
                 'php': 'php',
+                'php3': 'php',
+                'php4': 'php',
+                'php5': 'php',
+                'phtml': 'php',
                 'rb': 'ruby',
-                'swift': 'swift',
+                'rbw': 'ruby',
                 'go': 'go',
                 'rs': 'rust',
-                'sql': 'sql',
+                'rlib': 'rust',
+                'cs': 'csharp',
+                'csx': 'csharp',
+                'fs': 'fsharp',
+                'fsx': 'fsharp',
+                'kt': 'kotlin',
+                'ktm': 'kotlin',
+                'kts': 'kotlin',
+                
+                // 系统和脚本语言
                 'sh': 'shell',
-                'xml': 'xml',
+                'bash': 'shell',
+                'zsh': 'shell',
+                'fish': 'shell',
+                'ps1': 'powershell',
+                'psm1': 'powershell',
+                'bat': 'bat',
+                'cmd': 'bat',
+                'pl': 'perl',
+                'pm': 'perl',
+                
+                // 数据和配置文件
+                'sql': 'sql',
                 'yaml': 'yaml',
                 'yml': 'yaml',
-                'md': 'markdown'
+                'toml': 'toml',
+                'ini': 'ini',
+                'conf': 'ini',
+                'env': 'plaintext',
+                
+                // 文档和标记语言
+                'md': 'markdown',
+                'markdown': 'markdown',
+                'txt': 'plaintext',
+                'rtf': 'plaintext',
+                'tex': 'latex',
+                'rst': 'restructuredtext',
+                'adoc': 'asciidoc',
+                
+                // 其他编程语言
+                'lua': 'lua',
+                'r': 'r',
+                'dart': 'dart',
+                'scala': 'scala',
+                'groovy': 'groovy',
+                'erl': 'erlang',
+                'ex': 'elixir',
+                'exs': 'elixir',
+                
+                // 编译语言
+                'c': 'c',
+                'cpp': 'cpp',
+                'cc': 'cpp',
+                'cxx': 'cpp',
+                'h': 'cpp',
+                'hpp': 'cpp',
+                'hxx': 'cpp',
+                
+                // 数据交换格式
+                'graphql': 'graphql',
+                'gql': 'graphql',
+                'proto': 'protobuf'
             };
-            return languageMap[ext] || 'plaintext';
+            
+            return languageMap[ext] || 'plaintext'; // 默认返回 plaintext
         }
 
         // 修改文件点击事件处理部分
@@ -370,18 +501,21 @@
 
         let currentFileHandle = null;
 
+        // 更新文件处理函数
         async function handleFileClick(fileHandle) {
             try {
                 const file = await fileHandle.getFile();
                 const content = await file.text();
+                const fileExtension = getFileExtension(file.name);
 
-                currentFileHandle = fileHandle; // 更新全局句柄
-
-                const editor = monaco.editor.getModels()[0];
-                editor.setValue(content);
-                monaco.editor.setModelLanguage(editor, setEditorLanguage(file.name));
-
-                al.style.display = 'none';
+                if (SUPPORTED_FILE_TYPES.includes(fileExtension)) {
+                    currentFileHandle = fileHandle;
+                    window.editor.setValue(content);
+                    monaco.editor.setModelLanguage(window.editor.getModel(), setEditorLanguage(file.name));
+                    al.style.display = 'none';
+                } else {
+                    alert(`不支持的文件类型：${fileExtension}`);
+                }
             } catch (error) {
                 console.error('Error reading file:', error);
                 alert('读取文件时发生错误！');
