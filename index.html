@@ -1,600 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>代码编辑器</title>
-    <noscript>您需要启用JavaScript才能使用此网站</noscript>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vscode/codicons@latest/dist/codicon.css">
-    <link rel="shortcut icon" href="https://xikuowu.github.io/demo/favicon.ico" type="image/x-icon">
+    <title>Infinite 3D Road with Dynamic Speed</title>
     <style>
-        html {
-            min-width: 1000px;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: 100;
-            height: calc(100vh - 33px);
-            overflow: hidden;
-        }
-        header {
-            background-color: black;
-            color: white;
-            display: flex;
-            align-items: center;
-            border-bottom: 0.3px white solid;
-        }
-        header div {
-            display: inline-block;
-            margin-left: 20px;
-            font-size: larger;
-            cursor: pointer;
-            padding: 3px;
-        }
-        header div:hover {
-            background-color: rgb(52, 52, 52);
-        }
-        header div:first-child {
-            margin-left: 30px;
-        }
-        header span {
-            color: rgb(191, 191, 191);
-            font-size: small;
-        }
-        .container {
-            display: flex;
-        }
-        #left-bar {
-            background-color: rgb(27, 27, 27);
-            height: 100%;
-            width: 60px;
-            overflow: hidden;
-            border-right: 0.5px white solid;
-            position: absolute;
-        }
-        #left-bar img {
-            width: 45px;
-            height: 45px;
-            display: block;
-            cursor: pointer;
-            margin-left: 7px;
-            margin-top: 5px;
-        }
-        #left-bar img:first-child {
-            background-color: rgb(57, 57, 57);
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        #left-bar img:last-child {
-            margin-top: 20px;
-        }
-        #left-bar img:last-child:hover {
-            background-color: rgb(57, 57, 57);
-            border-radius: 5px;
-        }
-        .content {
-            width: calc(100% - 310px);
-            height: 100%;
-            position: absolute;
-            left: 310px;
-            top: 33px;
-        }
-        #editor-container {
-            display: flex;
-            width: 100%;
-            height: 100%;
-        }
-        #editor {
-            flex: 1;
-            height: 100vh;
-            margin-top: 0.3px;
-        }
-        #files {
-            background-color: black;
-            width: 250px;
-            height: 100%;
-            overflow-y: auto;
-            margin-left: 60px;
-            color: white;
-        }
-        #folder-name {
-            color: white;
-            text-align: center;
-            padding: 5px;
-            border-bottom: 0.1px white solid;
-        }
-        .alert {
+        body { margin: 0; }
+        canvas { display: block; }
+        #info {
             position: fixed;
-            top: 33.3px;
-            background-color: rgb(55, 55, 55);
-            height: 100%;
-            width: 100%;
-            left: 310px;
-            z-index: 100000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: Arial;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
         }
-        p {
-            margin: 0;
-            padding: 5px;
-        }
-        .file,
-        .folder {
-            margin-left: 20px;
-            cursor: pointer;
-        }
-        .folder:hover,
-        .file:hover {
-            color: lightgray;
+        #speedometer {
+            position: fixed;
+            color: white;
+            font-family: Arial;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div id="open-folder">打开文件夹</div>
-        <div id="close-folder">关闭文件夹</div>
-        <div id="create-file">创建文件</div>
-        <div id="create-folder">创建文件夹</div>
-        <div id="save">保存</div><span>(Ctrl+S)</span>
-    </header>
-    <div id="left-bar">
-        <img src="https://xikuowu.github.io/demo/folder.png" alt="">
-        <img class="terminal" src="https://xikuowu.github.io/demo/terminal.png" alt="">
-    </div>
-    <div id="files">
-        <p id="folder-name">文件管理器</p>
-    </div>
-    <div class="content">
-        <div class="editor-container">
-            <div id="editor"></div>
-        </div>
-    </div>
-    <div class="alert">
-        <img src="https://xikuowu.github.io/demo/favicon.ico" alt="">
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
+    <div id="speedometer">速度: 0 km/h</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        const al = document.querySelector('.alert');
-        const saveButton = document.getElementById('save');
-        if (!saveButton) {
-            console.error('Save button not found');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x87CEEB);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // 速度相关变量
+        let currentSpeed = 0;
+        let targetSpeed = 0;
+        const minSpeed = 0;
+        const maxSpeed = 260 / 180;  // 约 1.44 // 增加最大速度
+        const acceleration = 0.003; // 加速度
+        const deceleration = 0.001; // 减速度
+        let isAccelerating = false;
+
+        // 道路段设置
+        const roadSegments = [];
+        const segmentLength = 100;
+        const numSegments = 3;
+
+        for (let i = 0; i < numSegments; i++) {
+            const roadGeometry = new THREE.BoxGeometry(10, 0.1, segmentLength); // 10是新的道路宽度
+            const roadMaterial = new THREE.MeshPhongMaterial({ color: 0x666666 });
+            const road = new THREE.Mesh(roadGeometry, roadMaterial);
+            road.position.z = -i * segmentLength;
+            roadSegments.push(road);
+            scene.add(road);
         }
 
+        // 创建树木函数
+        function createTree(x, z) {
+            const group = new THREE.Group();
+            const trunkGeometry = new THREE.CylinderGeometry(0.2, 0.2, 2, 8);
+            const trunkMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+            const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+            trunk.position.y = 1;
+            group.add(trunk);
 
-        // editor start
-        require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor/min/vs' } });
-        // 配置 Monaco Editor 的语言支持
-        require(['vs/editor/editor.main'], function () {
-            // 配置编辑器主题和基本选项
-            const editorOptions = {
-                value: "// Start coding here...\n",
-                language: "javascript",
-                theme: "vs-dark",
-                minimap: {
-                    enabled: true
-                },
-                renderWhitespace: 'selection',
-                lineNumbers: 'on',
-                folding: true,
-                matchBrackets: 'always',
-                autoClosingBrackets: 'always',
-                autoClosingQuotes: 'always',
-                formatOnPaste: true,
-                formatOnType: true,
-            };
+            const crownGeometry = new THREE.ConeGeometry(1.5, 3, 8);
+            const crownMaterial = new THREE.MeshPhongMaterial({ color: 0x228B22 });
+            const crown = new THREE.Mesh(crownGeometry, crownMaterial);
+            crown.position.y = 3.5;
+            group.add(crown);
 
-            // 创建编辑器实例
-            window.editor = monaco.editor.create(document.getElementById('editor'), editorOptions);
-
-            // 注册额外的语言功能
-            monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
-                noSemanticValidation: false,
-                noSyntaxValidation: false
-            });
-
-            monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-                target: monaco.languages.typescript.ScriptTarget.Latest,
-                allowNonTsExtensions: true,
-                moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
-                module: monaco.languages.typescript.ModuleKind.CommonJS,
-                noEmit: true,
-                esModuleInterop: true,
-                jsx: monaco.languages.typescript.JsxEmit.React,
-                reactNamespace: 'React',
-                allowJs: true,
-                typeRoots: ["node_modules/@types"]
-            });
-        });
-        // editor end
-        // terminal start
-        const ter = document.querySelector('.terminal');
-        ter.addEventListener('click', function () {
-            alert('无法打开终端');
-        });
-        // terminal end
-        // 扩展支持的文件类型列表
-        const SUPPORTED_FILE_TYPES = [
-            // Web 开发
-            '.html', '.htm', '.css', '.scss', '.sass', '.less', '.js', '.jsx', '.ts', '.tsx', 
-            '.vue', '.svelte', '.json', '.xml', '.svg', '.wasm',
-            
-            // 后端语言
-            '.py', '.pys', '.pyw', '.java', '.class', '.jar', '.php', '.php3', '.php4', '.php5',
-            '.phtml', '.rb', '.rbw', '.go', '.rs', '.rlib', '.cs', '.csx', '.fs', '.fsx',
-            '.dll', '.kt', '.ktm', '.kts',
-            
-            // 系统和脚本语言
-            '.sh', '.bash', '.zsh', '.fish', '.ps1', '.psm1', '.bat', '.cmd', '.pl', '.pm',
-            
-            // 数据和配置文件
-            '.sql', '.yaml', '.yml', '.toml', '.ini', '.conf', '.env',
-            
-            // 文档和标记语言
-            '.md', '.markdown', '.txt', '.rtf', '.tex', '.rst', '.adoc',
-            
-            // 其他编程语言
-            '.lua', '.r', '.dart', '.scala', '.groovy', '.erl', '.ex', '.exs',
-            
-            // 编译语言
-            '.c', '.cpp', '.cc', '.cxx', '.h', '.hpp', '.hxx',
-            
-            // 数据交换格式
-            '.graphql', '.gql', '.proto'
-        ];
-
-        // 修复获取文件扩展名的函数
-        function getFileExtension(filename) {
-            const lastDotIndex = filename.lastIndexOf('.');
-            if (lastDotIndex === -1) return ''; // 如果没有扩展名
-            return filename.slice(lastDotIndex).toLowerCase(); // 包含点号的扩展名
+            group.position.set(x, 0, z);
+            return group;
         }
 
-        // 更新文件扩展名到编辑器语言的映射
-        function setEditorLanguage(filename) {
-            const ext = getFileExtension(filename).slice(1); // 移除点号
-            const languageMap = {
-                // Web 开发
-                'html': 'html',
-                'htm': 'html',
-                'css': 'css',
-                'scss': 'scss',
-                'sass': 'scss',
-                'less': 'less',
-                'js': 'javascript',
-                'jsx': 'javascript',
-                'ts': 'typescript',
-                'tsx': 'typescript',
-                'vue': 'html',
-                'svelte': 'html',
-                'json': 'json',
-                'xml': 'xml',
-                'svg': 'xml',
-                'wasm': 'wasm',
-                
-                // 后端语言
-                'py': 'python',
-                'pys': 'python',
-                'pyw': 'python',
-                'java': 'java',
-                'class': 'java',
-                'jar': 'java',
-                'php': 'php',
-                'php3': 'php',
-                'php4': 'php',
-                'php5': 'php',
-                'phtml': 'php',
-                'rb': 'ruby',
-                'rbw': 'ruby',
-                'go': 'go',
-                'rs': 'rust',
-                'rlib': 'rust',
-                'cs': 'csharp',
-                'csx': 'csharp',
-                'fs': 'fsharp',
-                'fsx': 'fsharp',
-                'kt': 'kotlin',
-                'ktm': 'kotlin',
-                'kts': 'kotlin',
-                
-                // 系统和脚本语言
-                'sh': 'shell',
-                'bash': 'shell',
-                'zsh': 'shell',
-                'fish': 'shell',
-                'ps1': 'powershell',
-                'psm1': 'powershell',
-                'bat': 'bat',
-                'cmd': 'bat',
-                'pl': 'perl',
-                'pm': 'perl',
-                
-                // 数据和配置文件
-                'sql': 'sql',
-                'yaml': 'yaml',
-                'yml': 'yaml',
-                'toml': 'toml',
-                'ini': 'ini',
-                'conf': 'ini',
-                'env': 'plaintext',
-                
-                // 文档和标记语言
-                'md': 'markdown',
-                'markdown': 'markdown',
-                'txt': 'plaintext',
-                'rtf': 'plaintext',
-                'tex': 'latex',
-                'rst': 'restructuredtext',
-                'adoc': 'asciidoc',
-                
-                // 其他编程语言
-                'lua': 'lua',
-                'r': 'r',
-                'dart': 'dart',
-                'scala': 'scala',
-                'groovy': 'groovy',
-                'erl': 'erlang',
-                'ex': 'elixir',
-                'exs': 'elixir',
-                
-                // 编译语言
-                'c': 'c',
-                'cpp': 'cpp',
-                'cc': 'cpp',
-                'cxx': 'cpp',
-                'h': 'cpp',
-                'hpp': 'cpp',
-                'hxx': 'cpp',
-                
-                // 数据交换格式
-                'graphql': 'graphql',
-                'gql': 'graphql',
-                'proto': 'protobuf'
-            };
-            
-            return languageMap[ext] || 'plaintext'; // 默认返回 plaintext
-        }
+        // 添加树木
+        const treeGroups = [];
+        const treesPerSide = 10;
+        const treeSpacing = segmentLength / treesPerSide;
 
-        // 修改文件点击事件处理部分
-        async function listFilesAndFolders(dirHandle, parentElement, indent = 0) {
-            try {
-                for await (const entry of dirHandle.values()) {
-                    const itemContainer = document.createElement('div');
-                    const itemElement = document.createElement('p');
-
-                    itemElement.style.marginLeft = `${indent}px`;
-
-                    if (entry.kind === 'directory') {
-                        itemElement.className = 'folder';
-                        itemElement.innerHTML = `📁 ${entry.name}`;
-                        itemContainer.appendChild(itemElement);
-
-                        // 为文件夹添加点击事件
-                        itemElement.addEventListener('click', async () => {
-                            // 检查是否已经展开
-                            const isExpanded = itemContainer.querySelector('div');
-                            if (isExpanded) {
-                                // 如果已展开，则移除所有子元素（折叠）
-                                while (itemContainer.children.length > 1) {
-                                    itemContainer.removeChild(itemContainer.lastChild);
-                                }
-                            } else {
-                                // 如果未展开，则递归列出子文件夹的内容
-                                const subDirHandle = await dirHandle.getDirectoryHandle(entry.name);
-                                await listFilesAndFolders(subDirHandle, itemContainer, indent + 20);
-                            }
-                        });
-
-                    } else {
-                        itemElement.className = 'file';
-                        itemElement.innerHTML = `📄 ${entry.name}`;
-                        itemContainer.appendChild(itemElement);
-
-                        itemElement.addEventListener('click', async () => {
-                            try {
-                                const fileExtension = getFileExtension(entry.name);
-
-                                if (SUPPORTED_FILE_TYPES.includes(fileExtension)) {
-                                    currentFileHandle = await dirHandle.getFileHandle(entry.name);
-                                    const file = await currentFileHandle.getFile();
-                                    const content = await file.text();
-
-                                    const editor = monaco.editor.getModels()[0];
-                                    editor.setValue(content);
-                                    monaco.editor.setModelLanguage(editor, setEditorLanguage(entry.name));
-                                    al.style.display = 'none';
-                                } else {
-                                    alert('不支持的文件类型！');
-                                }
-                            } catch (error) {
-                                console.error('Error reading file:', error);
-                                alert('读取文件时发生错误！');
-                            }
-                        });
-                    }
-
-                    parentElement.appendChild(itemContainer);
-                }
-            } catch (error) {
-                console.error('Error listing directory contents:', error);
+        for (let i = 0; i < numSegments; i++) {
+            const groupForSegment = new THREE.Group();
+            for (let j = 0; j < treesPerSide; j++) {
+                const zPos = -i * segmentLength - j * treeSpacing;
+                const leftTree = createTree(-5, zPos);
+                const rightTree = createTree(5, zPos);
+                groupForSegment.add(leftTree, rightTree);
             }
+            treeGroups.push(groupForSegment);
+            scene.add(groupForSegment);
         }
 
-        // 其余代码保持不变
-        const openFolderButton = document.getElementById('open-folder');
-        const closeFolderButton = document.getElementById('close-folder');
-        const createFileButton = document.getElementById('create-file');
-        const filesContainer = document.getElementById('files');
-        const folderNameElement = document.getElementById('folder-name');
+        // 光照
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
+        directionalLight.position.set(5, 10, 5);
+        scene.add(ambientLight, directionalLight);
 
-        function clearFileList() {
-            folderNameElement.textContent = "文件管理器";
-            const existingFiles = filesContainer.querySelectorAll('div');
-            existingFiles.forEach(element => element.remove());
+        // 相机设置
+        camera.position.set(0, 2, 5);
+        camera.lookAt(0, 0, -10);
 
-            // 重置编辑器内容和语言
-            const editor = monaco.editor.getModels()[0];
-            editor.setValue("// Start coding here...\n");
-            monaco.editor.setModelLanguage(editor, 'javascript');
-            al.style.display = 'flex'
-        }
-
-        openFolderButton.addEventListener('click', async () => {
-            try {
-                const directoryHandle = await window.showDirectoryPicker();
-                folderNameElement.textContent = directoryHandle.name;
-                const existingFiles = filesContainer.querySelectorAll('div');
-                existingFiles.forEach(element => element.remove());
-                await listFilesAndFolders(directoryHandle, filesContainer);
-            } catch (error) {
-                if (error.name !== 'AbortError') {
-                    console.error('Error accessing folder:', error);
-                }
+        // 键盘控制
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowUp') {
+                isAccelerating = true;
+                targetSpeed = -maxSpeed;  // 负值表示向前
+            } else if (event.key === 'ArrowDown') {
+                isAccelerating = true;
+                targetSpeed = maxSpeed;  // 正值表示向后
             }
         });
 
-        closeFolderButton.addEventListener('click', clearFileList);
-        createFileButton.addEventListener('click', async () => {
-            try {
-                const directoryHandle = await window.showDirectoryPicker();
-                const fileName = prompt("请输入文件名：");
-
-                if (fileName) {
-                    const fileHandle = await directoryHandle.getFileHandle(fileName, { create: true });
-                    const writable = await fileHandle.createWritable();
-                    await writable.write(""); // Write an empty content for now
-                    await writable.close();
-                    alert("文件创建成功！");
-                }
-            } catch (error) {
-                console.error('Error creating file:', error);
-                alert("文件创建失败！");
+        document.addEventListener('keyup', (event) => {
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                isAccelerating = false;
+                targetSpeed = 0;
             }
         });
 
-        const createFolderButton = document.getElementById('create-folder');
-        // 创建文件夹功能
-        createFolderButton.addEventListener('click', async () => {
-            const directoryHandle = await window.showDirectoryPicker(); // 打开文件夹选择对话框
+        // 速度显示更新
+        const speedometer = document.getElementById('speedometer');
+        function updateSpeedometer(speed) {
+            const speedKmh = Math.abs(speed * 180).toFixed(0);
+            speedometer.textContent = `速度: ${speedKmh} km/h`;
+            // 动态调整速度显示器的大小
+            const fontSize = Math.max(18, Math.min(36, 18 + Math.abs(speed) * 15));
+            speedometer.style.fontSize = `${fontSize}px`;
+        }
 
-            // 让用户输入文件夹名称
-            const folderName = prompt('请输入文件夹名称:');
-            if (folderName) {
-                try {
-                    // 使用 File System Access API 创建新文件夹
-                    await directoryHandle.getDirectoryHandle(folderName, { create: true });
-                    alert('文件夹创建成功！');
-                    // 可以选择重新加载文件夹列表，更新界面
-                    clearFileList();
-                    await listFilesAndFolders(directoryHandle, filesContainer);
-                } catch (error) {
-                    console.error('创建文件夹时出错:', error);
-                    alert('文件夹创建失败！');
+        // 动画循环
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // 处理加速和减速
+            if (isAccelerating) {
+                if (Math.abs(currentSpeed - targetSpeed) > acceleration) {
+                    currentSpeed += (targetSpeed - currentSpeed) > 0 ? acceleration : -acceleration;
                 }
             } else {
-                alert('请输入有效的文件夹名称');
-            }
-        });
-
-        let currentFileHandle = null;
-
-        // 更新文件处理函数
-        async function handleFileClick(fileHandle) {
-            try {
-                const file = await fileHandle.getFile();
-                const content = await file.text();
-                const fileExtension = getFileExtension(file.name);
-
-                if (SUPPORTED_FILE_TYPES.includes(fileExtension)) {
-                    currentFileHandle = fileHandle;
-                    window.editor.setValue(content);
-                    monaco.editor.setModelLanguage(window.editor.getModel(), setEditorLanguage(file.name));
-                    al.style.display = 'none';
+                if (Math.abs(currentSpeed) > deceleration) {
+                    currentSpeed += currentSpeed > 0 ? -deceleration : deceleration;
                 } else {
-                    alert(`不支持的文件类型：${fileExtension}`);
+                    currentSpeed = 0;
                 }
-            } catch (error) {
-                console.error('Error reading file:', error);
-                alert('读取文件时发生错误！');
             }
+
+            // 更新相机位置
+            camera.position.z += currentSpeed;
+            camera.lookAt(0, 0, camera.position.z - 10);
+
+            // 更新速度显示
+            updateSpeedometer(currentSpeed);
+
+            // 处理道路和树木的循环
+            roadSegments.forEach((segment, index) => {
+                if (camera.position.z < segment.position.z - segmentLength) {
+                    segment.position.z -= numSegments * segmentLength;
+                    treeGroups[index].position.z -= numSegments * segmentLength;
+                }
+                if (camera.position.z > segment.position.z + segmentLength) {
+                    segment.position.z += numSegments * segmentLength;
+                    treeGroups[index].position.z += numSegments * segmentLength;
+                }
+            });
+
+            renderer.render(scene, camera);
         }
 
-        // 修改保存按钮事件处理
-        saveButton.addEventListener('click', async () => {
-            if (currentFileHandle) {
-                try {
-                    const editor = monaco.editor.getModels()[0];
-                    const content = editor.getValue();
+        // 窗口大小调整
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
 
-                    // 创建可写流并保存内容
-                    const writable = await currentFileHandle.createWritable();
-                    await writable.write(content);
-                    await writable.close();
-
-                    alert('文件已保存成功！');
-                } catch (error) {
-                    console.error('保存文件时出错:', error);
-                    alert('文件保存失败！');
-                }
-            } else {
-                alert('请先打开一个文件！');
+        document.addEventListener('keydown', (event) => {
+            if (event.key === ' ') {
+                let stopInterval = setInterval(() => {
+                    if (Math.abs(currentSpeed) > 0.01) {
+                        currentSpeed *= 0.9; // 逐步减少速度
+                    } else {
+                        currentSpeed = 0;
+                        clearInterval(stopInterval);
+                    }
+                }, 100); // 每 100ms 减速
             }
         });
 
-        // 在清除文件列表时重置 currentFileHandle
-        function clearFileList() {
-            folderNameElement.textContent = "文件管理器";
-            const existingFiles = filesContainer.querySelectorAll('div');
-            existingFiles.forEach(element => element.remove());
 
-            // 重置编辑器内容和语言
-            const editor = monaco.editor.getModels()[0];
-            editor.setValue("// Start coding here...\n");
-            monaco.editor.setModelLanguage(editor, 'javascript');
-            al.style.display = 'flex';
-            
-            // 重置当前文件句柄
-            currentFileHandle = null;
-        }
-
-        // 首先提取保存功能为单独的函数
-        async function saveCurrentFile() {
-            if (currentFileHandle) {
-                try {
-                    const editor = monaco.editor.getModels()[0];
-                    const content = editor.getValue();
-
-                    // 创建可写流并保存内容
-                    const writable = await currentFileHandle.createWritable();
-                    await writable.write(content);
-                    await writable.close();
-
-                    alert('文件已保存成功！');
-                } catch (error) {
-                    console.error('保存文件时出错:', error);
-                    alert('文件保存失败！');
-                }
-            } else {
-                alert('请先打开一个文件！');
-            }
-        }
-
-        // 添加键盘事件监听器
-        document.addEventListener('keydown', async (e) => {
-            // 检查是否按下 Ctrl+S (Windows) 或 Command+S (Mac)
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-                // 阻止浏览器默认的保存行为
-                e.preventDefault();
-                
-                // 触发保存功能
-                await saveCurrentFile();
-            }
-        });
-
-        // 保存按钮点击事件使用相同的保存函数
-        saveButton.addEventListener('click', saveCurrentFile);
+        animate();
     </script>
 </body>
 </html>
