@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Buses</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./index.css">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .header-outer {
+            display: flex;
+            justify-content: center;
+        }
+
+        header {
+            width: 90%;
+            height: 70px;
+            background-color: deepskyblue;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+
+        .logo {
+            height: 55px;
+            margin-left: 34px;
+        }
+
+        header p {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: larger;
+        }
+
+        .header-inner a {
+            margin: 15px;
+            font-size: larger;
+            text-decoration: none;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .main-navigation:hover {
+            color: rgb(98, 98, 98);
+        }
+
+        .body-container {
+            color: white;
+            font-size: larger;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: bold;
+            top: 480px;
+            position: fixed;
+            left: 210px;
+        }
+
+        .explore-buses {
+            text-decoration: none;
+            font-size: larger;
+            background-color: deepskyblue;
+            padding: 15px;
+            color: white;
+            border-radius: 7px;
+        }
+
+        .explore-buses:hover {
+            background-color: rgb(0, 136, 255);
+        }
+        .navigation-container {
+            display: flex;
+        }
+
+        .logo-container {
+            display: flex;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            background-color: transparent;
+        }
+        /*  */
+        .h1container {
+            display: flex;
+            justify-content: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .main-container {
+            display: flex;
+            justify-content: center;
+        }
+        .main {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 10px;
+            border-top-left-radius: 13px;
+            border-top-right-radius: 13px;
+        }
+        .bus {
+            width: calc(50% - 10px);
+            height: 400px;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            cursor: pointer;
+            border: 0.3px black solid;
+        }
+        /* 🟦 响应式布局 - 小于850px时每行显示1个bus */
+        @media screen and (max-width: 850px) {
+            .bus {
+                width: 100%;
+            }
+        }
+        .bus-img {
+            width: 60%;
+        }
+        .bus a {
+            display: flex;
+            justify-content: center;
+        }
+        .bus h4 {
+            text-align: center;
+        }
+        .stock {
+            color: rgb(0, 180, 0);
+            margin-top: -11px;
+        }
+        .buy-btn {
+            text-decoration: none;
+            margin-top: -11px;
+            color: black;
+            font-size: larger;
+            border: 0.3px black solid;
+            padding: 3px;
+            border-radius: 5px;
+            width: 60%;
+        }
+        .buy-btn-container {
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .buy-btn:hover {
+            background-color: rgb(227, 227, 227);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-outer">
+        <header>
+            <div class="logo-container">
+                <a href="./index.html"><img src="./favicon.ico" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala Buses</p>
+            </div>
+
+            <div class="navigation-container" id="navContainer">
+                <div class="explore header-inner"><a class="main-navigation" href="./explore.html">Explore Buses</a></div>
+                <div class="buy header-inner"><a class="main-navigation" href="./Buy.html">Buy Buses</a></div>
+                <div class="show header-inner"><a class="main-navigation" href="./shows.html">Bus Shows</a></div>
+                <div class="cool header-inner"><a class="main-navigation" href="./cool.html">New Buses</a></div>
+                <div class="privacy header-inner"><a class="main-navigation" href="./polocy.html">Privacy Polocy</a></div>
+            </div>
+        </header>
+    </div>
+    <div class="h1container">
+        <h1>Our Bus Models</h1>
+    </div>
+    <div class="main-container">
+        <div class="main">
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const links = [
+            { text: "Explore Buses", url: "./explore.html" },
+            { text: "Buy Buses", url: "./Buy.html" },
+            { text: "Bus Shows", url: "./shows.html" },
+            { text: "New Buses", url: "./cool.html" },
+            { text: "Privacy Polocy", url: "./polocy.html" }
+        ];
+
+        function renderNavigation() {
+            const navContainer = document.getElementById('navContainer');
+            navContainer.innerHTML = ''; // 清空
+
+            if (window.innerWidth < 1070) {
+                const select = document.createElement('select');
+                select.onchange = (e) => {
+                    const selectedUrl = e.target.value;
+                    if (selectedUrl) {
+                        window.open(selectedUrl, "_blank");
+                        // 重置为默认项，防止重复点击无效
+                        e.target.selectedIndex = 0;
+                    }
+                };
+
+                select.style.fontSize = '16px';
+                select.style.marginRight = '20px';
+
+                // 默认占位项
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = 'Choose a page';
+                placeholder.disabled = true;
+                placeholder.selected = true;
+                select.appendChild(placeholder);
+
+                links.forEach(link => {
+                    const option = document.createElement('option');
+                    option.value = link.url;
+                    option.textContent = link.text;
+                    select.appendChild(option);
+                });
+
+                navContainer.appendChild(select);
+            } else {
+                links.forEach(link => {
+                    const div = document.createElement('div');
+                    div.className = 'header-inner';
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.textContent = link.text;
+                    a.className = 'main-navigation';
+                    div.appendChild(a);
+                    navContainer.appendChild(div);
+                });
+            }
+        }
+
+        // 初始加载
+        renderNavigation();
+        // 监听窗口大小变化
+        window.addEventListener('resize', renderNavigation);
+    </script>
+</body>
+</html>

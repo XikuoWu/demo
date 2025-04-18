@@ -1,27 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koala Buses</title>
+    <title>New Buses</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./index.css">
     <style>
         body {
             padding: 0;
             margin: 0;
-            overflow: hidden;
-        }
-
-        .video-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
         }
 
         .header-outer {
@@ -85,49 +73,6 @@
         .explore-buses:hover {
             background-color: rgb(0, 136, 255);
         }
-
-        .buy-buses {
-            text-decoration: none;
-            font-size: larger;
-            background-color: transparent;
-            padding: 15px;
-            color: white;
-            border-radius: 7px;
-            border: 0.3px white solid;
-            margin-left: 12px;
-        }
-
-        .buy-buses:hover {
-            color: rgb(187, 187, 187);
-            border: 0.3px rgb(187, 187, 187) solid;
-        }
-
-        .btn-container {
-            display: flex;
-            align-items: center;
-            position: fixed;
-            bottom: 200px;
-        }
-
-        footer {
-            background-color: deepskyblue;
-            height: 125px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        footer p {
-            white-space: pre;
-            font-size: larger;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        }
-
         .navigation-container {
             display: flex;
         }
@@ -142,15 +87,70 @@
             border: none;
             background-color: transparent;
         }
+        .main-container {
+            display: flex;
+            justify-content: center;
+        }
+        .main {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 10px;
+            border-top-left-radius: 13px;
+            border-top-right-radius: 13px;
+        }
+        .bus {
+            width: calc(50% - 10px);
+            height: 400px;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            cursor: pointer;
+            border: 0.3px black solid;
+        }
+        /* 🟦 响应式布局 - 小于850px时每行显示1个bus */
+        @media screen and (max-width: 850px) {
+            .bus {
+                width: 100%;
+            }
+        }
+        .bus-img {
+            width: 60%;
+        }
+        .bus a {
+            display: flex;
+            justify-content: center;
+        }
+        .bus h4 {
+            text-align: center;
+        }
+        .stock {
+            color: rgb(0, 180, 0);
+            margin-top: -11px;
+        }
+        .buy-btn {
+            text-decoration: none;
+            margin-top: -11px;
+            color: black;
+            font-size: larger;
+            border: 0.3px black solid;
+            padding: 3px;
+            border-radius: 5px;
+            width: 60%;
+        }
+        .buy-btn-container {
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .buy-btn:hover {
+            background-color: rgb(227, 227, 227);
+            cursor: pointer;
+        }
     </style>
 </head>
-
 <body>
-
-    <video class="video-bg" autoplay muted loop>
-        <source src="./background-video.mp4" type="video/mp4">
-    </video>
-
     <div class="header-outer">
         <header>
             <div class="logo-container">
@@ -167,20 +167,50 @@
         </header>
     </div>
 
-    <div class="body-container">
-        <div class="btn-container">
-            <a class="explore-buses" href="./explore.html">Explore Buses</a>
-            <a class="buy-buses" href="./Buy.html">Buy Buses</a>
+    <div class="main-container">
+        <div class="main">
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <a href="./img/novabuslfscng.jpg"><img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng"></a>
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
         </div>
     </div>
-
-    <footer>
-        <p>
-            Email: wuxikuo2@gmail.com
-
-            Phone: 8118615226576351
-        </p>
-    </footer>
     <script>
         const links = [
             { text: "Explore Buses", url: "./explore.html" },
@@ -243,7 +273,5 @@
         // 监听窗口大小变化
         window.addEventListener('resize', renderNavigation);
     </script>
-
 </body>
-
 </html>
