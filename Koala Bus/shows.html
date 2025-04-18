@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Shows</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./index.css">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .header-outer {
+            display: flex;
+            justify-content: center;
+        }
+
+        header {
+            width: 90%;
+            height: 70px;
+            background-color: deepskyblue;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+
+        .logo {
+            height: 55px;
+            margin-left: 34px;
+        }
+
+        header p {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: larger;
+        }
+
+        .header-inner a {
+            margin: 15px;
+            font-size: larger;
+            text-decoration: none;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .main-navigation:hover {
+            color: rgb(98, 98, 98);
+        }
+
+        .body-container {
+            color: white;
+            font-size: larger;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: bold;
+            top: 480px;
+            position: fixed;
+            left: 210px;
+        }
+
+        .explore-buses {
+            text-decoration: none;
+            font-size: larger;
+            background-color: deepskyblue;
+            padding: 15px;
+            color: white;
+            border-radius: 7px;
+        }
+
+        .explore-buses:hover {
+            background-color: rgb(0, 136, 255);
+        }
+        .navigation-container {
+            display: flex;
+        }
+
+        .logo-container {
+            display: flex;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            background-color: transparent;
+        }
+        .iframe-container {
+            width: 100%;
+            height: 100vh;
+            margin-top: 20px;
+        }
+        .iframe-container div {
+            display: flex;
+            justify-content: center;
+            height: 100%;
+        }
+        .iframe-container iframe {
+            width: 78%;
+            height: 80%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-outer">
+        <header>
+            <div class="logo-container">
+                <a href="./index.html"><img src="./favicon.ico" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala Buses</p>
+            </div>
+
+            <div class="navigation-container" id="navContainer">
+                <div class="explore header-inner"><a class="main-navigation" href="./explore.html">Explore Buses</a></div>
+                <div class="buy header-inner"><a class="main-navigation" href="./Buy.html">Buy Buses</a></div>
+                <div class="show header-inner"><a class="main-navigation" href="./shows.html">Bus Shows</a></div>
+                <div class="cool header-inner"><a class="main-navigation" href="./cool.html">New Buses</a></div>
+                <div class="privacy header-inner"><a class="main-navigation" href="./polocy.html">Privacy Polocy</a></div>
+            </div>
+        </header>
+    </div>
+
+    <div class="iframe-container">
+        <div>
+            <iframe src="https://www.youtube.com/embed/UQPjfpq-rDs?si=GWhW1xVlgyeFcSKx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div>
+            <iframe src="https://www.youtube.com/embed/pL7wr-RC-Y4?si=EP-R8ayBaZgbs1ZA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div>
+            <iframe src="https://www.youtube.com/embed/hjqY1Oxjbcc?si=7uUWtNqEOHYPQ9_H" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div>
+            <iframe src="https://www.youtube.com/embed/K58KErSDXB0?si=wt3kg_GOO9eHuGff" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div>
+            <iframe src="https://www.youtube.com/embed/BsWPmhbG704?si=ziqcK1YtPjqfGP4Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div>
+            <iframe src="https://www.youtube.com/embed/NJRW7FHxtlA?si=tGKjVzEurEBs5LKG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+    <script>
+        const links = [
+            { text: "Explore Buses", url: "./explore.html" },
+            { text: "Buy Buses", url: "./Buy.html" },
+            { text: "Bus Shows", url: "./shows.html" },
+            { text: "New Buses", url: "./cool.html" },
+            { text: "Privacy Polocy", url: "./polocy.html" }
+        ];
+
+        function renderNavigation() {
+            const navContainer = document.getElementById('navContainer');
+            navContainer.innerHTML = ''; // 清空
+
+            if (window.innerWidth < 1070) {
+                const select = document.createElement('select');
+                select.onchange = (e) => {
+                    const selectedUrl = e.target.value;
+                    if (selectedUrl) {
+                        window.open(selectedUrl, "_blank");
+                        // 重置为默认项，防止重复点击无效
+                        e.target.selectedIndex = 0;
+                    }
+                };
+
+                select.style.fontSize = '16px';
+                select.style.marginRight = '20px';
+
+                // 默认占位项
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = 'Choose a page';
+                placeholder.disabled = true;
+                placeholder.selected = true;
+                select.appendChild(placeholder);
+
+                links.forEach(link => {
+                    const option = document.createElement('option');
+                    option.value = link.url;
+                    option.textContent = link.text;
+                    select.appendChild(option);
+                });
+
+                navContainer.appendChild(select);
+            } else {
+                links.forEach(link => {
+                    const div = document.createElement('div');
+                    div.className = 'header-inner';
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.textContent = link.text;
+                    a.className = 'main-navigation';
+                    div.appendChild(a);
+                    navContainer.appendChild(div);
+                });
+            }
+        }
+
+        // 初始加载
+        renderNavigation();
+        // 监听窗口大小变化
+        window.addEventListener('resize', renderNavigation);
+    </script>
+</body>
+</html>
