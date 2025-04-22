@@ -92,52 +92,59 @@
             height: 100%;
             margin-top: 70px;
         }
-        h2 {
+        form {
+            width: 100%;
             display: flex;
-            justify-content: center;
-            margin: 10px;
-        }
-        .input {
-            display: flex;
-            justify-content: center;
-            margin: 10px;
-        }
-        .input input {
-            outline: none;
-            padding: 7px;
+            flex-direction: column;
+            align-items: center; /* 横向居中 */
+            justify-content: center; /* 纵向居中（可选） */
+            margin-top: 40px; /* 可根据需要调节间距 */
             font-size: larger;
         }
-        .textarea {
-            display: flex;
-            justify-content: center;
-            margin: 10px;
-        }
-        .textarea textarea {
+
+        form label,
+        form input,
+        form textarea {
+            width: 300px; /* 或根据你需要的宽度 */
+            text-align: left; /* 保证 label 和输入框内容对齐 */
             resize: none;
-            width: 80%;
-            height: 400px;
             padding: 7px;
-            outline: none;
-            font-size: larger;
         }
-        .confirm {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        .confirm-btn {
-            font-size: larger;
-            background-color: white;
+        form button {
             border: 0.3px black solid;
-            border-radius: 5px;
+            background-color: white;
             padding: 5px;
+            font-size: larger;
+            border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
         }
-        .confirm-btn:hover {
-            background-color: rgb(229, 229, 229);
+        form button:hover {
+            background-color: rgb(234, 234, 234);
+        }
+        h1 {
+            text-align: center;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
     </style>
+
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function(){
+        emailjs.init("3biYH7edG-jbcFCMZ"); // 你自己的 EmailJS User ID
+      })();
+      
+      function sendEmail(e) {
+        e.preventDefault(); // 阻止表单提交刷新
+  
+        emailjs.sendForm('service_g7bpf3n', 'template_6nfyxmh', e.target)
+          .then(() => {
+            alert("Request sent successfully!");
+            e.target.reset(); // 清空表单
+          }, (error) => {
+            alert("Failed to send: " + JSON.stringify(error));
+          });
+      }
+    </script>
 </head>
 <body>
     <div class="header-outer">
@@ -155,20 +162,23 @@
             </div>
         </header>
     </div>
-    <form action="">
-        <div class="main-container">
-            <h2>Sending Email Address(Gmail)</h2>
-            <div class="input">
-                <input required type="text" placeholder="example@gmail.com">
-            </div>
-            <div class="textarea">
-                <textarea required name="" id="" placeholder="What Bus Model You Want to Buy? How Many Do You Want? What Color Do You Want? What Questions Do You Have?"></textarea>
-            </div>
-            <div class="confirm">
-                <button class="confirm-btn">Send Request</button>
-            </div>
+    <h1>Send Buying Request</h1>
+    <!-- main -->
+    <form onsubmit="sendEmail(event)">
+        <div class="name">
+            <label for="name">Your Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
         </div>
+    
+        <label for="email">Your Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+    
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="5" required></textarea><br><br>
+    
+        <button type="submit">Send Request</button>
     </form>
+    
     <script>
         const links = [
             { text: "Explore Buses", url: "./explore.html" },
