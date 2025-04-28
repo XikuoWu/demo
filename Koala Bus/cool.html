@@ -215,6 +215,25 @@
             </div>
         </div>
     </div>
+    <!-- 半透明背景 -->
+    <div id="modalBackdrop" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;"></div>
+    <!-- bus modal -->
+    <div id="busModal" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%) scale(0.7); width:80%; background:white; border-radius:10px; padding:20px; box-shadow:0px 0px 20px rgba(0,0,0,0.5); z-index:1000; transition:transform 0.3s ease;">
+        <span id="closeModal" style="float:right; font-size:24px; cursor:pointer;">&times;</span>
+        <div id="modalContent" style="text-align:center;">
+            <img id="modalImg" src="" alt="" style="width:60%; border-radius:10px;">
+            <h2 id="modalTitle"></h2>
+            <p id="modalText" style="padding:10px;"></p>
+            <a href="./Buy.html"><button style="padding: 5px; padding-left: 7px; padding-right: 7px; background-color: white; border: 0.3px black solid; border-radius: 5px; font-size: larger; cursor: pointer; position: absolute; right: 15px; bottom: 15px;">Buy</button></a>
+
+            <div id="modalSpecs" style="text-align:left; margin-top:20px;">
+                <p><strong>马力：</strong> <span id="specHorsepower"></span></p>
+                <p><strong>座位数：</strong> <span id="specSeats"></span></p>
+                <p><strong>能源类型：</strong> <span id="specEnergy"></span></p>
+            </div>
+        </div>
+    </div>
+    <!-- javascript -->
     <script>
         const links = [
             { text: "Explore Buses", url: "./explore.html" },
@@ -276,6 +295,77 @@
         renderNavigation();
         // 监听窗口大小变化
         window.addEventListener('resize', renderNavigation);
+
+        // bus modal
+        // bus 信息
+        const busInfo = {
+            novabuslfscng: {
+                title: "Nova Bus LFS CNG",
+                text: "Nova Bus LFS CNG 是一款环保的天然气公交车，拥有超低排放，适合未来城市。",
+                horsepower: "320 HP",
+                seats: "40",
+                energy: "Compressed Natural Gas (CNG)"
+            },
+            novabuslfse: {
+                title: "Nova Bus LFSe+",
+                text: "Nova Bus LFSe+ 是一款零排放纯电动公交车，续航长，乘坐体验舒适。",
+                horsepower: "335 HP (equivalent)",
+                seats: "38",
+                energy: "Electric"
+            },
+            novabuslfsartic: {
+                title: "Nova Bus LFS Artic",
+                text: "Nova Bus LFS Artic 是一款环保的天然气铰接公交车，拥有强大的载客容量，适合BRT系统。",
+                horsepower: "575 HP",
+                seats: "62",
+                energy: "Compressed Natual Gas (CNG)"
+            },
+            newflyerxn60: {
+                title: "New Flyer XN60",
+                text: "New Flyer XN60 是一款环保的天然气铰接公交车，拥有强大的载客能力，适合BRT系统。",
+                horsepower: "585 HP",
+                seats: "62",
+                energy: "Compressed Natual Gas (CNG)"
+            },
+        };
+
+        const busModal = document.getElementById('busModal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+
+        document.querySelectorAll('.bus-img').forEach(img => {
+            img.addEventListener('click', (e) => {
+                const busId = e.target.id;
+                if (busInfo[busId]) {
+                    document.getElementById('modalImg').src = e.target.src;
+                    document.getElementById('modalTitle').textContent = busInfo[busId].title;
+                    document.getElementById('modalText').textContent = busInfo[busId].text;
+                    
+                    // 新加的部分
+                    document.getElementById('specHorsepower').textContent = busInfo[busId].horsepower;
+                    document.getElementById('specSeats').textContent = busInfo[busId].seats;
+                    document.getElementById('specEnergy').textContent = busInfo[busId].energy;
+
+                    modalBackdrop.style.display = 'block';
+                    busModal.style.display = 'block';
+                    setTimeout(() => {
+                        busModal.style.transform = 'translateX(-50%) scale(1)';
+                    }, 10);
+                }
+            });
+        });
+
+
+        function closeModal() {
+            // 缩小动画
+            busModal.style.transform = 'translateX(-50%) scale(0.7)';
+            setTimeout(() => {
+                busModal.style.display = 'none';
+                modalBackdrop.style.display = 'none';
+            }, 300); // 等动画完再关闭
+        }
+
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', closeModal);
     </script>
 </body>
 </html>
