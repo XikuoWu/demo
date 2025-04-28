@@ -164,7 +164,7 @@
     <div class="header-outer">
         <header>
             <div class="logo-container">
-                <a href="./index.html"><img src="./favicon.ico" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala Buses</p>
+                <a href="./index.html"><img src="./favicon.ico" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala Bus</p>
             </div>
 
             <div class="navigation-container" id="navContainer">
@@ -237,7 +237,7 @@
                 <div>
                     <img src="./img/novabuslfx.jpg" alt="" class="bus-img" id="novabuslfx">
                 </div>
-                <h4>Nova Bus LFX</h4>
+                <h4>Nova Bus LFX Diesel</h4>
                 <h4 class="stock">In Stock</h4>
                 <div class="buy-btn-container">
                     <a class="buy-btn" href="./Buy.html">Buy</a>
@@ -685,6 +685,25 @@
             </div>
         </div>
     </div>
+
+    <!-- 半透明背景 -->
+    <div id="modalBackdrop" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;"></div>
+    <!-- bus modal -->
+    <div id="busModal" style="display:none; position:fixed; top:2%; left:50%; transform:translateX(-50%) scale(0.7); width:80%; background:white; border-radius:10px; padding:20px; box-shadow:0px 0px 20px rgba(0,0,0,0.5); z-index:1000; transition:transform 0.3s ease;">
+        <span id="closeModal" style="float:right; font-size:24px; cursor:pointer;">&times;</span>
+        <div id="modalContent" style="text-align:center;">
+            <img id="modalImg" src="" alt="" style="width:60%; border-radius:10px;">
+            <h2 id="modalTitle"></h2>
+            <p id="modalText" style="padding:10px;"></p>
+            <a href="./Buy.html"><button style="padding: 5px; padding-left: 7px; padding-right: 7px; background-color: white; border: 0.3px black solid; border-radius: 5px; font-size: larger; cursor: pointer; position: absolute; right: 15px; bottom: 15px;">Buy</button></a>
+
+            <div id="modalSpecs" style="text-align:left; margin-top:20px;">
+                <p><strong>马力：</strong> <span id="specHorsepower"></span></p>
+                <p><strong>座位数：</strong> <span id="specSeats"></span></p>
+                <p><strong>能源类型：</strong> <span id="specEnergy"></span></p>
+            </div>
+        </div>
+    </div>
     <!-- javascript -->
     <script>
         const links = [
@@ -747,6 +766,210 @@
         renderNavigation();
         // 监听窗口大小变化
         window.addEventListener('resize', renderNavigation);
+
+        // bus modal
+        // bus 信息
+        const busInfo = {
+            novabuslfscng: {
+                title: "Nova Bus LFS CNG",
+                text: "Nova Bus LFS CNG 是一款环保的天然气公交车，拥有超低排放，适合未来城市。",
+                horsepower: "320 HP",
+                seats: "40",
+                energy: "Compressed Natural Gas (CNG)"
+            },
+            novabuslfs: {
+                title: "Nova Bus LFS Diesel",
+                text: "Nova Bus LFS Diesel 拥有卓越的柴油动力技术，强劲耐用，适合各种路况。",
+                horsepower: "330 HP",
+                seats: "40",
+                energy: "Diesel"
+            },
+            novabuslfse: {
+                title: "Nova Bus LFSe+",
+                text: "Nova Bus LFSe+ 是一款零排放纯电动公交车，续航长，乘坐体验舒适。",
+                horsepower: "335 HP (equivalent)",
+                seats: "38",
+                energy: "Electric"
+            },
+            novabuslfsartic: {
+                title: "Nova Bus LFS Artic",
+                text: "Nova Bus LFS Artic 是一款环保的天然气铰接公交车，拥有强大的载客容量，适合BRT系统。",
+                horsepower: "575 HP",
+                seats: "62",
+                energy: "Compressed Natual Gas (CNG)"
+            },
+            novabuslfshev: {
+                title: "Nova Bus LFS HEV",
+                text: "Nova Bus LFS HEV 是一款油电混合动力公交车，拥有超低排放，适合未来城市。",
+                horsepower: "337 HP",
+                seats: "40",
+                energy: "Diesel and Electric"
+            },
+            novabuslfx: {
+                title: "Nova Bus LFX Diesel",
+                text: "Nova Bus LFX Diesel 是一款柴油动力的铰接公交车，拥有卓越的柴油动力技术，强劲耐用，适合各种路况。",
+                horsepower: "593 HP",
+                seats: "62",
+                energy: "Diesel"
+            },
+            novabuslfsnatualgas: {
+                title: "Nova Bus LFS Natual Gas",
+                text: "Nova Bus LFS Natual Gas 是一款环保的天然气公交车，续航长，乘坐体验舒适。",
+                horsepower: "315 HP",
+                seats: "38",
+                energy: "Natual Gas"
+            },
+            newflyerxn40: {
+                title: "New Flyer XN40",
+                text: "New Flyer XN40 是一款环保的天然气公交车，续航长，乘坐体验舒适。",
+                horsepower: "355 HP",
+                seats: "40",
+                energy: "Compressed Natual Gas (CNG)"
+            },
+            newflyerxn60: {
+                title: "New Flyer XN60",
+                text: "New Flyer XN60 是一款环保的天然气铰接公交车，拥有强大的载客能力，适合BRT系统。",
+                horsepower: "585 HP",
+                seats: "62",
+                energy: "Compressed Natual Gas (CNG)"
+            },
+            newflyerxd40: {
+                title: "New Flyer XD40",
+                text: "New Flyer XD40 是一款柴油动力的公交车，拥有卓越的柴油动力技术，乘坐体验舒适。",
+                horsepower: "360 HP",
+                seats: "38",
+                energy: "Diesel"
+            },
+            newflyerxd60: {
+                title: "New Flyer XD60",
+                text: "New Flyer XD60 是一款柴油动力的铰接公交车，拥有卓越的柴油动力技术，乘坐体验舒适。",
+                horsepower: "589 HP",
+                seats: "62",
+                energy: "Diesel"
+            },
+            newflyerd40lf: {
+                title: "New Flyer D40LF",
+                text: "New Flyer D40LF 是一款柴油动力的公交车，拥有超强的启动系统，噪音极小。",
+                horsepower: "489 HP",
+                seats: "40",
+                energy: "Diesel"
+            },
+            newflyerd60lf: {
+                title: "New Flyer D60LF",
+                text: "New Flyer D60LF 是一款柴油动力的铰接公交车，拥有强大的载客能力，适合BRT系统。",
+                horsepower: "489 HP",
+                seats: "64",
+                energy: "Diesel"
+            },
+            newflyerd40lfr: {
+                title: "New Flyer D40LFR",
+                text: "New Flyer D40LFR 是一款柴油动力的公交车，拥有超强的启动系统，噪音极小。",
+                horsepower: "489 HP",
+                seats: "40",
+                energy: "Diesel"
+            },
+            newflyerd60lfr: {
+                title: "New Flyer D60LFR",
+                text: "New Flyer D40LFR 是一款柴油动力的铰接公交车，拥有强大的载客能力，适合BRT系统。",
+                horsepower: "599 HP",
+                seats: "64",
+                energy: "Diesel"
+            },
+            newflyerde40lfr: {
+                title: "New Flyer DE40LFR",
+                text: "New Flyer DE40LFR 是一款油电混合动力公交车，拥有超低的排放量，噪音极小。",
+                horsepower: "399 HP",
+                seats: "38",
+                energy: "Diesel and Electric"
+            },
+            newflyerde60lfr: {
+                title: "New Flyer DE60LFR",
+                text: "New Flyer DE60LFR 是一款油电混合动力的铰接公交车，拥有超低的排放量，噪音极小。",
+                horsepower: "529 HP",
+                seats: "62",
+                energy: "Diesel and Electric"
+            },
+            newflyerde41lf: {
+                title: "New Flyer DE41LF",
+                text: "New Flyer DE41LF 是一款油电混合动力的公交车，拥有超强的续航能力，并且耗油量少。",
+                horsepower: "399 HP",
+                seats: "44",
+                energy: "Diesel and Electric"
+            },
+            newflyerde60lf: {
+                title: "New Flyer DE60LF",
+                text: "New Flyer DE60LF 是一款油电混合动力的铰接公交车，拥有非常小的排放量和非常强的续航能力。",
+                horsepower: "569 HP",
+                seats: "62",
+                energy: "Diesel and Electric"
+            },
+            newflyerde41lfr: {
+                title: "New Flyer DE41LFR",
+                text: "New Flyer DE41LFR 是一款油电混合动力的公交车，拥有非常小的排放量和非常强的续航能力。",
+                horsepower: "399 HP",
+                seats: "40",
+                energy: "Diesel and Electric"
+            },
+            newflyerxde40: {
+                title: "New Flyer XDE40",
+                text: "New Flyer XDE40 是一款油电混合动力的公交车，拥有非常舒适的乘车体验和平稳的过渡。",
+                horsepower: "349 HP",
+                seats: "40",
+                energy: "Diesel and Electric"
+            },
+            newflyerxde60: {
+                title: "New Flyer XDE60",
+                text: "New Flyer XDE60 是一款油电混合动力的铰接公交车，拥有非常高的载客能力，最高载客量高达120人",
+                horsepower: "349 HP",
+                seats: "64",
+                energy: "Diesel and Electric"
+            },
+            newflyerxhe40: {
+                title: "New Flyer XHE40",
+                text: "New Flyer XHE40 是一款氢电混合动力公交车，氢气罐可以在10分钟内充满。",
+                horsepower: "449 HP",
+                seats: "40",
+                energy: "Hydrogen and Electric"
+            },
+        };
+
+        const busModal = document.getElementById('busModal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+
+        document.querySelectorAll('.bus-img').forEach(img => {
+            img.addEventListener('click', (e) => {
+                const busId = e.target.id;
+                if (busInfo[busId]) {
+                    document.getElementById('modalImg').src = e.target.src;
+                    document.getElementById('modalTitle').textContent = busInfo[busId].title;
+                    document.getElementById('modalText').textContent = busInfo[busId].text;
+                    
+                    // 新加的部分
+                    document.getElementById('specHorsepower').textContent = busInfo[busId].horsepower;
+                    document.getElementById('specSeats').textContent = busInfo[busId].seats;
+                    document.getElementById('specEnergy').textContent = busInfo[busId].energy;
+
+                    modalBackdrop.style.display = 'block';
+                    busModal.style.display = 'block';
+                    setTimeout(() => {
+                        busModal.style.transform = 'translateX(-50%) scale(1)';
+                    }, 10);
+                }
+            });
+        });
+
+
+        function closeModal() {
+            // 缩小动画
+            busModal.style.transform = 'translateX(-50%) scale(0.7)';
+            setTimeout(() => {
+                busModal.style.display = 'none';
+                modalBackdrop.style.display = 'none';
+            }, 300); // 等动画完再关闭
+        }
+
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', closeModal);
     </script>
 </body>
 </html>
