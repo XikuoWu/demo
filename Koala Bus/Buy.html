@@ -125,6 +125,47 @@
             text-align: center;
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
+
+        .signupgmail {
+            font-size: larger;
+            text-decoration: none;
+            color: blue;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 30px;
+        }
+
+        .signupgmail:hover {
+            text-decoration: underline;
+        }
+
+        .signupemail-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* alerts */
+        .custom-alert {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 9999;
+            opacity: 0.9;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            animation: fadeInOut 3s forwards;
+            margin-left: 10px;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            10% { opacity: 0.9; transform: translateY(0); }
+            90% { opacity: 0.9; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
     </style>
 
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -138,10 +179,10 @@
   
         emailjs.sendForm('service_g7bpf3n', 'template_6nfyxmh', e.target)
           .then(() => {
-            alert("Request sent successfully!");
+            showCustomAlert("Request sent successfully! Your response will show in your gmail address!");
             e.target.reset(); // 清空表单
           }, (error) => {
-            alert("Failed to send: " + JSON.stringify(error));
+            showCustomAlert("Failed to send: " + JSON.stringify(error));
           });
       }
     </script>
@@ -171,13 +212,18 @@
         </div>
     
         <label for="email">Your Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+        <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" title="Please enter a valid Gmail address">
+        <small id="emailError" style="color: red; display: none;">Only Gmail addresses are allowed.</small><br><br>
     
         <label for="message">Message:</label><br>
-        <textarea id="message" name="message" rows="5" required></textarea><br><br>
+        <textarea id="message" name="message" rows="10" required></textarea><br><br>
     
         <button type="submit">Send Request</button>
     </form>
+
+    <div class="signupemail-container">
+        <a class="signupgmail" target="_blank" href="https://accounts.google.com/lifecycle/steps/signup/name?checkedDomains=youtube&continue=https://mail.google.com/mail&dsh=S706438063:1746388155482270&flowEntry=SignUp&flowName=GlifWebSignIn&hl=zh-CN&ifkv=ASKV5MhAEZryGonvQntpPtxIq0ZqWg_Y6M8JBzr-Q6Xjtjx36yXPEo9UsYndXehXqaPqtbI7-PsZLA&pstMsg=1&TL=AArrULTvY-nJ3t48ahIKqBxDLb2pJDHVjASH031p3r_jYBJmh3leG99IZZr2yTKS">Do not have a Gmail Address? Sign Up</a> 
+    </div>
     
     <script>
         const links = [
@@ -240,6 +286,32 @@
         renderNavigation();
         // 监听窗口大小变化
         window.addEventListener('resize', renderNavigation);
+
+        const emailInput = document.getElementById("email");
+        const emailError = document.getElementById("emailError");
+
+        emailInput.addEventListener("input", function () {
+            const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+            if (!gmailRegex.test(emailInput.value)) {
+                emailError.style.display = "block";
+                emailInput.setCustomValidity("Only Gmail addresses are allowed.");
+            } else {
+                emailError.style.display = "none";
+                emailInput.setCustomValidity("");
+            }
+        });
+
+        // alerts
+        function showCustomAlert(message) {
+            const alertBox = document.createElement("div");
+            alertBox.className = "custom-alert";
+            alertBox.textContent = message;
+            document.body.appendChild(alertBox);
+            
+            setTimeout(() => {
+            alertBox.remove();
+            }, 3000);
+        }
     </script>
 </body>
 </html>
