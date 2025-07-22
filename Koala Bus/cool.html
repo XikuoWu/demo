@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Buses</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Record Buses</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="./index.css">
     <style>
         body {
@@ -84,7 +84,6 @@
         select {
             padding: 8px;
             border-radius: 5px;
-            border: none;
             background-color: transparent;
         }
         .main-container {
@@ -158,88 +157,48 @@
     <div class="header-outer">
         <header>
             <div class="logo-container">
-                <a href="./index.html"><img src="./favicon.ico" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala Bus</p>
+                <a href="./index.html"><img src="./favicon.png" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala Bus</p>
             </div>
 
             <div class="navigation-container" id="navContainer">
                 <div class="explore header-inner"><a class="main-navigation" href="./explore.html">Explore Buses</a></div>
                 <div class="buy header-inner"><a class="main-navigation" href="./Buy.html">Buy Buses</a></div>
                 <div class="show header-inner"><a class="main-navigation" href="./shows.html">Bus Shows</a></div>
-                <div class="cool header-inner"><a class="main-navigation" href="./cool.html">New Buses</a></div>
+                <div class="cool header-inner"><a class="main-navigation" href="./cool.html">Record Buses</a></div>
                 <div class="privacy header-inner"><a class="main-navigation" href="./polocy.html">Privacy Polocy</a></div>
             </div>
         </header>
     </div>
 
-    <div class="main-container">
-        <div class="main">
-            <div class="bus">
-                <div>
-                    <img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng">
-                </div>
-                <h4>Nova Bus LFS CNG</h4>
-                <h4 class="stock">In Stock</h4>
-                <div class="buy-btn-container">
-                    <a class="buy-btn" href="./Buy.html">Buy</a>
-                </div>
+    <div style="display: flex; justify-content: center;" class="longestbus">
+       <div>
+            <h1 style="text-align: center;">AutoTram Extra Grand</h1>
+            <h2 style="text-align: center;">- Longest bus in the world</h2>
+            <p style="text-align: center; font-size: larger;">&nbsp;&nbsp;&nbsp; AutoTram Extra Grande is the longest bus in the world, it can carries up to 361 people.&nbsp;&nbsp;&nbsp;</p>
+            <div style="display: flex; justify-content: center;">
+                <img style="width: 97%; border-radius: 10px;" src="./AutoTram Extra Grand.jpg" alt="">
             </div>
-            <div class="bus">
-                <div>
-                    <img src="./img/novabuslfsartic.jpg" alt="" class="bus-img" id="novabuslfsartic">
-                </div>
-                <h4>Nova Bus LFS Artic</h4>
-                <h4 class="stock">In Stock</h4>
-                <div class="buy-btn-container">
-                    <a class="buy-btn" href="./Buy.html">Buy</a>
-                </div>
-            </div>
-            <div class="bus">
-                <div>
-                    <img style="width: 54%;" src="./img/novabuslfse.png" alt="" class="bus-img" id="novabuslfse">
-                </div>
-                <h4>Nova Bus LFSe+</h4>
-                <h4 class="stock">In Stock</h4>
-                <div class="buy-btn-container">
-                    <a class="buy-btn" href="./Buy.html">Buy</a>
-                </div>
-            </div>
-            <div class="bus">
-                <div>
-                    <img src="./img/newflyerxn60.jpg" alt="" class="bus-img" id="newflyerxn60">
-                </div>
-                <h4>New Flyer XN60</h4>
-                <h4 class="stock">In Stock</h4>
-                <div class="buy-btn-container">
-                    <a class="buy-btn" href="./Buy.html">Buy</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 半透明背景 -->
-    <div id="modalBackdrop" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;"></div>
-    <!-- bus modal -->
-    <div id="busModal" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%) scale(0.7); width:80%; background:white; border-radius:10px; padding:20px; box-shadow:0px 0px 20px rgba(0,0,0,0.5); z-index:1000; transition:transform 0.3s ease;">
-        <span id="closeModal" style="float:right; font-size:24px; cursor:pointer;">&times;</span>
-        <div id="modalContent" style="text-align:center;">
-            <img id="modalImg" src="" alt="" style="width:60%; border-radius:10px;">
-            <h2 id="modalTitle"></h2>
-            <p id="modalText" style="padding:10px;"></p>
-            <a href="./Buy.html"><button style="padding: 5px; padding-left: 7px; padding-right: 7px; background-color: white; border: 0.3px black solid; border-radius: 5px; font-size: larger; cursor: pointer; position: absolute; right: 15px; bottom: 15px;">Buy</button></a>
+       </div>
+    </div><br><br>
 
-            <div id="modalSpecs" style="text-align:left; margin-top:20px;">
-                <p><strong>马力：</strong> <span id="specHorsepower"></span></p>
-                <p><strong>座位数：</strong> <span id="specSeats"></span></p>
-                <p><strong>能源类型：</strong> <span id="specEnergy"></span></p>
+    <div style="display: flex; justify-content: center;" class="largestcapacitybus">
+       <div>
+            <h1 style="text-align: center;">Shenlong LCK6660FCEV3</h1>
+            <h2 style="text-align: center;">- Largest capacity bus in the world</h2>
+            <p style="text-align: center; font-size: larger;">Shenlong LCK6660FCEV3 is the largest capacity bus in the world, it is a triple decker arculated bus, it can carry up to 400 people.</p>
+            <div style="display: flex; justify-content: center;">
+                <img style="width: 97%; border-radius: 10px;" src="./img/lck6600fcev3.jpg" alt="">
             </div>
-        </div>
-    </div>
+       </div>
+    </div><br><br>
+
     <!-- javascript -->
     <script>
         const links = [
             { text: "Explore Buses", url: "./explore.html" },
             { text: "Buy Buses", url: "./Buy.html" },
             { text: "Bus Shows", url: "./shows.html" },
-            { text: "New Buses", url: "./cool.html" },
+            { text: "Record Buses", url: "./cool.html" },
             { text: "Privacy Polocy", url: "./polocy.html" }
         ];
 
@@ -295,77 +254,6 @@
         renderNavigation();
         // 监听窗口大小变化
         window.addEventListener('resize', renderNavigation);
-
-        // bus modal
-        // bus 信息
-        const busInfo = {
-            novabuslfscng: {
-                title: "Nova Bus LFS CNG",
-                text: "Nova Bus LFS CNG 是一款环保的天然气公交车，拥有超低排放，适合未来城市。",
-                horsepower: "320 HP",
-                seats: "40",
-                energy: "Compressed Natural Gas (CNG)"
-            },
-            novabuslfse: {
-                title: "Nova Bus LFSe+",
-                text: "Nova Bus LFSe+ 是一款零排放纯电动公交车，续航长，乘坐体验舒适。",
-                horsepower: "335 HP (equivalent)",
-                seats: "38",
-                energy: "Electric"
-            },
-            novabuslfsartic: {
-                title: "Nova Bus LFS Artic",
-                text: "Nova Bus LFS Artic 是一款环保的天然气铰接公交车，拥有强大的载客容量，适合BRT系统。",
-                horsepower: "575 HP",
-                seats: "62",
-                energy: "Compressed Natual Gas (CNG)"
-            },
-            newflyerxn60: {
-                title: "New Flyer XN60",
-                text: "New Flyer XN60 是一款环保的天然气铰接公交车，拥有强大的载客能力，适合BRT系统。",
-                horsepower: "585 HP",
-                seats: "62",
-                energy: "Compressed Natual Gas (CNG)"
-            },
-        };
-
-        const busModal = document.getElementById('busModal');
-        const modalBackdrop = document.getElementById('modalBackdrop');
-
-        document.querySelectorAll('.bus-img').forEach(img => {
-            img.addEventListener('click', (e) => {
-                const busId = e.target.id;
-                if (busInfo[busId]) {
-                    document.getElementById('modalImg').src = e.target.src;
-                    document.getElementById('modalTitle').textContent = busInfo[busId].title;
-                    document.getElementById('modalText').textContent = busInfo[busId].text;
-                    
-                    // 新加的部分
-                    document.getElementById('specHorsepower').textContent = busInfo[busId].horsepower;
-                    document.getElementById('specSeats').textContent = busInfo[busId].seats;
-                    document.getElementById('specEnergy').textContent = busInfo[busId].energy;
-
-                    modalBackdrop.style.display = 'block';
-                    busModal.style.display = 'block';
-                    setTimeout(() => {
-                        busModal.style.transform = 'translateX(-50%) scale(1)';
-                    }, 10);
-                }
-            });
-        });
-
-
-        function closeModal() {
-            // 缩小动画
-            busModal.style.transform = 'translateX(-50%) scale(0.7)';
-            setTimeout(() => {
-                busModal.style.display = 'none';
-                modalBackdrop.style.display = 'none';
-            }, 300); // 等动画完再关闭
-        }
-
-        document.getElementById('closeModal').addEventListener('click', closeModal);
-        modalBackdrop.addEventListener('click', closeModal);
     </script>
 </body>
 </html>

@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Buses</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./index.css">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .header-outer {
+            display: flex;
+            justify-content: center;
+        }
+
+        header {
+            width: 90%;
+            height: 70px;
+            background-color: deepskyblue;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+
+        .logo {
+            height: 55px;
+            margin-left: 34px;
+        }
+
+        header p {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: larger;
+        }
+
+        .header-inner a {
+            margin: 15px;
+            font-size: larger;
+            text-decoration: none;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .main-navigation:hover {
+            color: rgb(98, 98, 98);
+        }
+
+        .body-container {
+            color: white;
+            font-size: larger;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: bold;
+            top: 480px;
+            position: fixed;
+            left: 210px;
+        }
+
+        .explore-buses {
+            text-decoration: none;
+            font-size: larger;
+            background-color: deepskyblue;
+            padding: 15px;
+            color: white;
+            border-radius: 7px;
+        }
+
+        .explore-buses:hover {
+            background-color: rgb(0, 136, 255);
+        }
+
+        .navigation-container {
+            display: flex;
+        }
+
+        .logo-container {
+            display: flex;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            background-color: transparent;
+        }
+
+        /*  */
+        .h1container {
+            display: flex;
+            justify-content: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .main {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 10px;
+            border-top-left-radius: 13px;
+            border-top-right-radius: 13px;
+        }
+
+        .bus {
+            width: calc(50% - 10px);
+            height: 400px;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            cursor: pointer;
+            border: 0.3px black solid;
+        }
+
+        /* 🟦 响应式布局 - 小于850px时每行显示1个bus */
+        @media screen and (max-width: 850px) {
+            .bus {
+                width: 100%;
+            }
+        }
+
+        .bus-img {
+            width: 60%;
+        }
+
+        .bus a {
+            display: flex;
+            justify-content: center;
+        }
+
+        .bus h4 {
+            text-align: center;
+        }
+
+        .stock {
+            color: rgb(0, 180, 0);
+            margin-top: -11px;
+        }
+
+        .buy-btn {
+            text-decoration: none;
+            margin-top: -11px;
+            color: black;
+            font-size: larger;
+            border: 0.3px black solid;
+            padding: 3px;
+            border-radius: 5px;
+            width: 60%;
+        }
+
+        .buy-btn-container {
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .buy-btn:hover {
+            background-color: rgb(227, 227, 227);
+            cursor: pointer;
+        }
+
+        .bus div {
+            display: flex;
+            justify-content: center;
+        }
+
+        #modalExtraImages {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        #modalExtraImages .image-box {
+            width: 350px;
+            height: 220px;
+            background-color: black; /* 黑边 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        #modalExtraImages .image-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* 保证完整显示、等比缩放 */
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-outer">
+        <header>
+            <div class="logo-container">
+                <a href="./index.html"><img src="./favicon.ico" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala
+                    Bus</p>
+            </div>
+
+            <div class="navigation-container" id="navContainer">
+                <div class="explore header-inner"><a class="main-navigation" href="./explore.html">Explore Buses</a>
+                </div>
+                <div class="buy header-inner"><a class="main-navigation" href="./Buy.html">Buy Buses</a></div>
+                <div class="show header-inner"><a class="main-navigation" href="./shows.html">Bus Shows</a></div>
+                <div class="cool header-inner"><a class="main-navigation" href="./cool.html">New Buses</a></div>
+                <div class="privacy header-inner"><a class="main-navigation" href="./polocy.html">Privacy Polocy</a>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!-- Main Content -->
+    <div class="h1container">
+        <h1>Our Bus Models</h1>
+    </div>
+    <!-- bus models -->
+    <div class="main-container">
+        <div class="main">
+            <div class="bus">
+                <div>
+                    <img src="./img/novabuslfscng.jpg" alt="" class="bus-img" id="novabuslfscng">
+                </div>
+                <h4>Nova Bus LFS CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/novabuslfs.jpg" alt="" class="bus-img" id="novabuslfs">
+                </div>
+                <h4>Nova Bus LFS Diesel</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 55%;" src="./img/novabuslfse.png" alt="" class="bus-img" id="novabuslfse">
+                </div>
+                <h4>Nova Bus LFSe+</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 50%;" src="./img/novabuslfsartic.jpg" alt="" class="bus-img" id="novabuslfsartic">
+                </div>
+                <h4>Nova Bus LFS Artic Diesel</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/novabuslfshev.jpg" alt="" class="bus-img" id="novabuslfshev">
+                </div>
+                <h4>Nova Bus LFS HEV</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/novabuslfx.jpg" alt="" class="bus-img" id="novabuslfx">
+                </div>
+                <h4>Nova Bus LFX Diesel</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/novabuslfsartichev.jpg" alt="" class="bus-img" id="novabuslfsnatualgas">
+                </div>
+                <h4>Nova Bus LFS Artic HEV</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 100%;" src="./img/newflyerxn40.png" alt="" class="bus-img" id="newflyerxn40">
+                </div>
+                <h4>New Flyer XN40</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/newflyerxn60.jpg" alt="" class="bus-img" id="newflyerxn60">
+                </div>
+                <h4>New Flyer XN60</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 100%;" src="./img/newflyerxd40.png" alt="" class="bus-img" id="newflyerxd40">
+                </div>
+                <h4>New Flyer XD40</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyerxd60.jpg" alt="" class="bus-img" id="newflyerxd60">
+                </div>
+                <h4>New Flyer XD60</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/newflyerd40lf.jpg" alt="" class="bus-img" id="newflyerd40lf">
+                </div>
+                <h4>New Flyer D40LF</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyerd60lf.jpg" alt="" class="bus-img" id="newflyerd60lf">
+                </div>
+                <h4>New Flyer D60LF</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 46%;" src="./img/newflyerd40lfr.jpg" alt="" class="bus-img" id="newflyerd40lfr">
+                </div>
+                <h4>New Flyer D40LFR</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyerd60lfr.jpg" alt="" class="bus-img" id="newflyerd60lfr">
+                </div>
+                <h4>New Flyer D60LFR</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyerde40lfr.jpg" alt="" class="bus-img"
+                        id="newflyerde40lfr">
+                </div>
+                <h4>New Flyer DE40LFR</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/newflyerde60lfr.jpg" alt="" class="bus-img"
+                        id="newflyerde60lfr">
+                </div>
+                <h4>New Flyer DE60LFR</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/newflyerde41lf.jpg" alt="" class="bus-img" id="newflyerde41lf">
+                </div>
+                <h4>New Flyer DE40LF</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyerde60lf.jpeg" alt="" class="bus-img" id="newflyerde60lf">
+                </div>
+                <h4>New Flyer DE60LF</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyerde41lfr.jpg" alt="" class="bus-img"
+                        id="newflyerde41lfr">
+                </div>
+                <h4>New Flyer DE40LFR</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyerxde40.jpg" alt="" class="bus-img" id="newflyerxde40">
+                </div>
+                <h4>New Flyer XDE40</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/newflyerxde60.jpg" alt="" class="bus-img" id="newflyerxde60">
+                </div>
+                <h4>New Flyer XDE60</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyerxhe40.jpeg" alt="" class="bus-img" id="newflyerxhe40">
+                </div>
+                <h4>New Flyer XHE40</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyere40lf.jpeg" alt="" class="bus-img" id="newflyere40lf">
+                </div>
+                <h4>New Flyer E40LF</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyere40lfr.jpeg" alt="" class="bus-img" id="newflyere40lfr">
+                </div>
+                <h4>New Flyer E40LFR</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyere60lf.jpeg" alt="" class="bus-img" id="newflyere60lf">
+                </div>
+                <h4>New Flyer E60LF</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyere60lfr.jpeg" alt="" class="bus-img" id="newflyere60lfr">
+                </div>
+                <h4>New Flyer E60LFR</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 60%;" src="./img/newflyerxe40.png" alt="" class="bus-img" id="newflyerxe40">
+                </div>
+                <h4>New Flyer XE40</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/newflyerxe60.jpeg" alt="" class="bus-img" id="newflyerxe60">
+                </div>
+                <h4>New Flyer XE60</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/grandewestvicinity.jpg" alt="" class="bus-img"
+                        id="grandewestvicinity">
+                </div>
+                <h4>Grande West Vicinity</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/grandewestvicinitycng.jpg" alt="" class="bus-img"
+                        id="grandewestvicinitycng">
+                </div>
+                <h4>Grande West Vicinity CNG</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img//electricversiongrandewestvicinity.jpeg" alt="" class="bus-img" id="electricversiongrandewestvicinity">
+                </div>
+                <h4> Electric Version Grande West Vicinity</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/proterrazx5max.jpg" alt="" class="bus-img" id="proterrazx5max">
+                </div>
+                <h4>Proterra ZX5 Max</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 49%;" src="./img/alexanderdenniisenviro500mmc.jpg" alt="" class="bus-img"
+                        id="alexanderdenniisenviro500mmc">
+                </div>
+                <h4>Alexander Dennis Enviro 500 MMC</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/arbocfreedom.jpg" alt="" class="bus-img" id="arbocfreedom">
+                </div>
+                <h4>Arboc Freedom</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/arbocspiritoffreedom.jpg" alt="" class="bus-img"
+                        id="arbocspiritoffreedom">
+                </div>
+                <h4>Arboc Spirit of Freedom</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 42%;" src="./img/dupontchamplain1608lowfloor.png" alt="" class="bus-img"
+                        id="dupontchamplain1608lowfloor">
+                </div>
+                <h4>Dupont Champlain 1608 Low Floor</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/bydk9s.jpg" alt="" class="bus-img" id="bydk9s">
+                </div>
+                <h4>BYD K9S</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 50%;" src="./img/dd6141s05.jpg" alt="" class="bus-img" id="dd6141s05">
+                </div>
+                <h4>Yuton DD6141S05</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/dd6181s01.jpg" alt="" class="bus-img" id="dd6181s01">
+                </div>
+                <h4>Yuton DD6181S01</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 48%;" src="./img/dd6181b01n.jpg" alt="" class="bus-img" id="dd6181b01n">
+                </div>
+                <h4>Yuton DD6181B01N</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/dd6180s01.jpg" alt="" class="bus-img" id="dd6180s01">
+                </div>
+                <h4>Yuton DD6180S01</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 50%;" src="./img/DD6129S58.jpg" alt="" class="bus-img" id="dd6129s58">
+                </div>
+                <h4>Yuton DD6129S58</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/zk6180bevg31.jpg" alt="" class="bus-img" id="zk6180bevg31">
+                </div>
+                <h4>ZK6180BEVG31</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/b12d.webp" alt="" class="bus-img" id="b12d">
+                </div>
+                <h4>Bird B12D</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/TEG6125BEV03.jpg" alt="" class="bus-img" id="teg6125bev03">
+                </div>
+                <h4>TEG6125BEV03</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/MAN Lion’s City DD L (A95).webp" alt="" class="bus-img"
+                        id="manlionscityddla95">
+                </div>
+                <h4>Man Lion’s City DD L (A95)</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 45%;" src="./img/TEG6591BEV01.jpg" alt="" class="bus-img" id="TEG6591BEV01">
+                </div>
+                <h4>TEG6591BEV01</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/klq6181gql5.png" alt="" class="bus-img" id="klq6181gql5">
+                </div>
+                <h4>KLQ6181GQL5</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/BYD K12A.jpg" alt="" class="bus-img" id="bydk12a">
+                </div>
+                <h4>BYD K12A</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/GTQ6123.webp" alt="" class="bus-img" id="GTQ6123">
+                </div>
+                <h4>GTQ6123</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 46%;" src="./img/njl6129gsev1.jpg" alt="" class="bus-img" id="njl6129gsev1">
+                </div>
+                <h4>NJL6129GSEV1</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 46%;" src="./img/vanhoolagg300.jpeg" alt="" class="bus-img" id="vanhoolagg300">
+                </div>
+                <h4>Van Hool AGG300</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 46%;" src="./img/youngmanjnp6280g.jpeg" alt="" class="bus-img" id="youngmanjnp6280g">
+                </div>
+                <h4>Youngman JNP6280G</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 46%;" src="./img/mercedesbenzcapacityl.jpg" alt="" class="bus-img" id="mercedesbenzcapacityl">
+                </div>
+                <h4>Mercedes Benz Capacity L</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 46%;" src="./img/LCK6180SHEV.webp" alt="" class="bus-img" id="lck6180shev">
+                </div>
+                <h4>LCK6180SHEV</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <!-- coach buses -->
+            <div class="bus">
+                <div>
+                    <img style="width: 50%;" src="./img/KLQ6129Y.png" alt="" class="bus-img" id="KLQ6129Y">
+                </div>
+                <h4>KLQ6129Y</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 49%;" src="./img/ZK6122H9.png" alt="" class="bus-img" id="ZK6122H9">
+                </div>
+                <h4>ZK6122H9</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 47%;" src="./img/Zhongtong Bus Elegance.png" alt="" class="bus-img"
+                        id="zhongtonbuselegance">
+                </div>
+                <h4>Zhongtong Bus Elegance</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img src="./img/XML6601.jpg" alt="" class="bus-img" id="xml6601">
+                </div>
+                <h4>XML 6601</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 38%;" src="./img/XML6602.webp" alt="" class="bus-img" id="xml6602">
+                </div>
+                <h4>XML 6602</h4>
+                <h4 class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 38%;" src="./img/NeoplanJumbocruiser.jpg" alt="" class="bus-img"
+                        id="NeoplanJumbocruiser">
+                </div>
+                <h4>Neoplan Jumbocruiser</h4>
+                <h4 style="margin-top: 10px;" class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 38%;" src="./img/neoplanskyliner.jpeg" alt="" class="bus-img"
+                        id="neoplanskyliner">
+                </div>
+                <h4>Neoplan Skyliner</h4>
+                <h4 style="margin-top: 10px;" class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 38%;" src="./img/neoplanskylinerexpress.webp" alt="" class="bus-img"
+                        id="neoplanskylinerexpress">
+                </div>
+                <h4>Neoplan Skyliner Express</h4>
+                <h4 style="margin-top: 10px;" class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 38%;" src="./img/neoplantourliner.jpeg" alt="" class="bus-img"
+                        id="neoplantourliner">
+                </div>
+                <h4>Neoplan Tourliner</h4>
+                <h4 style="margin-top: 10px;" class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+            <div class="bus">
+                <div>
+                    <img style="width: 38%;" src="./img/neoplancityliner.jpeg" alt="" class="bus-img"
+                        id="neoplancityliner">
+                </div>
+                <h4>Neoplan Cityliner</h4>
+                <h4 style="margin-top: 10px;" class="stock">In Stock</h4>
+                <div class="buy-btn-container">
+                    <a class="buy-btn" href="./Buy.html">Buy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 半透明背景 -->
+    <div id="modalBackdrop"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;">
+    </div>
+    <!-- bus modal -->
+    <div id="busModal"
+        style="display:none; position:fixed; top:2%; left:50%; transform:translateX(-50%) scale(0.7); width:80%; background:white; border-radius:10px; padding:20px; box-shadow:0px 0px 20px rgba(0,0,0,0.5); z-index:1000; transition:transform 0.3s ease;">
+        <span id="closeModal" style="float:right; font-size:24px; cursor:pointer;">&times;</span>
+        <div id="modalContent" style="text-align:center; overflow: auto; max-height: 90vh;">
+            <img id="modalImg" src="" alt="" style="width:60%; border-radius:10px;">
+            <h2 id="modalTitle"></h2>
+            <p id="modalText" style="padding:10px;"></p>
+            <a href="./Buy.html"><button
+                    style="padding: 5px; padding-left: 7px; padding-right: 7px; background-color: white; border: 0.3px black solid; border-radius: 5px; font-size: larger; cursor: pointer; position: absolute; right: 15px; bottom: 15px;">Buy</button></a>
+
+            <div id="modalSpecs" style="text-align:left; margin-top:20px;">
+                <p><strong>马力：</strong> <span id="specHorsepower"></span></p>
+                <p><strong>座位数：</strong> <span id="specSeats"></span></p>
+                <p><strong>能源类型：</strong> <span id="specEnergy"></span></p>
+            </div>
+            <div id="modalExtraImages"
+                style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;"></div>
+            <div id="modalMoreSpecs" style="margin-top: 10px; text-align: left;">
+                <p><strong>制造商：</strong><span id="specManufacturer"></span></p>
+                <p><strong>长度：</strong><span id="specLength"></span></p>
+                <p><strong>最大载客量：</strong><span id="specCapacity"></span></p>
+            </div>
+        </div>
+    </div>
+    <!-- javascript -->
+    <script>
+        const links = [
+            { text: "Explore Buses", url: "./explore.html" },
+            { text: "Buy Buses", url: "./Buy.html" },
+            { text: "Bus Shows", url: "./shows.html" },
+            { text: "New Buses", url: "./cool.html" },
+            { text: "Privacy Polocy", url: "./polocy.html" }
+        ];
+
+        function renderNavigation() {
+            const navContainer = document.getElementById('navContainer');
+            navContainer.innerHTML = ''; // 清空
+
+            if (window.innerWidth < 1070) {
+                const select = document.createElement('select');
+                select.onchange = (e) => {
+                    const selectedUrl = e.target.value;
+                    if (selectedUrl) {
+                        window.open(selectedUrl, "_blank");
+                        // 重置为默认项，防止重复点击无效
+                        e.target.selectedIndex = 0;
+                    }
+                };
+
+                select.style.fontSize = '16px';
+                select.style.marginRight = '20px';
+
+                // 默认占位项
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = 'Choose a page';
+                placeholder.disabled = true;
+                placeholder.selected = true;
+                select.appendChild(placeholder);
+
+                links.forEach(link => {
+                    const option = document.createElement('option');
+                    option.value = link.url;
+                    option.textContent = link.text;
+                    select.appendChild(option);
+                });
+
+                navContainer.appendChild(select);
+            } else {
+                links.forEach(link => {
+                    const div = document.createElement('div');
+                    div.className = 'header-inner';
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.textContent = link.text;
+                    a.className = 'main-navigation';
+                    div.appendChild(a);
+                    navContainer.appendChild(div);
+                });
+            }
+        }
+
+        // 初始加载
+        renderNavigation();
+        // 监听窗口大小变化
+        window.addEventListener('resize', renderNavigation);
+
+        // bus modal
+        // bus 信息
+        const busInfo = {
+            novabuslfscng: {
+                title: "Nova Bus LFS CNG",
+                text: "Nova Bus LFS CNG 是一款环保的天然气公交车，拥有超低排放，适合未来城市。",
+                horsepower: "320 HP",
+                seats: "40",
+                energy: "Compressed Natural Gas (CNG)",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "Nova Bus",
+                images: [
+                    "./img/novabuslfscng2.jpg",
+                    "./img/novabuslfscng3.jpg",
+                    "./img/novabuslfscng4.jpg"
+                ]
+            },
+            novabuslfs: {
+                title: "Nova Bus LFS Diesel",
+                text: "Nova Bus LFS Diesel 拥有卓越的柴油动力技术，强劲耐用，适合各种路况。",
+                horsepower: "330 HP",
+                seats: "40",
+                energy: "Diesel",
+                length: "12.2 meters",
+                capacity: "74 passengers",
+                manufacturer: "Nova Bus",
+                images: [
+                    "./img/novabuslfs2.jpg",
+                    "./img/novabuslfs3.jpg",
+                    "./img/novabuslfs4.jpg"
+                ]
+            },
+            novabuslfse: {
+                title: "Nova Bus LFSe+",
+                text: "Nova Bus LFSe+ 是一款零排放纯电动公交车，续航长，乘坐体验舒适。",
+                horsepower: "335 HP (equivalent)",
+                seats: "38",
+                energy: "Electric",
+                length: "12.2 meters",
+                capacity: "73 passengers",
+                manufacturer: "Nova Bus",
+                images: [
+                    "./img/novabuslfse2.jpg",
+                    "./img/novabuslfse3.jpg",
+                    "./img/novabuslfse4.jpg"
+                ]
+            },
+            novabuslfsartic: {
+                title: "Nova Bus LFS Artic Diesel",
+                text: "Nova Bus LFS Artic Diesel 是一款环保的柴油铰接公交车，拥有强大的载客容量，适合BRT系统。",
+                horsepower: "575 HP",
+                seats: "62",
+                energy: "Diesel",
+                length: "18.0 meters",
+                capacity: "112 passengers",
+                manufacturer: "Nova Bus",
+                images: [
+                    "./img/novabuslfsartic2.jpg",
+                    "./img/novabuslfsartic3.jpg",
+                    "./img/novabuslfsartic4.jpg"
+                ]
+            },
+            novabuslfshev: {
+                title: "Nova Bus LFS HEV",
+                text: "Nova Bus LFS HEV 是一款油电混合动力公交车，拥有超低排放，适合未来城市。",
+                horsepower: "337 HP",
+                seats: "40",
+                energy: "Diesel and Electric",
+                length: "12.2 meters",
+                capacity: "80 passengers",
+                manufacturer: "Nova Bus",
+                images: [
+                    "./img/novabuslfshev2.jpg",
+                    "./img/novabuslfshev3.jpg",
+                    "./img/novabuslfshev4.jpg"
+                ]
+            },
+            novabuslfx: {
+                title: "Nova Bus LFX Diesel",
+                text: "Nova Bus LFX Diesel 是一款柴油动力的铰接公交车，拥有卓越的柴油动力技术，强劲耐用，适合各种路况。",
+                horsepower: "593 HP",
+                seats: "62",
+                energy: "Diesel",
+                length: "18.2 meters",
+                capacity: "115 passengers",
+                manufacturer: "Nova Bus",
+                images: [
+                    "./img/novabuslfx2.jpg",
+                    "./img/novabuslfx3.jpg",
+                    "./img/novabuslfx4.jpg"
+                ]
+            },
+            novabuslfsnatualgas: {
+                title: "Nova Bus LFS Artic HEV",
+                text: "Nova Bus LFS Artic HEV 是一款油电混合动力的公交车，拥有超低的排放量和强大的载客量。",
+                horsepower: "555 HP",
+                seats: "68",
+                energy: "Diesel and Electric",
+                length: "18.8 meters",
+                capacity: "117 passengers",
+                manufacturer: "Nova Bus",
+                images: [
+                    "./img/novabuslfsartichev2.jpg",
+                    "./img/novabuslfsartichev3.jpg",
+                    "./img/novabuslfsartichev4.jpg"
+                ]
+            },
+            newflyerxn40: {
+                title: "New Flyer XN40",
+                text: "New Flyer XN40 是一款环保的天然气公交车，续航长，乘坐体验舒适。",
+                horsepower: "355 HP",
+                seats: "40",
+                energy: "Compressed Natual Gas (CNG)",
+                length: "12.2 meters",
+                capacity: "73 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerxn402.jpg",
+                    "./img/newflyerxn403.jpeg",
+                    "./img/newflyerxn404.jpg"
+                ]
+            },
+            newflyerxn60: {
+                title: "New Flyer XN60",
+                text: "New Flyer XN60 是一款环保的天然气铰接公交车，拥有强大的载客能力，适合BRT系统。",
+                horsepower: "585 HP",
+                seats: "62",
+                energy: "Compressed Natual Gas (CNG)",
+                length: "18.5 meters",
+                capacity: "75 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerxn602.jpg",
+                    "./img/newflyerxn603.jpg",
+                    "./img/newflyerxn604.jpg"
+                ]
+            },
+            newflyerxd40: {
+                title: "New Flyer XD40",
+                text: "New Flyer XD40 是一款柴油动力的公交车，拥有卓越的柴油动力技术，乘坐体验舒适。",
+                horsepower: "360 HP",
+                seats: "38",
+                energy: "Diesel",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerxd402.jpg",
+                    "./img/newflyerxd403.jpg",
+                    "./img/newflyerxd404.jpg"
+                ]
+            },
+            newflyerxd60: {
+                title: "New Flyer XD60",
+                text: "New Flyer XD60 是一款柴油动力的铰接公交车，拥有卓越的柴油动力技术，乘坐体验舒适。",
+                horsepower: "589 HP",
+                seats: "62",
+                energy: "Diesel",
+                length: "18.9 meters",
+                capacity: "115 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerxd602.jpg",
+                    "./img/newflyerxd603.jpg",
+                    "./img/newflyerxd604.jpg"
+                ]
+            },
+            newflyerd40lf: {
+                title: "New Flyer D40LF",
+                text: "New Flyer D40LF 是一款柴油动力的公交车，拥有超强的启动系统，噪音极小。",
+                horsepower: "489 HP",
+                seats: "40",
+                energy: "Diesel",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerd40lf2.jpg",
+                    "./img/newflyerd40lf3.jpg",
+                    "./img/newflyerd40lf4.jpg"
+                ]
+            },
+            newflyerd60lf: {
+                title: "New Flyer D60LF",
+                text: "New Flyer D60LF 是一款柴油动力的铰接公交车，拥有强大的载客能力，适合BRT系统。",
+                horsepower: "489 HP",
+                seats: "64",
+                energy: "Diesel",
+                length: "18.2 meters",
+                capacity: "115 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerd60lf2.jpg",
+                    "./img/newflyerd60lf3.jpg",
+                    "./img/newflyerd60lf4.jpg"
+                ]
+            },
+            newflyerd40lfr: {
+                title: "New Flyer D40LFR",
+                text: "New Flyer D40LFR 是一款柴油动力的公交车，拥有超强的启动系统，噪音极小。",
+                horsepower: "489 HP",
+                seats: "40",
+                energy: "Diesel",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerd40lfr2.jpg",
+                    "./img/newflyerd40lfr3.jpg",
+                    "./img/newflyerd40lfr4.jpg"
+                ]
+            },
+            newflyerd60lfr: {
+                title: "New Flyer D60LFR",
+                text: "New Flyer D40LFR 是一款柴油动力的铰接公交车，拥有强大的载客能力，适合BRT系统。",
+                horsepower: "599 HP",
+                seats: "64",
+                energy: "Diesel",
+                length: "18.2 meters",
+                capacity: "113 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerd60lfr2.jpg",
+                    "./img/newflyerd60lfr3.jpg",
+                    "./img/newflyerd60lfr4.jpg"
+                ]
+            },
+            newflyerde40lfr: {
+                title: "New Flyer DE41LFR",
+                text: "New Flyer DE41LFR 是一款油电混合动力公交车，拥有超低的排放量，噪音极小。",
+                horsepower: "399 HP",
+                seats: "38",
+                energy: "Diesel and Electric",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerde40lfr2.jpg",
+                    "./img/newflyerde40lfr3.jpg",
+                    "./img/newflyerde40lfr4.jpg"
+                ]
+            },
+            newflyerde60lfr: {
+                title: "New Flyer DE60LFR",
+                text: "New Flyer DE60LFR 是一款油电混合动力的铰接公交车，拥有超低的排放量，噪音极小。",
+                horsepower: "529 HP",
+                seats: "62",
+                energy: "Diesel and Electric",
+                length: "18.2 meters",
+                capacity: "115 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerde60lfr2.jpg",
+                    "./img/newflyerde60lfr3.jpg",
+                    "./img/newflyerde60lfr4.jpg"
+                ]
+            },
+            newflyerde41lf: {
+                title: "New Flyer DE41LF",
+                text: "New Flyer DE41LF 是一款油电混合动力的公交车，拥有超强的续航能力，并且耗油量少。",
+                horsepower: "399 HP",
+                seats: "44",
+                energy: "Diesel and Electric",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerde41lf2.jpg",
+                    "./img/newflyerde41lf3.jpg",
+                    "./img/newflyerde41lf4.jpg"
+                ]
+            },
+            newflyerde60lf: {
+                title: "New Flyer DE60LF",
+                text: "New Flyer DE60LF 是一款油电混合动力的铰接公交车，拥有非常小的排放量和非常强的续航能力。",
+                horsepower: "569 HP",
+                seats: "62",
+                energy: "Diesel and Electric",
+                length: "18.2 meters",
+                capacity: "115 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerde60lf2.jpg",
+                    "./img/newflyerde60lf3.jpg",
+                    "./img/newflyerde60lf4.jpg"
+                ]
+            },
+            newflyerde41lfr: {
+                title: "New Flyer DE41LFR",
+                text: "New Flyer DE41LFR 是一款油电混合动力的公交车，拥有非常小的排放量和非常强的续航能力。",
+                horsepower: "399 HP",
+                seats: "40",
+                energy: "Diesel and Electric",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerde41lfr2.jpg",
+                    "./img/newflyerde41lfr3.jpg",
+                    "./img/newflyerde41lfr4.jpg"
+                ]
+            },
+            newflyerxde40: {
+                title: "New Flyer XDE40",
+                text: "New Flyer XDE40 是一款油电混合动力的公交车，拥有非常舒适的乘车体验和平稳的过渡。",
+                horsepower: "349 HP",
+                seats: "40",
+                energy: "Diesel and Electric",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerxde402.jpg",
+                    "./img/newflyerxde403.jpg",
+                    "./img/newflyerxde404.jpg"
+                ]
+            },
+            newflyerxde60: {
+                title: "New Flyer XDE60",
+                text: "New Flyer XDE60 是一款油电混合动力的铰接公交车，拥有非常高的载客能力，最高载客量高达120人",
+                horsepower: "349 HP",
+                seats: "64",
+                energy: "Diesel and Electric",
+                length: "18.2 meters",
+                capacity: "120 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerxde602.jpg",
+                    "./img/newflyerxde603.jpg",
+                    "./img/newflyerxde604.jpg"
+                ]
+            },
+            newflyerxhe40: {
+                title: "New Flyer XHE40",
+                text: "New Flyer XHE40 是一款氢电混合动力公交车，氢气罐可以在10分钟内充满。",
+                horsepower: "449 HP",
+                seats: "40",
+                energy: "Hydrogen and Electric",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "New Flyer",
+                images: [
+                    "./img/newflyerde41lfr2.jpg",
+                    "./img/newflyerde41lfr3.jpg",
+                    "./img/newflyerde41lfr4.jpg"
+                ]
+            },
+            grandewestvicinity: {
+                title: "Grande West Vicinity",
+                text: "Grande West Vicinity 是一款小巧力大的城市柴油公交车，通常用于夜晚驾驶的公交车和山路公交车。",
+                horsepower: "339 HP",
+                seats: "25",
+                energy: "Diesel",
+                length: "10.2 meters",
+                capacity: "37 passengers",
+                manufacturer: "Grande West",
+                images: [
+                    "./img/grandewestvicinity2.jpg",
+                    "./img/grandewestvicinity3.jpg",
+                    "./img/grandewestvicinity4.jpg"
+                ]
+            },
+            grandewestvicinitycng: {
+                title: "Grande West Vicinity CNG",
+                text: "Grande West Vicinity CNG 是一款小巧环保的天然气公交车，拥有超低的排放量和快速的起步。",
+                horsepower: "325 HP",
+                seats: "25",
+                energy: "Compressed Natual Gas (CNG)",
+                length: "10.2 meters",
+                capacity: "37 passengers",
+                manufacturer: "Grande West",
+                images: [
+                    "./img/grandewestvicinitycng2.jpg",
+                    "./img/grandewestvicinitycng3.jpg",
+                    "./img/grandewestvicinitycng4.jpg"
+                ]
+            },
+            electricversiongrandewestvicinity: {
+                title: "Electric Version Grande West Vicinity",
+                text: "Electric Version Grande West Vicinity 是一款小巧环保的纯电动公交车，拥有超低的排放量和快速的起步。",
+                horsepower: "305 HP",
+                seats: "25",
+                energy: "Electric",
+                length: "10.2 meters",
+                capacity: "37 passengers",
+                manufacturer: "Grande West",
+                images: [
+                    "./img/electricversiongrandewestvicinity2.jpeg",
+                    "./img/electricversiongrandewestvicinity3.jpeg",
+                    "./img/electricversiongrandewestvicinity4.jpg"
+                ]
+            },
+            proterrazx5max: {
+                title: "Proterra ZX5 Max",
+                text: "Proterra ZX5 Max 是一款小巧环保的纯电动公交车，拥有非常小的风阻力，并且续航超长。",
+                horsepower: "365 HP",
+                seats: "38",
+                energy: "Diesel",
+                length: "12.2 meters",
+                capacity: "75 passengers",
+                manufacturer: "Proterra",
+                images: [
+                    "./img/proterrazx5max2.jpg",
+                    "./img/proterrazx5max3.jpg",
+                    "./img/proterrazx5max4.jpg"
+                ]
+            },
+            alexanderdenniisenviro500mmc: {
+                title: "Alexander Dennis Enviro 500 MMC",
+                text: "Alexander Dennis Enviro 500 MMC 是一款柴油双层巴士，拥有超强的载客量，适合BRT系统。",
+                horsepower: "675 HP",
+                seats: "83",
+                energy: "Diesel",
+                length: "14.2 meters",
+                capacity: "135 passengers",
+                manufacturer: "Alexander Dennis",
+                images: [
+                    "./img/alexanderdennisenviro500mmc2.jpg",
+                    "./img/alexanderdennisenviro500mmc3.jpg",
+                    "./img/alexanderdennisenviro500mmc4.jpg"
+                ]
+            },
+            arbocfreedom: {
+                title: "Arboc Freedom",
+                text: "Arboc Freedom 是一款超小的柴油公交车，拥有超强的窄路穿梭能力，适合山路路线。",
+                horsepower: "245 HP",
+                seats: "19",
+                energy: "Diesel",
+                length: "8.9 meters",
+                capacity: "23 passengers",
+                manufacturer: "Arboc",
+                images: [
+                    "./img/arbocfreedom2.jpg",
+                    "./img/arbocfreedom3.jpg",
+                    "./img/arbocfreedom4.jpg"
+                ]
+            },
+            arbocspiritoffreedom: {
+                title: "Arboc Spirit of Freedom",
+                text: "Arboc Spirit of Freedom 是一款超小的柴油公交车，拥有超强的窄路穿梭能力，适合山路路线。",
+                horsepower: "245 HP",
+                seats: "20",
+                energy: "Diesel",
+                length: "12.2 meters",
+                capacity: "23 passengers",
+                manufacturer: "Arboc",
+                images: [
+                    "./img/arbocspiritoffreedom2.jpg",
+                    "./img/arbocspiritoffreedom3.jpg",
+                    "./img/arbocspiritoffreedom4.jpg"
+                ]
+            },
+            dupontchamplain1608lowfloor: {
+                title: "Dupont Champlain 1608 Low Floor",
+                text: "Dupont Champlain 1608 Low Floor 是一款老旧的模型，适合观光车路线。",
+                horsepower: "475 HP",
+                seats: "40",
+                energy: "Diesel",
+                length: "13.2 meters",
+                capacity: "72 passengers",
+                manufacturer: "Dupont Champlain",
+                images: [
+                    "./img/dupontchamplain1608lowfloor2.jpg",
+                    "./img/dupontchamplain1608lowfloor3.jpg",
+                    "./img/dupontchamplain1608lowfloor4.jpg"
+                ]
+            },
+            bydk9s: {
+                title: "BYD K9S",
+                text: "BYD K9S 以一款纯电度的公交车，拥有几乎为零的排放量，适合在城市中穿梭。",
+                horsepower: "365 HP",
+                seats: "38",
+                energy: "Electric",
+                length: "12.5 meters",
+                capacity: "64 passengers",
+                manufacturer: "BYD",
+                images: [
+                    "./img/bydk9s2.jpg",
+                    "./img/bydk9s3.jpg",
+                    "./img/bydk9s4.jpg"
+                ]
+            },
+            dd6141s05: {
+                title: "Yuton DD6141S05",
+                text: "Yuton DD6141S05 是一款环保的天然气公交车，拥有超大的载客容量，并且可以在城市之中灵活的穿梭。",
+                horsepower: "535 HP",
+                seats: "49",
+                energy: "Compressed Natual Gas (CNG)",
+                length: "15.2 meters",
+                capacity: "92 passengers",
+                manufacturer: "Yuton",
+                images: [
+                    "./img/dd6141s052.jpg",
+                    "./img/dd6141s053.jpg",
+                    "./img/dd6141s054.jpg"
+                ]
+            },
+            dd6181s01: {
+                title: "Yuton DD6181S01",
+                text: "Yuton DD6181S01 是一款柴油公交车，拥有超大的载客容量，并且可以在城市之中灵活的穿梭。",
+                horsepower: "575 HP",
+                seats: "49",
+                energy: "Diesel",
+                length: "15.2 meters",
+                capacity: "92 passengers",
+                manufacturer: "Yuton",
+                images: [
+                    "./img/dd6181s012.jpg",
+                    "./img/dd6181s013.jpg",
+                    "./img/dd6181s014.jpg"
+                ]
+            },
+            dd6181b01n: {
+                title: "Yuton DD6181B01N",
+                text: "Yuton DD6181B01N 是一款柴油铰接公交车，适合城外的BRT系统。",
+                horsepower: "655 HP",
+                seats: "62",
+                energy: "Diesel",
+                length: "18.5 meters",
+                capacity: "112 passengers",
+                manufacturer: "Yuton",
+                images: [
+                    "./img/dd6181b01n2.jpg",
+                    "./img/dd6181b01n3.jpg",
+                    "./img/dd6181b01n4.jpg"
+                ]
+            },
+            dd6180s01: {
+                title: "Yuton DD6180S01",
+                text: "Yuton DD6180S01 是一款柴油铰接公交车，拥有超强的载客容量，非常适合LRT Shuttles。",
+                horsepower: "675 HP",
+                seats: "69",
+                energy: "Diesel",
+                length: "19.2 meters",
+                capacity: "120 passengers",
+                manufacturer: "Yuton",
+                images: [
+                    "./img/DD6180S012.jpg",
+                    "./img/DD6180S013.jpg",
+                    "./img/DD6180S014.jpg"
+                ]
+            },
+            dd6129s58: {
+                title: "Yuton DD6129S58",
+                text: "Yuton DD6129S58 是一款柴油公交车，适合超长的公交路线。",
+                horsepower: "455 HP",
+                seats: "42",
+                energy: "Diesel",
+                length: "19.2 meters",
+                capacity: "120 passengers",
+                manufacturer: "Yuton",
+                images: [
+                    "./img/dd6129s582.jpg",
+                    "./img/dd6129s583.jpg",
+                    "./img/dd6129s584.jpg"
+                ]
+            },
+            zk6180bevg31: {
+                title: "ZK6180BEVG31",
+                text: "ZK6180BEVG3 是一款纯电动的铰接公交车，拥有超低的排放量，适合BRT系统。",
+                horsepower: "465 HP",
+                seats: "60",
+                energy: "Electric",
+                length: "17.2 meters",
+                capacity: "100 passengers",
+                manufacturer: "Huanghai",
+                images: [
+                    "./img/zk6180bevg312.jpg",
+                    "./img/zk6180bevg313.jpg",
+                    "./img/zk6180bevg314.jpg"
+                ]
+            },
+            b12d: {
+                title: "Bird B12D",
+                text: "Bird B12D 是一款柴油双层公交车，适合郊区BRT系统。",
+                horsepower: "665 HP",
+                seats: "83",
+                energy: "Diesel",
+                length: "14.2 meters",
+                capacity: "130 passengers",
+                manufacturer: "Bird",
+                images: [
+                    "./img/b12d2.jpg",
+                    "./img/b12d3.jpg",
+                    "./img/b12d4.jpg"
+                ]
+            },
+            teg6125bev03: {
+                title: "TEG 6125BEV03",
+                text: "TEG 6125BEV03 是一款柴油公交车，拥有中等的载客能力，适合普通需求量大的公交路线。",
+                horsepower: "455 HP",
+                seats: "43",
+                energy: "Diesel",
+                length: "14.2 meters",
+                capacity: "90 passengers",
+                manufacturer: "Bird",
+                images: [
+                    "./img/teg6125bev032.jpg",
+                    "./img/teg6125bev033.jpg",
+                    "./img/teg6125bev034.jpg"
+                ]
+            },
+            manlionscityddla95: {
+                title: "MAN Lion’s City DD L (A95) 3-door",
+                text: "MAN Lion’s City DD L (A95) 3-door 是一款柴油双层铰接公交车，拥有极强的载客能力，适合需求量极大的公交路线。",
+                horsepower: "895 HP",
+                seats: "158",
+                energy: "Diesel",
+                length: "21.8 meters",
+                capacity: "256 passengers",
+                manufacturer: "MAN",
+                images: [
+                    "./img/man lionscity2.png",
+                    "./img/man lionscity3.png",
+                    "./img/man lionscity4.png"
+                ]
+            },
+            TEG6591BEV01: {
+                title: "TEG 6591BEV01",
+                text: "TEG6591BEV01 是一款超小的电动公交车，适合需求量极小的公交路线。",
+                horsepower: "275 HP",
+                seats: "15",
+                energy: "Electric"
+            },
+            klq6181gql5: {
+                title: "KLQ 6181GQL5",
+                text: "KLQ 6181GQL51 是一款柴油铰接公交车，适合LRT Shuttles。",
+                horsepower: "595 HP",
+                seats: "64",
+                energy: "Diesel"
+            },
+            bydk12a: {
+                title: "BYD K12A",
+                text: "BYD K12A 是一款纯电动双铰接公交车，是全世界最常的电动铰接公交车，适合LRT Shuttles。",
+                horsepower: "595 HP",
+                seats: "85",
+                energy: "Electric"
+            },
+            GTQ6123: {
+                title: "GTQ 6123",
+                text: "GTQ 6123 是一款柴油公交车，为观光车而制造，非常适合观光车路线。",
+                horsepower: "395 HP",
+                seats: "34",
+                energy: "Diesel"
+            },
+            njl6129gsev1: {
+                title: "NJL 6129GSEV1",
+                text: "NJL 6129GSEV1 是一款纯电动双层公交车，适合乡村BRT公交路线。",
+                horsepower: "695 HP",
+                seats: "75",
+                energy: "Electric"
+            },
+            vanhoolagg300: {
+                title: "Van Hool AGG 300",
+                text: "Van Hool AGG 300 是一款双铰接柴油公交车，是世界上第二长的公交车，适合直线公交路线。",
+                horsepower: "1015 HP",
+                seats: "145",
+                energy: "Diesel"
+            },
+            youngmanjnp6280g: {
+                title: "Young Man JNP6280G",
+                text: "Young Man JNP6280G 是一款双铰接柴油公交车，是世界上最长的公交车，适合直线公交路线。",
+                horsepower: "1215 HP",
+                seats: "147",
+                energy: "Diesel"
+            },
+            mercedesbenzcapacityl: {
+                title: "Mercedes Benz Capacity L",
+                text: "Mercedes Benz Capacity L 是一款铰接柴油公交车，拥有卓越的续航能力和超强的载客量。",
+                horsepower: "705 HP",
+                seats: "67",
+                energy: "Diesel"
+            },
+            lck6180shev: {
+                title: "LCK6180SHEV",
+                text: "LCK6180SHEV 是一款纯电动双层铰接公交车，拥有极强的载客量，并且可以在城市中灵活穿梭。",
+                horsepower: "755 HP",
+                seats: "147",
+                energy: "Electric",
+                length: "15.6 meters",
+                capacity: "237 passengers",
+                manufacturer: "Huanghai",
+                images: [
+                    "./img/lck6180shev2.png",
+                    "./img/lck6180shev3.png",
+                    "./img/lck6180shev4.png"
+                ]
+            },
+            // coach buses
+            KLQ6129Y: {
+                title: "KLQ 6129Y",
+                text: "KLQ 6129Y 是一款柴油长途公交车，拥有非常长的续航，适合超长途路线。",
+                horsepower: "555 HP",
+                seats: "53",
+                energy: "Diesel"
+            },
+            ZK6122H9: {
+                title: "ZK 6122H9",
+                text: "ZK 6122H9 是一款柴油长途公交车，拥有非常长的续航，适合超长途路线。",
+                horsepower: "545 HP",
+                seats: "47",
+                energy: "Diesel"
+            },
+            zhongtonbuselegance: {
+                title: "Zhongton Bus Elegance",
+                text: "Zhongton Bus Elegance 是一款柴油长途公交车，拥有非常长的续航，适合超长途路线。",
+                horsepower: "525 HP",
+                seats: "38",
+                energy: "Diesel"
+            },
+            xml6601: {
+                title: "XML 6601",
+                text: "XML 6601 是一款mini柴油长途公交车，拥有非常长的续航，适合超长途路线。",
+                horsepower: "445 HP",
+                seats: "19",
+                energy: "Diesel"
+            },
+            xml6602: {
+                title: "XML 6602",
+                text: "XML 6602 是一款微型纯电动长途公交车，拥有非常长的续航，适合超长途路线。",
+                horsepower: "355 HP",
+                seats: "32",
+                energy: "Diesel"
+            },
+            NeoplanJumbocruiser: {
+                title: "Neoplan Jumbocruiser",
+                text: "Neoplan Jumbocruiser 是一款双层铰接柴油长途公交车，拥有非常长的续航，适合超长途路线。",
+                horsepower: "1095 HP",
+                seats: "170",
+                energy: "Diesel"
+            },
+            neoplanskyliner: {
+                title: "Neoplan Skyliner",
+                text: "Neoplan Skyliner 是一款柴油双层长途公交车，拥有超高的舒适度，和超强的载客量。",
+                horsepower: "598 HP",
+                seats: "83",
+                energy: "Diesel"
+            },
+            neoplanskylinerexpress: {
+                title: "Neoplan Skyliner Express",
+                text: "Neoplan Skyliner Express 是一款柴油双层长途公交车，拥有超高的舒适度，和超强的载客量。",
+                horsepower: "598 HP",
+                seats: "72",
+                energy: "Diesel"
+            },
+            neoplantourliner: {
+                title: "Neoplan Tourliner",
+                text: "Neoplan Tourliner 是一款柴油长途公交车，拥有超高的舒适度，和超强的载客量。",
+                horsepower: "445 HP",
+                seats: "63",
+                energy: "Diesel"
+            },
+            neoplancityliner: {
+                title: "Neoplan Cityliner",
+                text: "Neoplan Cityliner 是一款柴油长途公交车，拥有非常长的续航，适合超长途路线。",
+                horsepower: "435 HP",
+                seats: "59",
+                energy: "Diesel"
+            },
+        };
+
+        const busModal = document.getElementById('busModal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+
+        document.querySelectorAll('.bus-img').forEach(img => {
+            img.addEventListener('click', (e) => {
+                const busId = e.target.id;
+                const info = busInfo[busId];  // 加上这一行，避免重复写 busInfo[busId]
+
+                if (info) {
+                    document.getElementById('modalImg').src = e.target.src;
+                    document.getElementById('modalTitle').textContent = info.title;
+                    document.getElementById('modalText').textContent = info.text;
+
+                    // 新字段赋值
+                    document.getElementById('specManufacturer').textContent = info.manufacturer || 'N/A';
+                    document.getElementById('specLength').textContent = info.length || 'N/A';
+                    document.getElementById('specCapacity').textContent = info.capacity || 'N/A';
+
+                    // 额外图片
+                    const imageContainer = document.getElementById('modalExtraImages');
+                    imageContainer.innerHTML = '';
+                    if (info.images && info.images.length > 0) {
+                        info.images.forEach(src => {
+                            const imgBox = document.createElement('div');
+                            imgBox.className = 'image-box';
+
+                            const img = document.createElement('img');
+                            img.src = src;
+
+                            imgBox.appendChild(img);
+                            imageContainer.appendChild(imgBox);
+
+                        });
+                    }
+
+                    // 原有参数赋值
+                    document.getElementById('specHorsepower').textContent = info.horsepower;
+                    document.getElementById('specSeats').textContent = info.seats;
+                    document.getElementById('specEnergy').textContent = info.energy;
+
+                    modalBackdrop.style.display = 'block';
+                    busModal.style.display = 'block';
+                    setTimeout(() => {
+                        busModal.style.transform = 'translateX(-50%) scale(1)';
+                    }, 10);
+                }
+
+            });
+        });
+
+
+        function closeModal() {
+            // 缩小动画
+            busModal.style.transform = 'translateX(-50%) scale(0.7)';
+            setTimeout(() => {
+                busModal.style.display = 'none';
+                modalBackdrop.style.display = 'none';
+            }, 300); // 等动画完再关闭
+        }
+
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', closeModal);
+    </script>
+</body>
+
+</html>

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy Buses</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="./index.css">
     <style>
         body {
             padding: 0;
-            margin: 0;
+            margin: 7px;
+            margin-top: 0;
         }
 
         .header-outer {
@@ -73,6 +75,7 @@
         .explore-buses:hover {
             background-color: rgb(0, 136, 255);
         }
+
         .navigation-container {
             display: flex;
         }
@@ -84,32 +87,39 @@
         select {
             padding: 8px;
             border-radius: 5px;
-            border: none;
             background-color: transparent;
         }
+
         .main-container {
             width: 100%;
             height: 100%;
             margin-top: 70px;
         }
+
         form {
             width: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center; /* 横向居中 */
-            justify-content: center; /* 纵向居中（可选） */
-            margin-top: 40px; /* 可根据需要调节间距 */
+            align-items: center;
+            /* 横向居中 */
+            justify-content: center;
+            /* 纵向居中（可选） */
+            margin-top: 40px;
+            /* 可根据需要调节间距 */
             font-size: larger;
         }
 
         form label,
         form input,
         form textarea {
-            width: 300px; /* 或根据你需要的宽度 */
-            text-align: left; /* 保证 label 和输入框内容对齐 */
+            width: 300px;
+            /* 或根据你需要的宽度 */
+            text-align: left;
+            /* 保证 label 和输入框内容对齐 */
             resize: none;
             padding: 7px;
         }
+
         form button {
             border: 0.3px black solid;
             background-color: white;
@@ -118,9 +128,11 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         form button:hover {
             background-color: rgb(234, 234, 234);
         }
+
         h1 {
             text-align: center;
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -155,82 +167,246 @@
             font-size: 14px;
             z-index: 9999;
             opacity: 0.9;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             animation: fadeInOut 3s forwards;
             margin-left: 10px;
         }
 
         @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateY(20px); }
-            10% { opacity: 0.9; transform: translateY(0); }
-            90% { opacity: 0.9; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(20px); }
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            10% {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+
+            90% {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        input, textarea {
+            outline-offset: 0px; /* outline from input (space between) */
+            outline-color: black;
+        }
+
+        .call:hover {
+            text-decoration: underline;
         }
     </style>
 
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="text/javascript">
-      (function(){
-        emailjs.init("3biYH7edG-jbcFCMZ"); // 你自己的 EmailJS User ID
-      })();
-      
-      function sendEmail(e) {
-        e.preventDefault(); // 阻止表单提交刷新
-  
-        emailjs.sendForm('service_g7bpf3n', 'template_6nfyxmh', e.target)
-          .then(() => {
-            showCustomAlert("Request sent successfully! Your response will show in your gmail address!");
-            e.target.reset(); // 清空表单
-          }, (error) => {
-            showCustomAlert("Failed to send: " + JSON.stringify(error));
-          });
-      }
+        (function () {
+            emailjs.init("3biYH7edG-jbcFCMZ"); // 你自己的 EmailJS User ID
+        })();
+
+        function sendEmail(e) {
+            e.preventDefault(); // 阻止表单提交刷新
+
+            emailjs.sendForm('service_g7bpf3n', 'template_6nfyxmh', e.target)
+                .then(() => {
+                    showCustomAlert("Request sent successfully! Your response will show in your gmail address!");
+                    e.target.reset(); // 清空表单
+                }, (error) => {
+                    showCustomAlert("Failed to send: " + JSON.stringify(error));
+                });
+        }
     </script>
 </head>
+
 <body>
     <div class="header-outer">
         <header>
             <div class="logo-container">
-                <a href="./index.html"><img src="./favicon.ico" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala Bus</p>
+                <a href="./index.html"><img src="./favicon.png" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala
+                    Bus</p>
             </div>
 
             <div class="navigation-container" id="navContainer">
-                <div class="explore header-inner"><a class="main-navigation" href="./explore.html">Explore Buses</a></div>
+                <div class="explore header-inner"><a class="main-navigation" href="./explore.html">Explore Buses</a>
+                </div>
                 <div class="buy header-inner"><a class="main-navigation" href="./Buy.html">Buy Buses</a></div>
                 <div class="show header-inner"><a class="main-navigation" href="./shows.html">Bus Shows</a></div>
-                <div class="cool header-inner"><a class="main-navigation" href="./cool.html">New Buses</a></div>
-                <div class="privacy header-inner"><a class="main-navigation" href="./polocy.html">Privacy Polocy</a></div>
+                <div class="cool header-inner"><a class="main-navigation" href="./cool.html">Record Buses</a></div>
+                <div class="privacy header-inner"><a class="main-navigation" href="./polocy.html">Privacy Polocy</a>
+                </div>
             </div>
         </header>
     </div>
     <h1>Send Buying Request</h1>
     <!-- main -->
-    <form onsubmit="sendEmail(event)">
+    <form onsubmit="sendEmail(event)" style="display: flex; justify-content: center;">
         <div class="name">
-            <label for="name">Your Name:</label><br>
-            <input type="text" id="name" name="name" required><br><br>
+            <label for="name">Full Name*:</label><br>
+            <input type="text" id="name" name="name" required><br>
         </div>
-    
-        <label for="email">Your Email:</label><br>
-        <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" title="Please enter a valid Gmail address">
-        <small id="emailError" style="color: red; display: none;">Only Gmail addresses are allowed.</small><br><br>
-    
-        <label for="message">Message:</label><br>
-        <textarea id="message" name="message" rows="10" required></textarea><br><br>
-    
-        <button type="submit">Send Request</button>
+
+        <label for="email">Gmail adress*:</label>
+        <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
+            title="Please enter a valid Gmail address">
+        <small id="emailError" style="color: red; display: none;">Only Gmail addresses are allowed.</small><br>
+
+        <div style="display: flex; justify-content: center;">
+            <div>
+                <p style="display: inline;">Select a bus model*:</p>
+            </div>&nbsp;&nbsp;
+            <select id="busmodelselect">
+                <option value="novabuslfscng" selected>Novabus LFS CNG</option>
+                <option value="novabuslfsdiesel">Novabus LFS Diesel</option>
+                <option value="novabuslfse">Novabus LFSe</option>
+                <option value="novabuslfsartic">Novabus LFS Artic Diesel</option>
+                <option value="novabuslfsartichev">Novabus LFS Artic HEV</option>
+                <option value="novabuslfshev">Novabus LFS HEV</option>
+                <option value="novabuslfx">Novabus LFX</option>
+                <option value="newflyerxn40">New Flyer XN40</option>
+                <option value="newflyerxn60">New Flyer XN60</option>
+                <option value="newflyerxn35">New Flyer XN35</option>
+                <option value="newflyerxd40">New Flyer XD40</option>
+                <option value="newflyerxd60">New Flyer XD60</option>
+                <option value="newflyerxd35">New Flyer XD35</option>
+                <option value="newflyerd40lf">New Flyer D40LF</option>
+                <option value="newflyerd60lf">New Flyer D60LF</option>
+                <option value="newflyerd35lf">New Flyer D35LF</option>
+                <option value="newflyerd30lf">New Flyer D30LF</option>
+                <option value="newflyerd40lfr">New Flyer D40LFR</option>
+                <option value="newflyerd60lfr">New Flyer D60LFR</option>
+                <option value="newflyerd35lfr">New Flyer D35LFR</option>
+                <option value="newflyerde40lfr">New Flyer DE40LFR</option>
+                <option value="newflyerde60lfr">New Flyer DE60LFR</option>
+                <option value="newflyerde35lfr">New Flyer DE35LFR</option>
+                <option value="newflyerde40lf">New Flyer DE40LF</option>
+                <option value="newflyerde60lf">New Flyer DE60LF</option>
+                <option value="newflyerde35lf">New Flyer DE35LF</option>
+                <option value="newflyerxde35">New Flyer XDE35</option>
+                <option value="newflyerxde40">New Flyer XDE40</option>
+                <option value="newflyerxde60">New Flyer XDE60</option>
+                <option value="newflyerxhe40">New Flyer XHE40</option>
+                <option value="newflyerxhe60">New Flyer XHE60</option>
+                <option value="newflyerxhe35">New Flyer XHE35</option>
+                <option value="newflyere40lf">New Flyer E40LF</option>
+                <option value="newflyere40lfr">New Flyer E40LFR</option>
+                <option value="newflyere60lf">New Flyer E60LF</option>
+                <option value="newflyere60lfr">New Flyer E60LFR</option>
+                <option value="newflyerxe40">New Flyer XE40</option>
+                <option value="newflyerxe60">New Flyer XE60</option>
+                <option value="newflyerxe35">New Flyer XE35</option>
+                <option value="newflyerxh35">New Flyer XH35</option>
+                <option value="newflyerxh40">New Flyer XH40</option>
+                <option value="newflyerxh60">New Flyer XH60</option>
+                <option value="newflyerc40lf">New Flyer C40LF</option>
+                <option value="newflyerc40lfr">New Flyer C40LFR</option>
+                <option value="newflyerc60lfr">New Flyer C60LFR</option>
+                <option value="newflyerc35lf">New Flyer C35LF</option>
+                <option value="newflyerc30lf">New Flyer C30LF</option>
+                <option value="newflyerc35lfr">New Flyer C35LFR</option>
+                <option value="newflyerh40lf">New Flyer H40LF</option>
+                <option value="newflyerh40lfr">New Flyer H40LFR</option>
+                <option value="newflyerxt40">New Flyer XT40</option>
+                <option value="newflyerxt60">New Flyer XT60</option>
+                <option value="encezriderii">ENC EZ Rider II</option>
+                <option value="grandewestvicinity">Grande West Vicinity Diesel</option>
+                <option value="grandewestvicinitycng">Grande West Vicinity CNG</option>
+                <option value="electricversiongrandewestvicinity">Electric Version Grande West Vicinity</option>
+                <option value="proterrazx5max">Proterra ZX5 MAX</option>
+                <option value="zk6105bev">Huanghai ZK6105BEV</option>
+                <option value="zk6850bevg">Huanghai ZK6850BEVG</option>
+                <option value="gtq6126bevbt">Yuton GTQ6126BEVBT</option>
+                <option value="zk6125bev">Huanghai ZK6125BEV</option>
+                <option value="volvo7900electric">Volvo 7900 Electric</option>
+                <option value="scaniacitywidele">Scania Citywide LE</option>
+                <option value="volvo7900electricarculated">Volvo 7900 Electric Arculated</option>
+                <option value="solarisurbino18electric">Solaris Urbino 18 Electric</option>
+                <option value="mercedesbenzecitarog">Mercedes-Benz eCitaro G</option>
+                <option value="alexanderdennisenviro500mmc">Alexander Dennis Enviro 500 MMC</option>
+                <option value="alexanderdennisenviro500">Alexander Dennis Enviro 500</option>
+                <option value="alexanderdennisenviro400ev">Alexander Dennis Enviro 400 EV</option>
+                <option value="alexanderdennisenviro400">Alexander Dennis Enviro 400</option>
+                <option value="alexanderdennisenviro500ev">Alexander Dennis Enviro 500 EV</option>
+                <option value="alexanderdennisenviro100">Alexander Dennis Enviro 100</option>
+                <option value="alexanderdennisenviro100ev">Alexander Dennis Enviro 100 EV</option>
+                <option value="bydbd11">BYD BD11</option>
+                <option value="arbocfreedom">Arboc Freedom (Diesel)</option>
+                <option value="arbocmobility">Arboc Mobility (Diesel)</option>
+                <option value="arbocindependence">Arboc Independence (Diesel)</option>
+                <option value="arbocindependence">Arboc Spirit of Freedom(Gasoline)</option>
+                <option value="arbocindependence">Arboc Spirit of Mobility(Gasoline)</option>
+                <option value="dupontchamplain1608lowfloor">Dupont Champlain 1608 Low Floor</option>
+                <option value="dd6141s05">Huanghai DD6141S05</option>
+                <option value="dd6181s01">Huanghai DD6181S01</option>
+                <option value="dd6181b01n">Huanghai DD6181B01N</option>
+                <option value="dd6180S01">Huanghai DD6180S01</option>
+                <option value="dd6129s58">Huanghai DD6129S58</option>
+                <option value="dd6109">Huanghai DD6109</option>
+                <option value="dd6109">Huanghai DD6129S71</option>
+                <option value="autotramextragrand">AutoTram Extra Grand</option>
+                <option value="zk6180bevg31">Yuton ZK6180BEVG31</option>
+                <option value="teg6591bev03">Huanghai TEG6591BEV03</option>
+                <option value="manlionscityddla95">MAN Lions City DD L A95 3-door</option>
+                <option value="teg6591bev01">Huanghai TEG6591BEV01</option>
+                <option value="klq6181gql5">KLQ6181GQL5</option>
+                <option value="bydk12a">BYD K12A</option>
+                <option value="gtq6123">GTQ 6123</option>
+                <option value="njl6129gsev1">Yuton NJL6129GSEV1</option>
+                <option value="vanhoolagg300">Van Hool AGG300</option>
+                <option value="youngmanjnp6280g">Youngman JNP6280G</option>
+                <option value="mercedesbenzcapacityl">Mercedes-Benz CapaCity L</option>
+                <option value="lck6180shev">Yuton LCK6180SHEV</option>
+                <option value="klq6129y">KLQ 6129Y</option>
+                <option value="zk6122h9">Yuton ZK6122H9</option>
+                <option value="zhongtongbuselegance">Zhongtong Bus Elegance</option>
+                <option value="xml6601">XML 6601</option>
+                <option value="xml6602">XML 6602</option>
+                <option value="zk6129h">Yuton ZK6129H</option>
+                <option value="zk6119h">Yuton ZK6119H</option>
+                <option value="mercedesbenztourrider">Mercedes-Benz Tourrider</option>
+                <option value="zk6122hd9">Yuton ZK6122HD9</option>
+                <option value="neoplanjumbocruiser">Neoplan Jumbocruiser</option>
+                <option value="neoplanskyliner">Neoplan Skyliner</option>
+                <option value="neoplanskylinerexpress">Neoplan Skyliner Express</option>
+                <option value="neoplanmegaliner">Neoplan Megaliner</option>
+                <option value="neoplantourliner">Neoplan Tourliner</option>
+                <option value="neoplancityliner">Neoplan Cityliner</option>
+                <option value="mcid4505articulatedcoach">MCI D4505 Articulated Coach</option>
+                <option value="td824astromega">TD824 Astromega</option>
+                <option value="volvo9900articulated">Volvo 9900 Articulated</option>
+                <option value="setras431dt">Setra S431 DT</option>
+                <option value="shenlonglck6660fcev3">Shenlong LCK6660FCEV3</option>     
+            </select>
+        </div>&nbsp;
+        <div>
+            <p style="display: inline;">Quantity*:</p>&nbsp;&nbsp;&nbsp;
+            <input name="quantity" style="width: 60px; text-align: center;" max="100" min="0" oninput="if (this.value > 100) this.value = 100; if (this.value < 0) this.value = 0;" type="number" required>
+        </div>
+
+        <label for="message">Message*:</label>
+        <textarea id="message" name="message" rows="10" required></textarea><br>
+
+        <button type="submit">Send Request</button>&nbsp;
     </form>
+    <div class="call" style="display: flex; justify-content: center; color: blue;">
+        <a style="font-size: larger; text-decoration: none; font-family: Arial, Helvetica, sans-serif; color: blue;" href="tel:+14038883609">Call to Consult/Ask</a>
+    </div>
 
     <div class="signupemail-container">
-        <a class="signupgmail" target="_blank" href="https://accounts.google.com/lifecycle/steps/signup/name?checkedDomains=youtube&continue=https://mail.google.com/mail&dsh=S706438063:1746388155482270&flowEntry=SignUp&flowName=GlifWebSignIn&hl=zh-CN&ifkv=ASKV5MhAEZryGonvQntpPtxIq0ZqWg_Y6M8JBzr-Q6Xjtjx36yXPEo9UsYndXehXqaPqtbI7-PsZLA&pstMsg=1&TL=AArrULTvY-nJ3t48ahIKqBxDLb2pJDHVjASH031p3r_jYBJmh3leG99IZZr2yTKS">Do not have a Gmail Address? Sign Up</a> 
-    </div>
-    
+        <a class="signupgmail" target="_blank" href="https://accounts.google.com/lifecycle/steps/signup/name?checkedDomains=youtube&continue=https://mail.google.com/mail&dsh=S706438063:1746388155482270&flowEntry=SignUp&flowName=GlifWebSignIn&hl=zh-CN&ifkv=ASKV5MhAEZryGonvQntpPtxIq0ZqWg_Y6M8JBzr-Q6Xjtjx36yXPEo9UsYndXehXqaPqtbI7-PsZLA&pstMsg=1&TL=AArrULTvY-nJ3t48ahIKqBxDLb2pJDHVjASH031p3r_jYBJmh3leG99IZZr2yTKS">Do not have a Gmail Address? Sign Up</a>
+    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
     <script>
         const links = [
             { text: "Explore Buses", url: "./explore.html" },
             { text: "Buy Buses", url: "./Buy.html" },
             { text: "Bus Shows", url: "./shows.html" },
-            { text: "New Buses", url: "./cool.html" },
+            { text: "Record Buses", url: "./cool.html" },
             { text: "Privacy Polocy", url: "./polocy.html" }
         ];
 
@@ -307,11 +483,30 @@
             alertBox.className = "custom-alert";
             alertBox.textContent = message;
             document.body.appendChild(alertBox);
-            
+
             setTimeout(() => {
-            alertBox.remove();
+                alertBox.remove();
             }, 3000);
         }
+
+        // required input
+        const busSelect = document.getElementById("busmodelselect");
+        const quantityInput = document.querySelector("input[name='quantity']");
+
+        function updateQuantityRequired() {
+            if (busSelect.value === "consulting") {
+                quantityInput.removeAttribute("required");
+            } else {
+                quantityInput.setAttribute("required", "required");
+            }
+        }
+
+        // 初始执行一次
+        updateQuantityRequired();
+
+        // 监听 select 改变
+        busSelect.addEventListener("change", updateQuantityRequired);
     </script>
 </body>
+
 </html>
