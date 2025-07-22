@@ -485,6 +485,18 @@
         .clearall:hover {
             background-color: rgb(227, 227, 227);
         }
+
+        .header-outer {
+            position: sticky;
+            top: 0;
+            z-index: 1000; /* 确保在其它内容上层 */
+        }
+
+        .selectcontainer2 {
+            position: sticky;
+            top: 70px; /* header 的高度 */
+            z-index: 999;
+        }
     </style>
 </head>
 

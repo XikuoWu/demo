@@ -203,6 +203,27 @@
         renderNavigation();
         // 监听窗口大小变化
         window.addEventListener('resize', renderNavigation);
+
+
+        // header
+        const headerOuter = document.querySelector(".header-outer");
+        const originalOffset = headerOuter.offsetTop;
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > originalOffset) {
+            headerOuter.style.position = "fixed";
+            headerOuter.style.top = "0";
+            headerOuter.style.left = "0";
+            headerOuter.style.right = "0";
+            headerOuter.style.zIndex = "1000";
+            } else {
+            headerOuter.style.position = "";
+            headerOuter.style.top = "";
+            headerOuter.style.left = "";
+            headerOuter.style.right = "";
+            headerOuter.style.zIndex = "";
+            }
+        });
     </script>
 </body>
 </html>
