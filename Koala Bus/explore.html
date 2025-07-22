@@ -15,8 +15,12 @@
             padding: 0;
         }
 
+        #filter-text {
+            display: none;
+        }
+
         body {
-            margin: 0;
+            margin: 20px;
             font-family: sans-serif;
             background-color: #f5f5f5;
             padding-top: 0;
@@ -428,7 +432,7 @@
         /* 小屏幕优化 */
         @media (max-width: 768px) {
             .selectcontainer {
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
             }
 
@@ -452,6 +456,26 @@
                 justify-content: center;
                 gap: 20px;
                 margin-top: 5px;
+            }
+
+            .ourbush1 {
+                display: none;
+            }
+
+            .button-row {
+                display: none;
+            }
+
+            #filter-icon {
+                display: none;
+            }
+
+            #filter-text {
+                display: inline;
+            }
+
+            #busmodelselect {
+                max-width: 180px;
             }
         }
 
@@ -497,6 +521,54 @@
             top: 70px; /* header 的高度 */
             z-index: 999;
         }
+
+        /* 基础按钮样式 */
+        /* 按钮样式 */
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 10px;
+            border: 1px solid black;
+            border-radius: 6px;
+            background-color: transparent;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 600;
+            gap: 6px;
+            transition: background-color 0.2s ease;
+            height: 30px;
+        }
+
+        /* 图标样式 */
+        #filter-icon {
+            width: 20px;
+            margin-top: 2px;
+        }
+
+        /* 默认隐藏文字（大屏显示图标） */
+        #filter-text {
+            display: none;
+        }
+
+        /* 小屏幕时：隐藏图标，显示文字 */
+        @media (max-width: 768px) {
+            #filter-icon {
+                display: none;
+            }
+            #filter-text {
+                display: inline;
+            }
+            .filter-btn {
+                transform: translateY(-5px);
+            }
+            #filter-dropdown {
+                display: flex;
+                justify-self: center;
+                transform: translateX(-250px);
+                min-width: 90%;
+            }
+        }
     </style>
 </head>
 
@@ -504,8 +576,7 @@
     <div class="header-outer">
         <header>
             <div class="logo-container">
-                <a href="./index.html"><img src="./favicon.png" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala
-                    Bus</p>
+                <a href="./index.html"><img src="./favicon.png" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala Bus</p>
             </div>
 
             <div class="navigation-container" id="navContainer">
@@ -522,7 +593,7 @@
 
     <div class="selectcontainer2">
         <div class="selectcontainer">
-            <h1>Our Bus Models:</h1>
+            <h1 class="ourbush1">Our Bus Models:</h1>
             <select id="busmodelselect">
                 <option value="" disabled selected>--- Our Bus Models ---</option>
                 <option value="novabuslfscng">Novabus LFS CNG</option>
@@ -650,38 +721,42 @@
                 <button style="background-color: transparent;" id="prev"><</button>
                 <button style="background-color: transparent;" id="next">></button>
             </div>
-            <div id="filter">Filters</div>
-            <div id="filter-dropdown"
-                style="display: none; position: absolute; background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
-                <div id="energytype">
-                    Energy Type:
-                    <label><input id="electric" type="radio" name="energy">Electric</label>&nbsp;&nbsp;
-                    <label><input id="diesel" type="radio" name="energy">Diesel</label>&nbsp;&nbsp;
-                    <label><input id="cng" type="radio" name="energy">CNG</label>&nbsp;&nbsp;
-                    <label><input id="hydrogen" type="radio" name="energy">Hydrogen</label>&nbsp;&nbsp;
-                    <label><input id="hybrid" type="radio" name="energy">Hybrid</label>&nbsp;&nbsp;
-                    <label><input id="gasoline" type="radio" name="energy">Gasoline</label>&nbsp;&nbsp;
-                </div><br>
-                <div style="margin-right: 10px;" id="carriages">
-                    Carriages:
-                    <label><input id="tiny" type="radio" name="carriages">Tiny-Normal</label>&nbsp;&nbsp;
-                    <label><input id="nonarticulated" type="radio" name="carriages">Normal</label>&nbsp;&nbsp;
-                    <label><input id="doubledecker" type="radio" name="carriages">Double-decker</label>&nbsp;&nbsp;
-                    <label><input id="articulated" type="radio" name="carriages">Articulated</label>&nbsp;&nbsp;
-                    <label><input id="tripledecker" type="radio" name="carriages">Triple-Decker</label>&nbsp;&nbsp;
-                    <label><input id="doubledeckerarticulated" type="radio" name="carriages">Double-decker-Articulated</label>&nbsp;&nbsp;
-                    <label><input id="tripledeckerarticulated" type="radio" name="carriages">Triple-decker-Articulated</label>&nbsp;&nbsp;
-                    <label><input id="trolley" type="radio" name="carriages">Trolley</label>&nbsp;&nbsp;
-                </div><br>
-                <div style="margin-right: 10px;" id="price">
-                    Price (CA):
-                    <label><input id="lowest" type="radio" name="price">$3599 to $300,000</label>&nbsp;&nbsp;
-                    <label><input id="secondlowest" type="radio" name="price">$300,000 to $500,000</label>&nbsp;&nbsp;
-                    <label><input id="secondhighest" type="radio" name="price">$500,000 to $700,000</label>&nbsp;&nbsp;
-                    <label><input id="highest" type="radio" name="price">$700,000 to $999,999</label>&nbsp;&nbsp;
-                </div><br>
-                <button class="clearall" style="border: 0.3px black solid; padding: 4px; border-radius: 5px;"><a
-                        style="text-decoration: none; color: black; font-size: large;" href="">Clear All</a></button>
+            <button id="filter" class="filter-btn">
+                <img id="filter-icon" src="./filtericon.png" alt="Filter icon">
+                <span id="filter-text" style="font-size: small;">Filter</span>
+            </button>
+
+            <div class="fdc">
+                <div id="filter-dropdown" style="display: none; position: absolute; background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; margin-left: -19px;">
+                    <div id="energytype">
+                        Energy Type:
+                        <label><input id="electric" type="radio" name="energy">Electric</label>&nbsp;&nbsp;
+                        <label><input id="diesel" type="radio" name="energy">Diesel</label>&nbsp;&nbsp;
+                        <label><input id="cng" type="radio" name="energy">CNG</label>&nbsp;&nbsp;
+                        <label><input id="hydrogen" type="radio" name="energy">Hydrogen</label>&nbsp;&nbsp;
+                        <label><input id="hybrid" type="radio" name="energy">Hybrid</label>&nbsp;&nbsp;
+                        <label><input id="gasoline" type="radio" name="energy">Gasoline</label>&nbsp;&nbsp;
+                    </div><br>
+                    <div style="margin-right: 10px;" id="carriages">
+                        Carriages:
+                        <label><input id="tiny" type="radio" name="carriages">Tiny-Normal</label>&nbsp;&nbsp;
+                        <label><input id="nonarticulated" type="radio" name="carriages">Normal</label>&nbsp;&nbsp;
+                        <label><input id="doubledecker" type="radio" name="carriages">Double-decker</label>&nbsp;&nbsp;
+                        <label><input id="articulated" type="radio" name="carriages">Articulated</label>&nbsp;&nbsp;
+                        <label><input id="tripledecker" type="radio" name="carriages">Triple-Decker</label>&nbsp;&nbsp;
+                        <label><input id="doubledeckerarticulated" type="radio" name="carriages">Double-decker-Articulated</label>&nbsp;&nbsp;
+                        <label><input id="tripledeckerarticulated" type="radio" name="carriages">Triple-decker-Articulated</label>&nbsp;&nbsp;
+                        <label><input id="trolley" type="radio" name="carriages">Trolley</label>&nbsp;&nbsp;
+                    </div><br>
+                    <div style="margin-right: 10px;" id="price">
+                        Price (CA):
+                        <label><input id="lowest" type="radio" name="price">$3599 to $300,000</label>&nbsp;&nbsp;
+                        <label><input id="secondlowest" type="radio" name="price">$300,000 to $500,000</label>&nbsp;&nbsp;
+                        <label><input id="secondhighest" type="radio" name="price">$500,000 to $700,000</label>&nbsp;&nbsp;
+                        <label><input id="highest" type="radio" name="price">$700,000 to $999,999</label>&nbsp;&nbsp;
+                    </div><br>
+                    <button class="clearall" style="border: 0.3px black solid; padding: 4px; border-radius: 5px;"><a style="text-decoration: none; color: black; font-size: large;" href="">Clear All</a></button>
+                </div>
             </div>
         </div>
     </div>
