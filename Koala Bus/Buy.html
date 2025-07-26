@@ -261,7 +261,7 @@
                 <p style="display: inline;">Select a bus model*:</p>
             </div>&nbsp;&nbsp;
             <select id="busmodelselect">
-                <option value="novabuslfscng" selected>Novabus LFS CNG</option>
+                <option value="novabuslfscng">Novabus LFS CNG</option>
                 <option value="novabuslfsdiesel">Novabus LFS Diesel</option>
                 <option value="novabuslfse">Novabus LFSe</option>
                 <option value="novabuslfsartic">Novabus LFS Artic Diesel</option>
@@ -402,6 +402,28 @@
     </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
     <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const busTitle = params.get('busTitle');
+            if (!busTitle) return;
+
+            const select = document.getElementById('busmodelselect');
+
+            let matched = Array.from(select.options).find(opt =>
+            opt.value === busTitle || opt.text === busTitle
+            );
+
+            if (matched) {
+            matched.selected = true;
+            } else {
+
+            const opt = document.createElement('option');
+            opt.value = busTitle;
+            opt.textContent = busTitle;
+            opt.selected = true;
+            select.appendChild(opt);
+            }
+        });
         const links = [
             { text: "Explore Buses", url: "./explore.html" },
             { text: "Buy Buses", url: "./Buy.html" },
@@ -506,6 +528,15 @@
 
         // 监听 select 改变
         busSelect.addEventListener("change", updateQuantityRequired);
+
+        if (busValue) {
+            const select = document.getElementById("busmodelselect");
+            select.value = busValue;
+        }
+
+        if (busValue) {
+            document.getElementById("busmodelselect").value = busValue;
+        }
     </script>
 </body>
 
