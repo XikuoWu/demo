@@ -202,6 +202,12 @@
         .call:hover {
             text-decoration: underline;
         }
+
+        @media (max-width: 530px) {
+            .busmodelp {
+                display: none;
+            }
+        }
     </style>
 
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -257,8 +263,8 @@
         <small id="emailError" style="color: red; display: none;">Only Gmail addresses are allowed.</small><br>
 
         <div style="display: flex; justify-content: center;">
-            <div>
-                <p style="display: inline;">Select a bus model*:</p>
+            <div class="busmodelp" style="margin-top: 5px;">
+                <p style="display: inline;">Bus Model:</p>
             </div>&nbsp;&nbsp;
             <select id="busmodelselect">
                 <option value="novabuslfscng">Novabus LFS CNG</option>
@@ -397,7 +403,7 @@
         <a style="font-size: larger; text-decoration: none; font-family: Arial, Helvetica, sans-serif; color: blue;" href="tel:+14038883609">Call to Consult/Ask</a>
     </div>
 
-    <div class="signupemail-container">
+    <div style="margin-top: -15px;" class="signupemail-container">
         <a class="signupgmail" target="_blank" href="https://accounts.google.com/lifecycle/steps/signup/name?checkedDomains=youtube&continue=https://mail.google.com/mail&dsh=S706438063:1746388155482270&flowEntry=SignUp&flowName=GlifWebSignIn&hl=zh-CN&ifkv=ASKV5MhAEZryGonvQntpPtxIq0ZqWg_Y6M8JBzr-Q6Xjtjx36yXPEo9UsYndXehXqaPqtbI7-PsZLA&pstMsg=1&TL=AArrULTvY-nJ3t48ahIKqBxDLb2pJDHVjASH031p3r_jYBJmh3leG99IZZr2yTKS">Do not have a Gmail Address? Sign Up</a>
     </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
