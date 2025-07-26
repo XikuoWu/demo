@@ -234,13 +234,11 @@
     <div class="header-outer">
         <header>
             <div class="logo-container">
-                <a href="./index.html"><img src="./favicon.png" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala
-                    Bus</p>
+                <a href="./index.html"><img src="./favicon.png" alt="" class="logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;<p>Koala Bus</p>
             </div>
 
             <div class="navigation-container" id="navContainer">
-                <div class="explore header-inner"><a class="main-navigation" href="./explore.html">Explore Buses</a>
-                </div>
+                <div class="explore header-inner"><a class="main-navigation" href="./explore.html">Explore Buses</a></div>
                 <div class="buy header-inner"><a class="main-navigation" href="./Buy.html">Buy Buses</a></div>
                 <div class="show header-inner"><a class="main-navigation" href="./shows.html">Bus Shows</a></div>
                 <div class="cool header-inner"><a class="main-navigation" href="./cool.html">Record Buses</a></div>
@@ -254,12 +252,11 @@
     <form onsubmit="sendEmail(event)" style="display: flex; justify-content: center;">
         <div class="name">
             <label for="name">Full Name*:</label><br>
-            <input type="text" id="name" name="name" required><br>
+            <input type="text" placeholder="Full Name" id="name" name="name" required><br>
         </div>
 
         <label for="email">Gmail adress*:</label>
-        <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
-            title="Please enter a valid Gmail address">
+        <input type="email" id="email" name="email" placeholder="yourgmail@gmail.com" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" title="Please enter a valid Gmail address">
         <small id="emailError" style="color: red; display: none;">Only Gmail addresses are allowed.</small><br>
 
         <div style="display: flex; justify-content: center;">
@@ -395,7 +392,7 @@
         </div>
 
         <label for="message">Message*:</label>
-        <textarea id="message" name="message" rows="10" required></textarea><br>
+        <textarea id="message" placeholder="Your Message" name="message" rows="10" required></textarea><br>
 
         <button type="submit">Send Request</button>&nbsp;
     </form>
