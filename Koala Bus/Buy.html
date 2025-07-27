@@ -133,6 +133,16 @@
             background-color: rgb(234, 234, 234);
         }
 
+        form button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        form button:disabled:hover {
+            background-color: #ccc;
+        }
+
         h1 {
             text-align: center;
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -172,6 +182,10 @@
             margin-left: 10px;
         }
 
+        .custom-alert.error {
+            background-color: #d32f2f;
+        }
+
         @keyframes fadeInOut {
             0% {
                 opacity: 0;
@@ -208,6 +222,14 @@
                 display: none;
             }
         }
+
+        .rate-limit-warning {
+            text-align: center;
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
     </style>
 
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -216,17 +238,72 @@
             emailjs.init("3biYH7edG-jbcFCMZ"); // 你自己的 EmailJS User ID
         })();
 
+        // 存储上次提交的时间
+        let lastSubmitTime = 0;
+        const RATE_LIMIT_DURATION = 60000; // 1分钟（60000毫秒）
+
+        function isRateLimited() {
+            const currentTime = Date.now();
+            const timeDiff = currentTime - lastSubmitTime;
+            return timeDiff < RATE_LIMIT_DURATION;
+        }
+
+        function getRemainingTime() {
+            const currentTime = Date.now();
+            const timeDiff = currentTime - lastSubmitTime;
+            const remainingTime = RATE_LIMIT_DURATION - timeDiff;
+            return Math.ceil(remainingTime / 1000); // 转换为秒
+        }
+
+        function updateSubmitButton() {
+            const submitButton = document.querySelector('button[type="submit"]');
+            const warningDiv = document.querySelector('.rate-limit-warning');
+            
+            if (isRateLimited()) {
+                const remainingSeconds = getRemainingTime();
+                submitButton.disabled = true;
+                submitButton.textContent = `请等待 ${remainingSeconds} 秒`;
+                warningDiv.style.display = 'block';
+                warningDiv.textContent = `为防止服务器过载，请等待 ${remainingSeconds} 秒后再次提交`;
+                
+                // 每秒更新倒计时
+                setTimeout(updateSubmitButton, 1000);
+            } else {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Request';
+                warningDiv.style.display = 'none';
+            }
+        }
+
         function sendEmail(e) {
             e.preventDefault(); // 阻止表单提交刷新
+
+            // 检查是否在限制时间内
+            if (isRateLimited()) {
+                const remainingSeconds = getRemainingTime();
+                showCustomAlert(`服务器繁忙，请等待 ${remainingSeconds} 秒后再试`, 'error');
+                return;
+            }
+
+            // 记录提交时间
+            lastSubmitTime = Date.now();
+            
+            // 立即更新按钮状态
+            updateSubmitButton();
 
             emailjs.sendForm('service_g7bpf3n', 'template_6nfyxmh', e.target)
                 .then(() => {
                     showCustomAlert("Request sent successfully! Your response will show in your gmail address!");
                     e.target.reset(); // 清空表单
                 }, (error) => {
-                    showCustomAlert("Failed to send: " + JSON.stringify(error));
+                    showCustomAlert("Failed to send: " + JSON.stringify(error), 'error');
                 });
         }
+
+        // 页面加载时初始化按钮状态
+        window.addEventListener('DOMContentLoaded', function() {
+            updateSubmitButton();
+        });
     </script>
 </head>
 
@@ -394,8 +471,9 @@
         <label for="message">Message*:</label>
         <textarea id="message" oninput="autoResize(this)" rows="5" style=" min-height: 40px;" placeholder="Your Message" name="message" rows="10" required></textarea><br>
 
-        <button type="submit">Send Request</button>&nbsp;  
-    </form>
+        <button type="submit">Send Request</button>
+        <div class="rate-limit-warning"></div>
+    </form>&nbsp;
     <div class="call" style="display: flex; justify-content: center; color: blue;">
         <a style="font-size: larger; text-decoration: none; font-family: Arial, Helvetica, sans-serif; color: blue;" href="tel:+14038883609">Call to Consult/Ask</a>
     </div>
@@ -503,9 +581,12 @@
         });
 
         // alerts
-        function showCustomAlert(message) {
+        function showCustomAlert(message, type = 'normal') {
             const alertBox = document.createElement("div");
             alertBox.className = "custom-alert";
+            if (type === 'error') {
+                alertBox.classList.add('error');
+            }
             alertBox.textContent = message;
             document.body.appendChild(alertBox);
 
@@ -550,7 +631,9 @@
         // 可选：初始时也执行一次
         window.addEventListener("DOMContentLoaded", () => {
             const ta = document.getElementById("myTextarea");
-            autoResize(ta);
+            if (ta) {
+                autoResize(ta);
+            }
         });
     </script>
 </body>
