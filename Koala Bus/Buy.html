@@ -392,7 +392,7 @@
         </div>
 
         <label for="message">Message*:</label>
-        <textarea id="message" placeholder="Your Message" name="message" rows="10" required></textarea><br>
+        <textarea id="message" oninput="autoResize(this)" rows="5" style="overflow: hidden; min-height: 40px;" placeholder="Your Message" name="message" rows="10" required></textarea><br>
 
         <button type="submit">Send Request</button>&nbsp;
     </form>
@@ -540,6 +540,18 @@
         if (busValue) {
             document.getElementById("busmodelselect").value = busValue;
         }
+
+        // textarea
+        function autoResize(textarea) {
+            textarea.style.height = "auto"; // 先重置高度
+            textarea.style.height = textarea.scrollHeight + "px"; // 设置为内容高度
+        }
+
+        // 可选：初始时也执行一次
+        window.addEventListener("DOMContentLoaded", () => {
+            const ta = document.getElementById("myTextarea");
+            autoResize(ta);
+        });
     </script>
 </body>
 
