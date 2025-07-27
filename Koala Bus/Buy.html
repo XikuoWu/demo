@@ -170,7 +170,7 @@
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #333;
+            background-color: green;
             color: #fff;
             padding: 10px 18px;
             border-radius: 6px;
@@ -240,7 +240,7 @@
 
         // 存储上次提交的时间
         let lastSubmitTime = 0;
-        const RATE_LIMIT_DURATION = 60000; // 1分钟（60000毫秒）
+        const RATE_LIMIT_DURATION = 180000; // 3分钟（180000毫秒）
         let isFirstSubmit = true; // 标记是否为第一次提交
 
         function isRateLimited() {
@@ -262,8 +262,6 @@
             
             if (isRateLimited()) {
                 const remainingSeconds = getRemainingTime();
-                submitButton.disabled = true;
-                submitButton.textContent = `To prevent server overload, please wait for ${remainingSeconds} second before submitting again.`;
                 
                 // 每秒更新倒计时
                 setTimeout(updateSubmitButton, 1000);
@@ -284,7 +282,7 @@
             // 检查是否在限制时间内（第一次提交除外）
             if (isRateLimited()) {
                 const remainingSeconds = getRemainingTime();
-                showCustomAlert(`服务器繁忙，请等待 ${remainingSeconds} 秒后再试`, 'error');
+                showCustomAlert(`⏳ The server is busy, please wait ${remainingSeconds} second and try again`, 'error');
                 return;
             }
 
