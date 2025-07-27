@@ -241,11 +241,12 @@
         // 存储上次提交的时间
         let lastSubmitTime = 0;
         const RATE_LIMIT_DURATION = 60000; // 1分钟（60000毫秒）
+        let isFirstSubmit = true; // 标记是否为第一次提交
 
         function isRateLimited() {
             const currentTime = Date.now();
             const timeDiff = currentTime - lastSubmitTime;
-            return timeDiff < RATE_LIMIT_DURATION;
+            return timeDiff < RATE_LIMIT_DURATION && !isFirstSubmit;
         }
 
         function getRemainingTime() {
@@ -262,23 +263,25 @@
             if (isRateLimited()) {
                 const remainingSeconds = getRemainingTime();
                 submitButton.disabled = true;
-                submitButton.textContent = `请等待 ${remainingSeconds} 秒`;
-                warningDiv.style.display = 'block';
-                warningDiv.textContent = `为防止服务器过载，请等待 ${remainingSeconds} 秒后再次提交`;
+                submitButton.textContent = `To prevent server overload, please wait for ${remainingSeconds} second before submitting again.`;
                 
                 // 每秒更新倒计时
-                setTimeout(updateSubmitButton, 1000);
+                setTimeout(updateSubmitButton, 3000);
             } else {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Send Request';
                 warningDiv.style.display = 'none';
+                // 如果时间已过，重置为可以再次提交
+                if (lastSubmitTime > 0 && (Date.now() - lastSubmitTime) >= RATE_LIMIT_DURATION) {
+                    isFirstSubmit = false;
+                }
             }
         }
 
         function sendEmail(e) {
             e.preventDefault(); // 阻止表单提交刷新
 
-            // 检查是否在限制时间内
+            // 检查是否在限制时间内（第一次提交除外）
             if (isRateLimited()) {
                 const remainingSeconds = getRemainingTime();
                 showCustomAlert(`服务器繁忙，请等待 ${remainingSeconds} 秒后再试`, 'error');
@@ -287,6 +290,7 @@
 
             // 记录提交时间
             lastSubmitTime = Date.now();
+            isFirstSubmit = false; // 标记已经不是第一次提交
             
             // 立即更新按钮状态
             updateSubmitButton();
@@ -300,10 +304,20 @@
                 });
         }
 
-        // 页面加载时初始化按钮状态
-        window.addEventListener('DOMContentLoaded', function() {
-            updateSubmitButton();
-        });
+        // alerts
+        function showCustomAlert(message, type = 'normal') {
+            const alertBox = document.createElement("div");
+            alertBox.className = "custom-alert";
+            if (type === 'error') {
+                alertBox.classList.add('error');
+            }
+            alertBox.textContent = message;
+            document.body.appendChild(alertBox);
+
+            setTimeout(() => {
+                alertBox.remove();
+            }, 3000);
+        }
     </script>
 </head>
 
@@ -580,21 +594,6 @@
             }
         });
 
-        // alerts
-        function showCustomAlert(message, type = 'normal') {
-            const alertBox = document.createElement("div");
-            alertBox.className = "custom-alert";
-            if (type === 'error') {
-                alertBox.classList.add('error');
-            }
-            alertBox.textContent = message;
-            document.body.appendChild(alertBox);
-
-            setTimeout(() => {
-                alertBox.remove();
-            }, 3000);
-        }
-
         // required input
         const busSelect = document.getElementById("busmodelselect");
         const quantityInput = document.querySelector("input[name='quantity']");
@@ -637,5 +636,4 @@
         });
     </script>
 </body>
-
 </html>
