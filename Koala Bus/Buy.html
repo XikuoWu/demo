@@ -266,7 +266,7 @@
                 submitButton.textContent = `To prevent server overload, please wait for ${remainingSeconds} second before submitting again.`;
                 
                 // 每秒更新倒计时
-                setTimeout(updateSubmitButton, 3000);
+                setTimeout(updateSubmitButton, 1000);
             } else {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Send Request';
