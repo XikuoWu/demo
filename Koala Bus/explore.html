@@ -648,7 +648,7 @@
     <div class="selectcontainer2">
         <div class="selectcontainer">
             <h1 class="ourbush1">Our Bus Models:</h1>
-            <select id="busmodelselect">
+            <select id="busmodelselect" name="nus_model">
                 <option value="" disabled selected>--- Our Bus Models ---</option>
                 <option value="novabuslfscng">Novabus LFS CNG</option>
                 <option value="novabuslfsdiesel">Novabus LFS Diesel</option>
@@ -782,7 +782,7 @@
             <div class="fdc">
                 <div id="filter-dropdown" style="display: none; position: fixed; background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; margin-top: 5px;">
                     <div id="energytype">
-                        Energy Type:
+                        Propulsion:
                         <label><input id="electric" type="radio" name="energy">Electric</label>&nbsp;&nbsp;
                         <label><input id="diesel" type="radio" name="energy">Diesel</label>&nbsp;&nbsp;
                         <label><input id="cng" type="radio" name="energy">CNG</label>&nbsp;&nbsp;
@@ -791,7 +791,7 @@
                         <label><input id="gasoline" type="radio" name="energy">Gasoline</label>&nbsp;&nbsp;
                     </div><br>
                     <div style="margin-right: 10px;" id="carriages">
-                        Carriages:
+                        Bus Type:
                         <label><input id="tiny" type="radio" name="carriages">Tiny-Normal</label>&nbsp;&nbsp;
                         <label><input id="nonarticulated" type="radio" name="carriages">Normal</label>&nbsp;&nbsp;
                         <label><input id="doubledecker" type="radio" name="carriages">Double-decker</label>&nbsp;&nbsp;
@@ -836,8 +836,10 @@
             <li><strong>Max Capacity:</strong>&nbsp; <span id="bus-capacity"></span></li>
             <li><strong>Manufacturer:</strong>&nbsp; <span id="bus-manufacturer"></span></li>
             <li><strong>Air Condition&nbsp;(AC):</strong>&nbsp; <span id="bus-air"></span></li>
+            <li><strong>Neeling Bus:</strong>&nbsp; <span id="bus-neel"></span></li>
             <li><strong>Max Speed:</strong>&nbsp; <span id="bus-speed"></span></li>
             <li><strong>Range:</strong>&nbsp; <span id="bus-range"></span></li>
+            <li><strong>Maximum service life:</strong>&nbsp; <span id="bus-life"></span></li>
             <li><strong>Price&nbsp;(CA):</strong>&nbsp; <span id="bus-price"></span></li>
             <li><strong>Arrive time (In Canada, less than 50 buses):</strong>&nbsp; <span id="bus-timearrive"></span></li>
             <li><strong>Number of buses:</strong>&nbsp; <span style="color: green;" id="bus-num"></span></li>
@@ -894,6 +896,8 @@
                 document.getElementById("bus-timearrive").innerText = info.timearrive;
                 document.getElementById("bus-speed").innerText = info.speed;
                 document.getElementById("bus-range").innerText = info.range;
+                document.getElementById("bus-life").innerText = info.life;
+                document.getElementById("bus-neel").innerText = info.neel;
             }
 
             updateNavButtons();
