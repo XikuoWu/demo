@@ -1131,6 +1131,14 @@
 
             originalOptions.slice(1).forEach(opt => busModelSelect.appendChild(opt.cloneNode(true)));
         });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") {
+                document.getElementById("prev").click();
+            } else if (e.key === "ArrowRight") {
+                document.getElementById("next").click();
+            }
+        });
     </script>
 </body>
 
