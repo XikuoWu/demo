@@ -19,6 +19,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "highest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     novabuslfsdiesel: {
         name: "Novabus LFS Diesel",
@@ -40,6 +42,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     novabuslfse: {
         name: "Novabus LFSe",
@@ -60,6 +64,8 @@ const busData = {
         energyCategory: "electric",
         carriageCategory: "nonarticulated",
         priceCategory: "highest",
+        life: "15 Years",
+        neel: "Yes",
     },
     novabuslfsartic: {
         name: "Novabus LFS Artic Diesel",
@@ -81,6 +87,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "highest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     novabuslfsartichev: {
         name: "Novabus LFS Artic HEV",
@@ -102,6 +110,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "highest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     novabuslfshev: {
         name: "Novabus LFS HEV",
@@ -123,6 +133,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "highest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     novabuslfx: {
         name: "Novabus LFX Articulated",
@@ -144,6 +156,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "highest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxn40: {
         name: "New Flyer XN40",
@@ -165,6 +179,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxn60: {
         name: "New Flyer XN60",
@@ -186,6 +202,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxn35: {
         name: "New Flyer XN35",
@@ -207,6 +225,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxd40: {
         name: "New Flyer XD40",
@@ -228,6 +248,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxd60: {
         name: "New Flyer XD60",
@@ -249,6 +271,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "highest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxd35: {
         name: "New Flyer XD35",
@@ -270,6 +294,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerd40lf: {
         name: "New Flyer D40LF",
@@ -291,6 +317,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerd60lf: {
         name: "New Flyer D60LF",
@@ -312,6 +340,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerd35lf: {
         name: "New Flyer D35LF",
@@ -333,6 +363,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerd30lf: {
         name: "New Flyer D30LF",
@@ -354,6 +386,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerd40lfr: {
         name: "New Flyer D40LFR",
@@ -375,6 +409,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerd60lfr: {
         name: "New Flyer D60LFR",
@@ -396,6 +432,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerd35lfr: {
         name: "New Flyer D35LFR",
@@ -417,6 +455,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerde40lfr: {
         name: "New Flyer DE40LFR",
@@ -438,6 +478,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerde60lfr: {
         name: "New Flyer DE60LFR",
@@ -459,6 +501,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerde35lfr: {
         name: "New Flyer DE35LFR",
@@ -480,6 +524,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerde40lf: {
         name: "New Flyer DE40LF",
@@ -501,6 +547,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerde60lf: {
         name: "New Flyer DE60LF",
@@ -522,6 +570,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerde35lf: {
         name: "New Flyer DE35LF",
@@ -543,6 +593,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxde35: {
         name: "New Flyer XDE35",
@@ -564,6 +616,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxde40: {
         name: "New Flyer XDE40",
@@ -585,6 +639,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxde60: {
         name: "New Flyer XDE60",
@@ -606,6 +662,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxhe40: {
         name: "New Flyer XHE40",
@@ -627,6 +685,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxhe60: {
         name: "New Flyer XHE60",
@@ -648,6 +708,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxhe35: {
         name: "New Flyer XHE35",
@@ -669,6 +731,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyere40lf: {
         name: "New Flyer E40LF",
@@ -690,6 +754,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyere40lfr: {
         name: "New Flyer E40LFR",
@@ -711,6 +777,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyere60lf: {
         name: "New Flyer E60LF",
@@ -732,6 +800,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyere60lfr: {
         name: "New Flyer E60LFR",
@@ -753,6 +823,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxe40: {
         name: "New Flyer XE40",
@@ -774,6 +846,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxe60: {
         name: "New Flyer XE60",
@@ -795,6 +869,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxe35: {
         name: "New Flyer XE35",
@@ -816,6 +892,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxh35: {
         name: "New Flyer XH35",
@@ -837,6 +915,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxh40: {
         name: "New Flyer XH40",
@@ -858,6 +938,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxh60: {
         name: "New Flyer XH60",
@@ -879,6 +961,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerc40lf: {
         name: "New Flyer C40LF",
@@ -900,6 +984,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerc40lfr: {
         name: "New Flyer C40LFR",
@@ -921,6 +1007,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerc60lfr: {
         name: "New Flyer C60LFR",
@@ -942,6 +1030,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerc35lf: {
         name: "New Flyer C35LF",
@@ -963,6 +1053,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerc30lf: {
         name: "New Flyer C30LF",
@@ -984,6 +1076,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerc35lfr: {
         name: "New Flyer C35LFR",
@@ -1005,6 +1099,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerh40lf: {
         name: "New Flyer H40LF",
@@ -1026,6 +1122,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerh40lfr: {
         name: "New Flyer H40LFR",
@@ -1047,6 +1145,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     newflyerxt40: {
         name: "New Flyer XT40 (Trolley)",
@@ -1068,6 +1168,8 @@ const busData = {
         carriageCategory: "trolley",
         priceCategory: "secondhighest",
         range: "Trolley Bus",
+        life: "15 Years",
+        neel: "No",
     },
     newflyerxt60: {
         name: "New Flyer XT60 (Trolley)",
@@ -1089,6 +1191,8 @@ const busData = {
         carriageCategory: "trolley",
         priceCategory: "secondhighest",
         range: "Trolley Bus",
+        life: "15 Years",
+        neel: "No",
     },
     encezriderii: {
         name: "ENC EZ Rider II",
@@ -1110,6 +1214,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     grandewestvicinity: {
         name: "Grande West Vicinity Diesel",
@@ -1128,9 +1234,11 @@ const busData = {
         timearrive: "3 Month",
         speed: "160 KM/H",
         energyCategory: "diesel",
-        carriageCategory: "nonarticulated",
+        carriageCategory: "tiny",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     grandewestvicinitycng: {
         name: "Grande West Vicinity CNG",
@@ -1152,6 +1260,9 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        carriageCategory: "tiny",
+        life: "15 Years",
+        neel: "Yes",
     },
     electricversiongrandewestvicinity: {
         name: "Electric Version Grande West Vicinity",
@@ -1173,6 +1284,9 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        carriageCategory: "tiny",
+        life: "15 Years",
+        neel: "Yes",
     },
     proterrazx5max: {
         name: "Proterra ZX5 Max",
@@ -1194,6 +1308,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     zk6105bev: {
         name: "Huanghai ZK6105BEV",
@@ -1215,6 +1331,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     zk6850bevg: {
         name: "Huanghai ZK6850BEVG",
@@ -1236,6 +1354,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     gtq6126bevbt: {
         name: "Huanghai GTQ6126BEVBT",
@@ -1257,6 +1377,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     zk6125bev: {
         name: "Huanghai ZK6125BEV",
@@ -1278,6 +1400,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     volvo7900electric: {
         name: "Volvo 7900 Electric",
@@ -1299,6 +1423,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     scaniacitywidele: {
         name: "Scania CityWide LE",
@@ -1320,6 +1446,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     volvo7900electricarculated: {
         name: "Volvo 7900 Electric Arculated",
@@ -1341,6 +1469,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "Yes",
     },
     solarisurbino18electric: {
         name: "Solaris Urbino 18 Electric",
@@ -1362,6 +1492,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     mercedesbenzecitarog: {
         name: "Mercedes-Benz eCitaro G",
@@ -1383,6 +1515,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     alexanderdennisenviro500mmc: {
         name: "Alexander Dennis Enviro500 MMC",
@@ -1404,6 +1538,8 @@ const busData = {
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     alexanderdennisenviro500: {
         name: "Alexander Dennis Enviro500",
@@ -1425,6 +1561,8 @@ const busData = {
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     alexanderdennisenviro400ev: {
         name: "Alexander Dennis Enviro400 EV",
@@ -1446,6 +1584,8 @@ const busData = {
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     alexanderdennisenviro400: {
         name: "Alexander Dennis Enviro400",
@@ -1467,6 +1607,8 @@ const busData = {
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     alexanderdennisenviro500ev: {
         name: "Alexander Dennis Enviro500 EV",
@@ -1488,6 +1630,8 @@ const busData = {
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     alexanderdennisenviro100: {
         name: "Alexander Dennis Enviro100",
@@ -1509,6 +1653,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     alexanderdennisenviro100ev: {
         name: "Alexander Dennis Enviro100 EV",
@@ -1530,6 +1676,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     bydbd11: {
         name: "BYD BD11",
@@ -1551,6 +1699,8 @@ const busData = {
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     arbocfreedom: {
         name: "Arboc Freedom (Diesel)",
@@ -1572,6 +1722,9 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "lowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
+        neel: "No",
     },
     arbocmobility: {
         name: "Arboc Mobility (Diesel)",
@@ -1593,6 +1746,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "lowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     arbocindependence: {
         name: "Arboc Independence (Gasoline)",
@@ -1614,6 +1769,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "lowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     arbocsof: {
         name: "Arboc Arboc Spirit of Freedom (Gasoline)",
@@ -1635,6 +1792,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "lowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     arbocsom: {
         name: "Arboc Arboc Spirit of Mobility (Gasoline)",
@@ -1656,6 +1815,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "lowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     dupontchamplain1608lowfloor: {
         name: "Dupont Champlain 1608 LF",
@@ -1677,6 +1838,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     dd6141s05: {
         name: "Huanghai DD6141S05",
@@ -1698,6 +1861,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     dd6181s01: {
         name: "Huanghai DD6181S01",
@@ -1719,6 +1884,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     dd6181b01n: {
         name: "Huanghai DD6181B01N",
@@ -1740,6 +1907,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     dd6180s01: {
         name: "Huanghai DD6180S01",
@@ -1761,6 +1930,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     dd6129s58: {
         name: "Huanghai DD6129S58",
@@ -1782,6 +1953,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     dd6109: {
         name: "Huanghai DD6109",
@@ -1803,6 +1976,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     dd6129s71: {
         name: "Huanghai DD6129S71",
@@ -1824,6 +1999,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     autotramextragrand: {
         name: "Auto Tram Extra Grand",
@@ -1845,6 +2022,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "highest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     zk6180bevg31: {
         name: "Yuton ZK6180BEVG31",
@@ -1866,6 +2045,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     teg6125bev03: {
         name: "Huanghai TEG6125BEV03",
@@ -1887,6 +2068,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     manlionscityddla95: {
         name: "Man Lions City DDL A95 (Three Door)",
@@ -1908,6 +2091,8 @@ const busData = {
         carriageCategory: "doubledeckerarticulated",
         priceCategory: "highest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     teg6591bev01: {
         name: "Huanghai TEG6591BEV01",
@@ -1929,6 +2114,8 @@ const busData = {
         carriageCategory: "tiny",
         priceCategory: "lowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     klq6181gql5: {
         name: "Huanghai KLQ6181GQL5",
@@ -1950,6 +2137,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     bydk12a: {
         name: "BYD K12A",
@@ -1971,6 +2160,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     gtq6123: {
         name: "GTQ 6123",
@@ -1992,6 +2183,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     njl6129gsev1: {
         name: "Yuton NJL6129GSEV1",
@@ -2013,6 +2206,8 @@ const busData = {
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     vanhoolagg300: {
         name: "Van Hool AGG 300",
@@ -2034,6 +2229,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     youngmannjp6280g: {
         name: "Youngman NJP6280G",
@@ -2055,6 +2252,8 @@ const busData = {
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     mercedesbenzcapacityl: {
         name: "Mercedes-Benz CapaCity L",
@@ -2076,6 +2275,8 @@ const busData = {
         carriageCategory: "articulated",
         priceCategory: "highest",
         range: "700 KM",
+        life: "15 Years",
+        neel: "No",
     },
     lck6180shev: {
         name: "Yuton LCK6180SHEV",
@@ -2097,6 +2298,8 @@ const busData = {
         carriageCategory: "doubledeckerarticulated",
         priceCategory: "highest",
         range: "590 KM",
+        life: "15 Years",
+        neel: "No",
     },
     klq6129y: {
         name: "Yuton KLQ6129Y (Coach Bus)",
@@ -2118,6 +2321,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
+        life: "15 Years",
+        neel: "No",
     },
     zk6122h9: {
         name: "Yuton ZK6122H9 (Coach Bus)",
@@ -2139,6 +2344,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
+        life: "15 Years",
+        neel: "No",
     },
     zhongtongbuselegance: {
         name: "Zhongtong Bus Elegance (Coach Bus)",
@@ -2160,6 +2367,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
+        life: "15 Years",
+        neel: "No",
     },
     xml6601: {
         name: "XML 6601 (Coach Bus)",
@@ -2181,6 +2390,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "tiny",
         priceCategory: "lowest",
+        life: "15 Years",
+        neel: "No",
     },
     xml6602: {
         name: "XML 6602 (Coach Bus)",
@@ -2202,6 +2413,8 @@ const busData = {
         energyCategory: "electric",
         carriageCategory: "tiny",
         priceCategory: "secondlowest",
+        life: "15 Years",
+        neel: "No",
     },
     zk6129h: {
         name: "Yuton ZK6129H (Coach Bus)",
@@ -2223,6 +2436,8 @@ const busData = {
         energyCategory: "hybrid",
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
+        life: "15 Years",
+        neel: "No",
     },
     zk6119h: {
         name: "Yuton ZK6119H (Coach Bus)",
@@ -2244,6 +2459,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
+        life: "15 Years",
+        neel: "No",
     },
     mercedesbenztourrider: {
         name: "Mercedes-Benz Tourrider (Coach Bus)",
@@ -2265,6 +2482,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "nonarticulated",
         priceCategory: "secondhighest",
+        life: "15 Years",
+        neel: "No",
     },
     zk6122hd9: {
         name: "Yuton ZK6122HD9 (Coach Bus)",
@@ -2286,6 +2505,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
+        life: "15 Years",
+        neel: "No",
     },
     neoplanjumbocruiser: {
         name: "Neoplan Jumbocuiser (Coach Bus)",
@@ -2307,6 +2528,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "doubledeckerarticulated",
         priceCategory: "highest",
+        life: "15 Years",
+        neel: "No",
     },
     neoplanskyliner: {
         name: "Neoplan Skyliner (Coach Bus)",
@@ -2328,6 +2551,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
+        life: "15 Years",
+        neel: "No",
     },
     neoplanskylinerexpress: {
         name: "Neoplan Skyliner Express (Coach Bus)",
@@ -2349,6 +2574,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
+        life: "15 Years",
+        neel: "No",
     },
     neoplanmegaliner: {
         name: "Neoplan Megaliner (Coach Bus)",
@@ -2370,6 +2597,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
+        life: "15 Years",
+        neel: "No",
     },
     neoplantourliner: {
         name: "Neoplan Tourliner (Coach Bus)",
@@ -2391,6 +2620,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
+        life: "15 Years",
+        neel: "No",
     },
     neoplancityliner: {
         name: "Neoplan Cityiner (Coach Bus)",
@@ -2412,6 +2643,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "nonarticulated",
         priceCategory: "secondlowest",
+        life: "15 Years",
+        neel: "No",
     },
     mcid4505arculatedcoach: {
         name: "MCI D4505 Articulated Coach (Coach Bus)",
@@ -2433,6 +2666,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
+        life: "15 Years",
+        neel: "No",
     },
     astromegatd824: {
         name: "Astromega TD824 (Coach Bus)",
@@ -2454,6 +2689,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "doubledecker",
         priceCategory: "secondhighest",
+        life: "15 Years",
+        neel: "No",
     },
     volvo9900articulated: {
         name: "Volvo 9900 Articulated (Coach Bus)",
@@ -2475,6 +2712,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "articulated",
         priceCategory: "secondhighest",
+        life: "15 Years",
+        neel: "No",
     },
     setras431dt: {
         name: "Setra S431 DT (Coach Bus)",
@@ -2496,6 +2735,8 @@ const busData = {
         energyCategory: "diesel",
         carriageCategory: "doubledeckerarticulated",
         priceCategory: "secondhighest",
+        life: "15 Years",
+        neel: "No",
     },
     shenlonglck6600fcev3: {
         name: "Shenlong LCK6600FCEV3 (Coach Bus)",
@@ -2517,5 +2758,7 @@ const busData = {
         energyCategory: "hybrid",
         carriageCategory: "tripledeckerarticulated",
         priceCategory: "highest",
+        life: "15 Years",
+        neel: "No",
     },
 };
