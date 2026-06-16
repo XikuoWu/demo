@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecretsay Odecay Auguagelay Ranslatortay</title>
+  <style>
+    body {
+      background-color: bisque;
+    }
+
+    textarea {
+      border: 0.3px black solid;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 5px;
+    }
+
+    #translationbtn {
+      padding: 10px;
+      background-color: seashell;
+      border: 0.3px black solid;
+      border-radius: 3px;
+      cursor: not-allowed;
+      opacity: 0.5;
+      transition: opacity 0.3s, background-color 0.3s;
+    }
+
+    #translationbtn.unlocked {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    #translationbtn.wrong {
+      background-color: #ffb3b3;
+    }
+
+    a {
+      color: rgb(26, 7, 171);
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="text-align: center;">Ecretsay Odecay Auguagelay Ranslatortay</h1>
+  <h2 style="text-align: center;">-Hetay Neoay Owtay Hreestay otay Nglisheay</h2>
+
+  <div>
+    <div style="display: flex; justify-content: center; align-items: center; height: 90vh;" id="translationdiv">
+      <textarea placeholder="Hetay Neoay Owtay Hreestay"
+        style="resize: none; width: 40%; height: 70%; background-color: rgb(241, 241, 241);" name="input"
+        id="input"></textarea>&nbsp;
+      <button id="swapbtn"
+        style="height: 30px; background-color: seashell; border: 0.3px black solid; border-radius: 3px; padding: 7px; cursor: pointer;">🔁</button>&nbsp;
+      <textarea placeholder="Ranslationtay - Nglisheay" style="resize: none; width: 40%; height: 70%;" name="output"
+        id="output" disabled></textarea>
+    </div>
+    <div style="display: flex; justify-content: center; margin-bottom: 50px;">
+      <button id="translationbtn">🔒 Ranslatetay</button>
+    </div>
+  </div>
+
+  <a id="piglatintranslator" style="position: absolute; left: 5px; display: none;"
+    href="https://lingojam.com/PigLatinTranslator">Igpay Atinlay
+    Ranslatortay</a>
+  <a id="onetwothreesrules" style="position: absolute; right: 5px; display: none;" href="./rules.html">Ulesray</a>
+
+  <script>
+    const PASSWORD = '1100113279315079574';
+    let activated = false;
+    let mode = 'decode'; // 'decode': cipher → Pig Latin | 'encode': English → cipher
+
+    // Telephone keypad map
+    const PHONE_MAP = {
+      '2': 'ABC', '3': 'DEF', '4': 'GHI',
+      '5': 'JKL', '6': 'MNO', '7': 'PQRS',
+      '8': 'TUV', '9': 'WXYZ'
+    };
+
+    // Reverse map: letter → cipher pair
+    const ENCODE_MAP = {};
+    for (const [key, letters] of Object.entries(PHONE_MAP))
+      for (let i = 0; i < letters.length; i++)
+        ENCODE_MAP[letters[i]] = key + (i + 1);
+
+    // ── Garble helpers ──────────────────────────────────────────────────────────
+
+    // Invalid decode char → pseudo-random consonant (deterministic on char code)
+    const GARBLE_LETTERS = 'bcdfghjklmnpqrstvwxyz';
+    function garbleChar(ch) {
+      return GARBLE_LETTERS[(ch.charCodeAt(0) * 11 + 7) % GARBLE_LETTERS.length];
+    }
+
+    // Invalid encode char → fake cipher pair (looks valid but isn't)
+    function garbleCipher(ch) {
+      const s = ch.charCodeAt(0);
+      return `${(s % 8) + 2}${(s * 3 % 4) + 1}`;
+    }
+
+    // ── Pig Latin ───────────────────────────────────────────────────────────────
+    // Rule: move first letter to end of word + "ay"  e.g. "hello" → "ellohay"
+    function pigLatin(text) {
+      return text.replace(/[a-zA-Z]+/g, word => {
+        const cap = word[0] >= 'A' && word[0] <= 'Z';
+        const w = word.toLowerCase();
+        const pl = w.slice(1) + w[0] + 'ay';
+        return cap ? pl[0].toUpperCase() + pl.slice(1) : pl;
+      });
+    }
+
+    // ── Cipher → English (invalid tokens → garbled letters) ────────────────────
+    function decode(input) {
+      let result = '', i = 0;
+      while (i < input.length) {
+        const ch = input[i];
+
+        // *...# → literal passthrough
+        if (ch === '*') {
+          i++;
+          while (i < input.length && input[i] !== '#') result += input[i++];
+          if (i < input.length) i++;
+          continue;
+        }
+
+        // 0 → space
+        if (ch === '0') { result += ' '; i++; continue; }
+
+        // Valid cipher pair: key (2–9) + position (1–9)
+        if (ch >= '2' && ch <= '9' && i + 1 < input.length) {
+          const next = input[i + 1];
+          if (next >= '1' && next <= '9') {
+            const letters = PHONE_MAP[ch];
+            result += letters[((parseInt(next) - 1) % letters.length)];
+            i += 2;
+            continue;
+          }
+        }
+
+        // Anything else → garbled character
+        result += garbleChar(ch);
+        i++;
+      }
+      return result;
+    }
+
+    // ── English → cipher (non-alpha chars → garbled cipher pairs) ──────────────
+    function encode(input) {
+      let result = '';
+      for (const ch of input.toUpperCase()) {
+        if (ch === ' ') result += '0';
+        else if (ENCODE_MAP[ch]) result += ENCODE_MAP[ch];
+        else result += garbleCipher(ch); // invalid → garbled
+      }
+      return result;
+    }
+
+    // ── Placeholder labels (all in Pig Latin) ───────────────────────────────────
+    function updateUI(inputEl, outputEl) {
+      if (mode === 'decode') {
+        inputEl.placeholder = 'Hetay Neoay Owtay Hreestay';   // cipher in
+        outputEl.placeholder = 'Ranslationtay - Nglisheay';     // English out
+      } else {
+        inputEl.placeholder = 'Ntereay Nglisheay exttay...';   // Enter English text
+        outputEl.placeholder = 'Iphercay odecay utputoay...';   // Cipher code output
+      }
+    }
+
+    // ── Main ────────────────────────────────────────────────────────────────────
+    window.addEventListener('DOMContentLoaded', () => {
+      const inputEl = document.getElementById('input');
+      const outputEl = document.getElementById('output');
+      const btn = document.getElementById('translationbtn');
+      const swapBtn = document.getElementById('swapbtn');
+
+      btn.addEventListener('click', () => {
+        if (!activated) {
+          if (inputEl.value.trim() === PASSWORD) {
+            document.getElementById("piglatintranslator").style.display = "block";
+            document.getElementById("onetwothreesrules").style.display = "block";
+            activated = true;
+            btn.textContent = 'Ranslatetay';
+            btn.classList.add('unlocked');
+            inputEl.value = '';
+            // Activation message → run through Pig Latin
+            outputEl.value = pigLatin('✅ Unlocked! Enter your cipher code below.');
+            setTimeout(() => { if (outputEl.value.startsWith('✅')) outputEl.value = ''; }, 2500);
+          } else {
+            btn.classList.add('wrong');
+            setTimeout(() => btn.classList.remove('wrong'), 600);
+          }
+        } else {
+          if (mode === 'decode') {
+            // cipher → English
+            outputEl.value = decode(inputEl.value);
+          } else {
+            // English → cipher (no pig latin on raw code)
+            outputEl.value = encode(inputEl.value);
+          }
+        }
+      });
+
+      // 🔁 swap contents + flip direction
+      swapBtn.addEventListener('click', () => {
+        const temp = inputEl.value;
+        inputEl.value = outputEl.value;
+        outputEl.value = temp;
+        mode = mode === 'decode' ? 'encode' : 'decode';
+        updateUI(inputEl, outputEl);
+      });
+    });
+  </script>
+</body>
+
+</html>
