@@ -44,30 +44,31 @@
 
 <body>
   <h1 style="text-align: center;">Ecretsay Odecay Auguagelay Ranslatortay</h1>
-  <h2 style="text-align: center;">-Hetay Neoay Owtay Hreestay otay Nglisheay</h2>
+  <h2 style="text-align: center;">-Hetay Neoay Wotay Hreestay otay Nglisheay adaay Ackbay</h2>
 
-  <div>
+  <div style="margin-top: -100px;">
     <div style="display: flex; justify-content: center; align-items: center; height: 90vh;" id="translationdiv">
-      <textarea placeholder="Hetay Neoay Owtay Hreestay"
-        style="resize: none; width: 40%; height: 70%; background-color: rgb(241, 241, 241);" name="input"
+      <textarea placeholder="Ethay Oneway Otway Eesthray oesgay erehay"
+        style="resize: none; width: 40%; height: 60%; background-color: rgb(241, 241, 241);" name="input"
         id="input"></textarea>&nbsp;
       <button id="swapbtn"
         style="height: 30px; background-color: seashell; border: 0.3px black solid; border-radius: 3px; padding: 7px; cursor: pointer;">🔁</button>&nbsp;
-      <textarea placeholder="Ranslationtay - Nglisheay" style="resize: none; width: 40%; height: 70%;" name="output"
+      <textarea placeholder="Ranslationtay - Nglisheay" style="resize: none; width: 40%; height: 60%;" name="output"
         id="output" disabled></textarea>
     </div>
-    <div style="display: flex; justify-content: center; margin-bottom: 50px;">
+    <div style="display: flex; justify-content: center; margin-top: -100px;">
       <button id="translationbtn">🔒 Ranslatetay</button>
     </div>
   </div>
 
-  <a id="piglatintranslator" style="position: absolute; left: 5px; display: none;"
-    href="https://lingojam.com/PigLatinTranslator">Igpay Atinlay
+  <a id="piglatintranslator" style="position: absolute; left: 5px; bottom: 20px; display: none;"
+    href="https://convertcase.net/pig-latin-translator/">Igpay Atinlay
     Ranslatortay</a>
-  <a id="onetwothreesrules" style="position: absolute; right: 5px; display: none;" href="./rules.html">Ulesray</a>
+  <a id="onetwothreesrules" style="position: absolute; right: 5px; bottom: 20px; display: none;"
+    href="./rules.html">Ulesray</a>
 
   <script>
-    const PASSWORD = '1100113279315079574';
+    const PASSWORD = '1100113279315079574392766';
     let activated = false;
     let mode = 'decode'; // 'decode': cipher → Pig Latin | 'encode': English → cipher
 
@@ -138,6 +139,13 @@
         }
 
         // Anything else → garbled character
+        if (/[\p{P}\n\r]/u.test(ch)) {
+          result += ch;
+          i++;
+          continue;
+        }
+
+        // Anything else → garbled character
         result += garbleChar(ch);
         i++;
       }
@@ -147,11 +155,21 @@
     // ── English → cipher (non-alpha chars → garbled cipher pairs) ──────────────
     function encode(input) {
       let result = '';
+
       for (const ch of input.toUpperCase()) {
-        if (ch === ' ') result += '0';
-        else if (ENCODE_MAP[ch]) result += ENCODE_MAP[ch];
-        else result += garbleCipher(ch); // invalid → garbled
+        if (ch === ' ') {
+          result += '0';
+        } else if (ENCODE_MAP[ch]) {
+          result += ENCODE_MAP[ch];
+        } else if (/[\p{P}\n\r]/u.test(ch)) {
+          // 标点符号、换行：直接保留，不要变成密码
+          result += ch;
+        } else {
+          // 其他奇怪字符：也直接保留，避免以后变成字母
+          result += ch;
+        }
       }
+
       return result;
     }
 
